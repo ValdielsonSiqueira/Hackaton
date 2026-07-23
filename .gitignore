@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Builds
+dist/
+build/
+.expo/
+web-build/
+
+# IDE and Agent configurations
+.antigravity/
+.agents/
+.idea/
+.vscode/
+
+# Env & Logs
+*.log
+.env
+.env.*
