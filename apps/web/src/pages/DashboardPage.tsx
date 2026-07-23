@@ -49,6 +49,7 @@ export const DashboardPage: React.FC = () => {
     }
   }, []);
 
+  const totalTasks = activityTasks.length;
   const nextTask = activityTasks.find((t) => !t.done && (t.urgent || t.priority === "high")) || activityTasks.find((t) => !t.done);
   const completedToday = activityTasks.filter((t) => t.done).length;
   const pendingToday = activityTasks.filter((t) => !t.done).length;
@@ -81,14 +82,24 @@ export const DashboardPage: React.FC = () => {
   const handleSpeakSummary = () => {
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
-      const text = `Bom dia ${studentName || "Estudante"}! Você tem ${pendingToday} ${pendingToday === 1 ? "atividade pendente" : "atividades pendentes"} hoje. ${
-        nextTask ? `Sua atividade prioritária é ${nextTask.title}.` : "Você não possui atividades pendentes."
-      } Clique em executar atividade para começar.`;
+
+      let text = `Olá, ${studentName || "Estudante"}! `;
+      if (pendingToday > 0) {
+        text += `Você tem ${pendingToday} ${pendingToday === 1 ? "atividade pendente" : "atividades pendentes"} hoje. `;
+        if (nextTask) {
+          text += `Sua atividade prioritária é: ${nextTask.title}. Clique no botão para executar a atividade.`;
+        }
+      } else if (totalTasks > 0) {
+        text += `Parabéns! Todas as suas ${totalTasks} atividades do dia foram concluídas com sucesso.`;
+      } else {
+        text += `Você ainda não possui atividades cadastradas hoje. Clique em Ver Atividades para adicionar novas tarefas.`;
+      }
+
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "pt-BR";
       utterance.rate = 0.9;
       window.speechSynthesis.speak(utterance);
-      triggerToast("🔊 Lendo resumo do dia em voz alta...");
+      triggerToast("🔊 Lendo resumo em voz alta...");
     } else {
       triggerToast("Navegador não suporta voz nativa");
     }
@@ -157,26 +168,26 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Hero Priority Action Card (Próxima Atividade Recomendada) */}
-        <Card className="mb-8 border-l-4 border-l-[#0f62fe] bg-[#f4f4f4] p-6">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-[#0f62fe] text-white flex items-center justify-center shrink-0 mt-1">
-                <Target className="w-6 h-6" />
+        <Card className="mb-6 sm:mb-8 border-l-4 border-l-[#0f62fe] bg-[#f4f4f4] p-4 sm:p-6 w-full overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#0f62fe] text-white flex items-center justify-center shrink-0 mt-0.5 sm:mt-1">
+                <Target className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <span className="text-xs font-semibold uppercase tracking-wider text-[#0f62fe] flex items-center gap-1 mb-1">
                   <Sparkles className="w-3.5 h-3.5" /> Próxima Atividade Prioritária
                 </span>
-                <h3 className="text-xl font-normal text-[#161616] mb-1">
+                <h3 className="text-lg sm:text-xl font-normal text-[#161616] mb-1 break-words">
                   {nextTask ? nextTask.title : "Nenhuma atividade pendente"}
                 </h3>
-                <p className="text-sm text-[#525252]">
+                <p className="text-xs sm:text-sm text-[#525252] break-words">
                   {nextTask ? `Vence ${nextTask.due} — Atividade prioritária.` : "Parabéns! Todas as suas tarefas foram concluídas."}
                 </p>
               </div>
             </div>
-            <Link to="/tarefas" style={{ textDecoration: "none" }}>
-              <Button variant="primary" className="whitespace-nowrap flex items-center gap-2">
+            <Link to="/tarefas" className="no-underline w-full sm:w-auto shrink-0">
+              <Button variant="primary" className="w-full sm:w-auto flex items-center justify-center gap-2">
                 {nextTask ? "Executar Atividade Agora" : "Ver Todas as Atividades"} <ArrowRight className="w-5 h-5 ml-1" />
               </Button>
             </Link>
@@ -218,33 +229,33 @@ export const DashboardPage: React.FC = () => {
             </Button>
           </div>
 
-          <div className="qs-grid">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* 1. Tamanho do Texto */}
-            <div className="qs-item">
+            <div className="qs-item p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0">
               <div>
-                <label className="text-sm font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
-                  <ZoomIn className="w-4 h-4 text-[var(--primary)] shrink-0" /> Tamanho do Texto
+                <label className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
+                  <ZoomIn className="w-5 h-5 text-[var(--primary)] shrink-0" /> Tamanho do Texto
                 </label>
                 <p className="text-xs text-[var(--ink-muted)] mb-3">Aumente ou diminua as letras da página</p>
               </div>
-              <div className="flex flex-col gap-2 bg-[var(--canvas)] p-2.5 border border-[var(--hairline)] w-full min-w-0">
+              <div className="flex items-center gap-2 bg-[var(--canvas)] p-2 border border-[var(--hairline)] w-full">
                 <Button
                   variant="tertiary"
                   size="sm"
                   onClick={() => changeFontScale(-0.1)}
-                  className="w-full h-9 min-h-[36px] font-bold text-sm"
+                  className="flex-1 h-10 min-h-[40px] font-bold text-sm"
                   title="Diminuir texto"
                 >
                   A-
                 </Button>
-                <div className="text-xs font-bold text-[var(--ink)] text-center py-1.5 bg-[var(--surface-1)] border border-[var(--hairline)] w-full">
+                <div className="text-sm font-bold text-[var(--ink)] text-center py-2 px-3 bg-[var(--surface-1)] border border-[var(--hairline)] shrink-0">
                   {Math.round(fontScale * 100)}%
                 </div>
                 <Button
                   variant="primary"
                   size="sm"
                   onClick={() => changeFontScale(0.1)}
-                  className="w-full h-9 min-h-[36px] font-bold text-sm"
+                  className="flex-1 h-10 min-h-[40px] font-bold text-sm"
                   title="Aumentar texto"
                 >
                   A+
@@ -253,32 +264,32 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             {/* 2. Modos de Contraste */}
-            <div className="qs-item">
+            <div className="qs-item p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0">
               <div>
-                <label className="text-sm font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
-                  <Eye className="w-4 h-4 text-[var(--primary)] shrink-0" /> Tema e Contraste
+                <label className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
+                  <Eye className="w-5 h-5 text-[var(--primary)] shrink-0" /> Tema e Contraste
                 </label>
                 <p className="text-xs text-[var(--ink-muted)] mb-3">Escolha a cor de fundo mais confortável</p>
               </div>
-              <div className="flex flex-col gap-1.5 w-full min-w-0">
+              <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 gap-2 w-full">
                 <button
                   type="button"
                   onClick={() => applyContrast("standard")}
-                  className={`w-full py-2 px-3 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-2 ${contrastMode === "standard" ? "bg-[#0f62fe] text-white border-[#0f62fe]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
+                  className={`w-full py-2 px-2 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "standard" ? "bg-[#0f62fe] text-white border-[#0f62fe]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
                 >
                   <Sun className="w-4 h-4 shrink-0" /> Padrão (Branco)
                 </button>
                 <button
                   type="button"
                   onClick={() => applyContrast("high")}
-                  className={`w-full py-2 px-3 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-2 ${contrastMode === "high" ? "bg-[#000000] text-white border-[#000000]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
+                  className={`w-full py-2 px-2 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "high" ? "bg-[#000000] text-white border-[#000000]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
                 >
                   <Eye className="w-4 h-4 shrink-0" /> Alto Contraste
                 </button>
                 <button
                   type="button"
                   onClick={() => applyContrast("dark")}
-                  className={`w-full py-2 px-3 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-2 ${contrastMode === "dark" ? "bg-[#161616] text-[#f1c21b] border-[#161616]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
+                  className={`w-full py-2 px-2 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "dark" ? "bg-[#161616] text-[#f1c21b] border-[#161616]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
                 >
                   <Moon className="w-4 h-4 shrink-0" /> Modo Escuro
                 </button>
@@ -286,20 +297,20 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             {/* 3. Recursos de Proteção & Voz */}
-            <div className="qs-item">
+            <div className="qs-item p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0">
               <div>
-                <label className="text-sm font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
-                  <ShieldCheck className="w-4 h-4 text-[#24a148] shrink-0" /> Proteções & Leitura
+                <label className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
+                  <ShieldCheck className="w-5 h-5 text-[#24a148] shrink-0" /> Proteções & Leitura
                 </label>
                 <p className="text-xs text-[var(--ink-muted)] mb-3">Confirmações antes de ações e áudio</p>
               </div>
-              <div className="flex flex-col gap-2 bg-[var(--canvas)] p-2.5 border border-[var(--hairline)] w-full min-w-0">
-                <div className="flex items-center justify-between gap-2 w-full p-1 border-b border-[var(--hairline)] border-dashed">
-                  <label htmlFor="qs-confirm" className="text-xs text-[var(--ink)] cursor-pointer font-medium">Confirmar Ações</label>
+              <div className="flex flex-col gap-2.5 bg-[var(--canvas)] p-3 border border-[var(--hairline)] w-full">
+                <div className="flex items-center justify-between gap-3 w-full pb-2 border-b border-[var(--hairline)] border-dashed">
+                  <label htmlFor="qs-confirm" className="text-xs sm:text-sm text-[var(--ink)] cursor-pointer font-medium">Confirmar Ações</label>
                   <Switch id="qs-confirm" defaultChecked onCheckedChange={(checked) => triggerToast(checked ? "Confirmação ativada" : "Desativada")} />
                 </div>
-                <div className="flex items-center justify-between gap-2 w-full p-1">
-                  <label htmlFor="qs-voice" className="text-xs text-[var(--ink)] cursor-pointer font-medium">Lembretes por Voz</label>
+                <div className="flex items-center justify-between gap-3 w-full pt-1">
+                  <label htmlFor="qs-voice" className="text-xs sm:text-sm text-[var(--ink)] cursor-pointer font-medium">Lembretes por Voz</label>
                   <Switch id="qs-voice" defaultChecked onCheckedChange={(checked) => triggerToast(checked ? "Voz ativada" : "Desativada")} />
                 </div>
               </div>
@@ -320,7 +331,19 @@ export const DashboardPage: React.FC = () => {
           </a>
 
           <Link to="/tarefas" className="module-card mod-green" role="listitem" id="mod-tasks-btn">
-            <Badge variant="success" className="absolute top-5 right-5 text-[0.75rem] px-2.5 py-1" aria-label="2 pendentes">2 pendentes</Badge>
+            <Badge 
+              variant={pendingToday > 0 ? "pending" : (totalTasks > 0 ? "success" : "pending")} 
+              className="absolute top-5 right-5 text-[0.75rem] px-2.5 py-1" 
+              aria-label={
+                totalTasks === 0 
+                  ? "Nenhuma atividade cadastrada" 
+                  : (pendingToday > 0 ? `${pendingToday} ${pendingToday === 1 ? "pendente" : "pendentes"}` : "Tudo concluído ✓")
+              }
+            >
+              {totalTasks === 0 
+                ? "Nenhuma atividade cadastrada" 
+                : (pendingToday > 0 ? `${pendingToday} ${pendingToday === 1 ? "pendente" : "pendentes"}` : "Tudo concluído ✓")}
+            </Badge>
             <BookCheck className="w-9 h-9 text-[#24a148] mb-4" aria-hidden="true" />
             <h3>Minhas Atividades</h3>
             <p>Lista simples e clara com suas tarefas do dia. Com lembretes e passos guiados.</p>
@@ -371,15 +394,17 @@ export const DashboardPage: React.FC = () => {
             </div>
           ) : (
             activityTasks.slice(0, 4).map((t) => (
-              <div key={t.id} className="activity-item" role="article">
-                <div className="activity-icon" aria-hidden="true">
-                  {getActivityIcon(t.category)}
+              <div key={t.id} className="activity-item p-3 sm:p-4 border-b border-[var(--hairline)] flex flex-wrap sm:flex-nowrap items-center justify-between gap-3" role="article">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div className="activity-icon shrink-0" aria-hidden="true">
+                    {getActivityIcon(t.category)}
+                  </div>
+                  <div className="activity-text min-w-0 flex-1">
+                    <div className="title truncate text-sm sm:text-base font-medium">{t.title}</div>
+                    <div className="time text-xs text-[var(--ink-muted)]">{t.done ? `Concluído (${t.due})` : `Até ${t.due}`}</div>
+                  </div>
                 </div>
-                <div className="activity-text">
-                  <div className="title">{t.title}</div>
-                  <div className="time">{t.done ? `Concluído (${t.due})` : `Até ${t.due}`}</div>
-                </div>
-                <Badge variant={t.done ? "success" : "pending"} className="ml-auto text-[0.8rem] px-3 py-1 flex items-center gap-1">
+                <Badge variant={t.done ? "success" : "pending"} className="text-xs px-3 py-1 shrink-0">
                   {t.done ? "✓ Feito" : "⏳ Pendente"}
                 </Badge>
               </div>

@@ -201,13 +201,13 @@ export const TasksPage: React.FC = () => {
 
       <main className="main-content" role="main">
         {/* Page Header */}
-        <div className="page-header flex items-center justify-between flex-wrap gap-3">
-          <h2>Suas atividades de hoje</h2>
-          <div className="flex items-center gap-2">
+        <div className="page-header flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+          <h2 className="text-xl sm:text-2xl font-semibold text-[var(--ink)]">Suas atividades de hoje</h2>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <Button
               variant="tertiary"
               onClick={() => startTasksTour()}
-              className="flex items-center gap-2 text-sm h-10 min-h-[40px] px-3 border-[var(--hairline)] text-[var(--ink)] hover:bg-[var(--surface-1)]"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 text-sm h-10 min-h-[40px] px-3 border-[var(--hairline)] text-[var(--ink)] hover:bg-[var(--surface-1)]"
               title="Ver Tour Guiado das Atividades"
               aria-label="Ver Tour Guiado das Atividades"
             >
@@ -218,9 +218,9 @@ export const TasksPage: React.FC = () => {
               id="btn-new-task"
               onClick={() => setFormOpen(!formOpen)}
               aria-expanded={formOpen}
-              className="flex items-center gap-2"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2"
             >
-              {formOpen ? <><X className="w-5 h-5" /> Fechar formulário</> : <><Plus className="w-5 h-5" /> Adicionar atividade</>}
+              {formOpen ? <><X className="w-5 h-5" /> Fechar</> : <><Plus className="w-5 h-5" /> Nova Atividade</>}
             </Button>
           </div>
         </div>

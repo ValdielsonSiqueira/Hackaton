@@ -33,7 +33,7 @@ export const AccessibilityToolbar: React.FC = () => {
 
   return (
     <aside 
-      className="fixed right-0 top-[68px] z-[9999] flex flex-col items-end gap-[8px] a11y-toolbar-fixed"
+      className="fixed right-0 top-[60px] sm:top-[68px] z-[9999] flex flex-col items-end gap-2 a11y-toolbar-fixed"
       aria-label="Painel Flutuante de Acessibilidade"
     >
       {/* VLibras Widget (Above Toolbar) */}
@@ -44,19 +44,19 @@ export const AccessibilityToolbar: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-[#24a148] hover:bg-[#198038] text-white p-[12px] rounded-l-md shadow-2xl flex flex-col items-center gap-[4px] cursor-pointer transition-transform hover:scale-105 border-0 focus-visible:outline-2 focus-visible:outline-[#0f62fe]"
+          className="bg-[#24a148] hover:bg-[#198038] text-white p-2.5 sm:p-3 rounded-l-md shadow-2xl flex flex-col items-center gap-1 cursor-pointer transition-transform hover:scale-105 border-0 focus-visible:outline-2 focus-visible:outline-[#0f62fe]"
           aria-expanded={isOpen}
           aria-label={isOpen ? "Fechar ferramentas de acessibilidade" : "Abrir ferramentas de acessibilidade"}
           title="Acessibilidade"
         >
-          <Accessibility className="w-[32px] h-[32px] text-white" />
-          <span className="text-[10px] leading-[12px] font-bold tracking-wider uppercase text-white">Acessível</span>
-          {isOpen ? <ChevronRight className="w-[16px] h-[16px] text-white mt-[4px]" /> : <ChevronLeft className="w-[16px] h-[16px] text-white mt-[4px]" />}
+          <Accessibility className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+          <span className="text-[9px] sm:text-[10px] leading-3 font-bold tracking-wider uppercase text-white">Acessível</span>
+          {isOpen ? <ChevronRight className="w-4 h-4 text-white mt-1" /> : <ChevronLeft className="w-4 h-4 text-white mt-1" />}
         </button>
 
         {/* Drawer Panel */}
         {isOpen && (
-          <div className="bg-white border-2 border-[#24a148] shadow-2xl w-[290px] p-[8px] rounded-l-lg flex flex-col gap-[4px] text-[#161616] font-sans">
+          <div className="bg-[var(--canvas)] border-2 border-[#24a148] shadow-2xl w-[260px] sm:w-[290px] max-w-[calc(100vw-55px)] p-2 rounded-l-lg flex flex-col gap-1 text-[var(--ink)] font-sans">
             <div className="bg-[#24a148] text-white p-[12px] font-semibold text-[16px] leading-[20px] flex items-center justify-between">
               <span className="flex items-center gap-[8px]">
                 <Accessibility className="w-[22px] h-[22px] text-white" /> Acessibilidade

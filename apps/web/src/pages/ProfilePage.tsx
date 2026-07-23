@@ -105,12 +105,12 @@ export const ProfilePage: React.FC = () => {
       <TopNav />
 
       <main className="main-content" role="main">
-        <div className="section-header flex items-center justify-between flex-wrap gap-3" style={{ marginBottom: "24px" }}>
-          <h2>Suas Informações e Preferências Persistentes</h2>
+        <div className="section-header flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+          <h2 className="text-xl sm:text-2xl font-semibold text-[var(--ink)]">Suas Informações e Preferências</h2>
           <Button
             variant="tertiary"
             onClick={() => startProfileTour()}
-            className="flex items-center gap-2 text-sm h-10 min-h-[40px] px-3 border-[var(--hairline)] text-[var(--ink)] hover:bg-[var(--surface-1)]"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 text-sm h-10 min-h-[40px] px-3 border-[var(--hairline)] text-[var(--ink)] hover:bg-[var(--surface-1)]"
             title="Ver Tour Guiado do Perfil"
             aria-label="Ver Tour Guiado do Perfil"
           >
@@ -206,40 +206,40 @@ export const ProfilePage: React.FC = () => {
             </Card>
 
             {/* Card 2: Accessibility Preferences Controls */}
-            <Card className="login-card p-6" id="accessibility-preferences-card">
-              <CardHeader className="p-0 mb-6 flex flex-row items-center justify-between">
+            <Card className="login-card p-4 sm:p-6 w-full min-w-0 overflow-hidden" id="accessibility-preferences-card">
+              <CardHeader className="p-0 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <CardTitle className="text-xl font-normal flex items-center gap-2">
-                    <Sliders className="w-5 h-5 text-[var(--primary)]" /> Preferências de Acessibilidade Salvas
+                  <CardTitle className="text-lg sm:text-xl font-normal flex items-center gap-2">
+                    <Sliders className="w-5 h-5 text-[var(--primary)] shrink-0" /> Preferências de Acessibilidade Salvas
                   </CardTitle>
-                  <CardDescription className="text-[var(--ink-muted)]">Ajuste como o SeniorEase se comporta para você</CardDescription>
+                  <CardDescription className="text-xs sm:text-sm text-[var(--ink-muted)]">Ajuste como o SeniorEase se comporta para você</CardDescription>
                 </div>
                 <Button
                   variant="tertiary"
                   size="sm"
                   onClick={handleResetAll}
-                  className="h-9 text-xs px-3 border-[#da1e28] text-[#da1e28] hover:bg-[#fff0f0] flex items-center gap-1.5 shrink-0"
+                  className="h-9 text-xs px-3 border-[#da1e28] text-[#da1e28] hover:bg-[#fff0f0] flex items-center gap-1.5 shrink-0 self-start sm:self-auto"
                 >
                   <RotateCcw className="w-3.5 h-3.5" /> Resetar
                 </Button>
               </CardHeader>
 
-              <CardContent className="p-0 space-y-5">
+              <CardContent className="p-0 space-y-4 sm:space-y-5">
                 {/* 1. Font Size Control */}
-                <div className="flex items-center justify-between p-4 bg-[var(--surface-1)] border border-[var(--hairline)]">
-                  <div className="flex items-center gap-3">
-                    <ZoomIn className="w-6 h-6 text-[var(--primary)]" />
-                    <div>
-                      <div className="font-semibold text-base text-[var(--ink)]">Tamanho do Texto da Plataforma</div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <ZoomIn className="w-6 h-6 text-[var(--primary)] shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-sm sm:text-base text-[var(--ink)] truncate">Tamanho do Texto da Plataforma</div>
                       <div className="text-xs text-[var(--ink-muted)]">Aumente ou diminua as letras da tela</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 bg-[var(--canvas)] p-1 border border-[var(--hairline)]">
+                  <div className="flex items-center justify-center gap-2 bg-[var(--canvas)] p-1.5 border border-[var(--hairline)] shrink-0 w-full sm:w-auto">
                     <Button
                       variant="tertiary"
                       size="sm"
                       onClick={() => changeFontScale(-0.1)}
-                      className="h-9 min-h-[36px] w-9 p-0 font-bold"
+                      className="h-9 min-h-[36px] w-12 sm:w-9 p-0 font-bold text-sm"
                       title="Diminuir texto"
                     >
                       A-
@@ -251,7 +251,7 @@ export const ProfilePage: React.FC = () => {
                       variant="primary"
                       size="sm"
                       onClick={() => changeFontScale(0.1)}
-                      className="h-9 min-h-[36px] w-9 p-0 font-bold"
+                      className="h-9 min-h-[36px] w-12 sm:w-9 p-0 font-bold text-sm"
                       title="Aumentar texto"
                     >
                       A+
@@ -260,88 +260,97 @@ export const ProfilePage: React.FC = () => {
                 </div>
 
                 {/* 2. Contrast Modes */}
-                <div className="p-4 bg-[var(--surface-1)] border border-[var(--hairline)]">
+                <div className="p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
                   <div className="flex items-center gap-3 mb-3">
-                    <Eye className="w-6 h-6 text-[var(--primary)]" />
+                    <Eye className="w-6 h-6 text-[var(--primary)] shrink-0" />
                     <div>
-                      <div className="font-semibold text-base text-[var(--ink)]">Modo de Contraste e Tema Visual</div>
+                      <div className="font-semibold text-sm sm:text-base text-[var(--ink)]">Modo de Contraste e Tema Visual</div>
                       <div className="text-xs text-[var(--ink-muted)]">Escolha a paleta mais confortável para sua visão</div>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full">
                     <button
                       type="button"
                       onClick={() => applyContrast("standard")}
-                      className={`flex-1 py-2 px-2 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "standard" ? "bg-[#0f62fe] text-white border-[#0f62fe]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
+                      className={`w-full py-2.5 px-3 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "standard" ? "bg-[#0f62fe] text-white border-[#0f62fe]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
                     >
-                      <Sun className="w-4 h-4" /> Padrão (Branco)
+                      <Sun className="w-4 h-4 shrink-0" /> Padrão (Branco)
                     </button>
                     <button
                       type="button"
                       onClick={() => applyContrast("high")}
-                      className={`flex-1 py-2 px-2 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "high" ? "bg-[#000000] text-white border-[#000000]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
+                      className={`w-full py-2.5 px-3 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "high" ? "bg-[#000000] text-white border-[#000000]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
                     >
-                      <Eye className="w-4 h-4" /> Alto Contraste
+                      <Eye className="w-4 h-4 shrink-0" /> Alto Contraste
                     </button>
                     <button
                       type="button"
                       onClick={() => applyContrast("dark")}
-                      className={`flex-1 py-2 px-2 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "dark" ? "bg-[#161616] text-[#f1c21b] border-[#161616]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
+                      className={`w-full py-2.5 px-3 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "dark" ? "bg-[#161616] text-[#f1c21b] border-[#161616]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
                     >
-                      <Moon className="w-4 h-4" /> Modo Escuro
+                      <Moon className="w-4 h-4 shrink-0" /> Modo Escuro
                     </button>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-[var(--surface-1)] border border-[var(--hairline)]">
-                  <div className="flex items-center gap-3">
-                    <ShieldCheck className="w-6 h-6 text-[#24a148]" />
-                    <div>
-                      <div className="font-semibold text-base text-[var(--ink)]">Confirmação Antes de Sair</div>
+                {/* 3. Confirm Actions */}
+                <div className="flex flex-row items-center justify-between gap-3 p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <ShieldCheck className="w-6 h-6 text-[#24a148] shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-sm sm:text-base text-[var(--ink)]">Confirmação Antes de Sair</div>
                       <div className="text-xs text-[var(--ink-muted)]">Pede sua confirmação antes de ações críticas para evitar erros</div>
                     </div>
                   </div>
-                  <Switch
-                    checked={confirmActions}
-                    onCheckedChange={(checked) => {
-                      setConfirmActions(checked);
-                      triggerToast(checked ? "Confirmações ativadas" : "Confirmações desativadas");
-                    }}
-                  />
+                  <div className="shrink-0">
+                    <Switch
+                      checked={confirmActions}
+                      onCheckedChange={(checked) => {
+                        setConfirmActions(checked);
+                        triggerToast(checked ? "Confirmações ativadas" : "Confirmações desativadas");
+                      }}
+                    />
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-[var(--surface-1)] border border-[var(--hairline)]">
-                  <div className="flex items-center gap-3">
-                    <Volume2 className="w-6 h-6 text-[var(--primary)]" />
-                    <div>
-                      <div className="font-semibold text-base text-[var(--ink)]">Lembretes por Voz Nativa</div>
+                {/* 4. Voice Reminders */}
+                <div className="flex flex-row items-center justify-between gap-3 p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <Volume2 className="w-6 h-6 text-[var(--primary)] shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-sm sm:text-base text-[var(--ink)]">Lembretes por Voz Nativa</div>
                       <div className="text-xs text-[var(--ink-muted)]">Permite ouvir orientações passo a passo em áudio</div>
                     </div>
                   </div>
-                  <Switch
-                    checked={voiceReminders}
-                    onCheckedChange={(checked) => {
-                      setVoiceReminders(checked);
-                      triggerToast(checked ? "Lembretes por voz ativados" : "Voz desativada");
-                    }}
-                  />
+                  <div className="shrink-0">
+                    <Switch
+                      checked={voiceReminders}
+                      onCheckedChange={(checked) => {
+                        setVoiceReminders(checked);
+                        triggerToast(checked ? "Lembretes por voz ativados" : "Voz desativada");
+                      }}
+                    />
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-[var(--surface-1)] border border-[var(--hairline)]">
-                  <div className="flex items-center gap-3">
-                    <Bell className="w-6 h-6 text-[#f1c21b]" />
-                    <div>
-                      <div className="font-semibold text-base text-[var(--ink)]">Modo de Navegação Simplificado</div>
+                {/* 5. Simplified Mode */}
+                <div className="flex flex-row items-center justify-between gap-3 p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <Bell className="w-6 h-6 text-[#f1c21b] shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-sm sm:text-base text-[var(--ink)]">Modo de Navegação Simplificado</div>
                       <div className="text-xs text-[var(--ink-muted)]">Oculta detalhes secundários para foco máximo</div>
                     </div>
                   </div>
-                  <Switch
-                    checked={simplifiedMode}
-                    onCheckedChange={(checked) => {
-                      setSimplifiedMode(checked);
-                      triggerToast(checked ? "Modo simples ativado" : "Modo padrão");
-                    }}
-                  />
+                  <div className="shrink-0">
+                    <Switch
+                      checked={simplifiedMode}
+                      onCheckedChange={(checked) => {
+                        setSimplifiedMode(checked);
+                        triggerToast(checked ? "Modo simples ativado" : "Modo padrão");
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <Button variant="primary" onClick={handleSaveProfile} className="w-full mt-4 flex items-center justify-center gap-2">
