@@ -279,6 +279,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } else {
       root.classList.remove("high-contrast", "dark-contrast");
     }
+
+    // Apply simplified navigation mode class
+    if (settings.navigationMode === "simplified") {
+      root.classList.add("simplified-mode");
+    } else {
+      root.classList.remove("simplified-mode");
+    }
   }, [settings]);
 
   const updateSettings = async (newSettings: UserSettings) => {

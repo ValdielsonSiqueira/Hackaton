@@ -38,10 +38,6 @@ export const ProfilePage: React.FC = () => {
   const fontScale = settings.fontScale || 1.0;
   const contrastMode = settings.contrastMode || "standard";
 
-  const [simplifiedMode, setSimplifiedMode] = useState(false);
-  const [confirmActions, setConfirmActions] = useState(true);
-  const [voiceReminders, setVoiceReminders] = useState(true);
-
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const triggerToast = (msg: string) => {
@@ -225,36 +221,36 @@ export const ProfilePage: React.FC = () => {
               </CardHeader>
 
               <CardContent className="p-0 space-y-4 sm:space-y-5">
-                {/* 1. Font Size Control */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
-                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                {/* 1. Font Size */}
+                <div className="p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
+                  <div className="flex items-center gap-3 mb-3">
                     <ZoomIn className="w-6 h-6 text-[var(--primary)] shrink-0" />
                     <div className="min-w-0 flex-1">
                       <div className="font-semibold text-sm sm:text-base text-[var(--ink)] truncate">Tamanho do Texto da Plataforma</div>
                       <div className="text-xs text-[var(--ink-muted)]">Aumente ou diminua as letras da tela</div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-center gap-2 bg-[var(--canvas)] p-1.5 border border-[var(--hairline)] shrink-0 w-full sm:w-auto">
-                    <Button
-                      variant="tertiary"
-                      size="sm"
-                      onClick={() => changeFontScale(-0.1)}
-                      className="h-9 min-h-[36px] w-12 sm:w-9 p-0 font-bold text-sm"
-                      title="Diminuir texto"
-                    >
-                      A-
-                    </Button>
-                    <span className="text-xs font-bold px-2 text-[var(--ink)]">
-                      {Math.round(fontScale * 100)}%
-                    </span>
+                  <div className="flex flex-col gap-2 bg-[var(--canvas)] p-2.5 border border-[var(--hairline)] w-full max-w-full overflow-hidden">
+                    <div className="text-sm font-bold text-[var(--ink)] text-center py-2 px-3 bg-[var(--surface-1)] border border-[var(--hairline)] w-full rounded-sm">
+                      Tamanho Atual: {Math.round(fontScale * 100)}%
+                    </div>
                     <Button
                       variant="primary"
                       size="sm"
                       onClick={() => changeFontScale(0.1)}
-                      className="h-9 min-h-[36px] w-12 sm:w-9 p-0 font-bold text-sm"
+                      className="w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm flex items-center justify-center gap-1.5 leading-tight"
                       title="Aumentar texto"
                     >
-                      A+
+                      A+ Aumentar
+                    </Button>
+                    <Button
+                      variant="tertiary"
+                      size="sm"
+                      onClick={() => changeFontScale(-0.1)}
+                      className="w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm flex items-center justify-center gap-1.5 leading-tight"
+                      title="Diminuir texto"
+                    >
+                      A- Diminuir
                     </Button>
                   </div>
                 </div>
@@ -268,25 +264,37 @@ export const ProfilePage: React.FC = () => {
                       <div className="text-xs text-[var(--ink-muted)]">Escolha a paleta mais confortável para sua visão</div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full">
+                  <div className="flex flex-col gap-2 bg-[var(--canvas)] p-2.5 border border-[var(--hairline)] w-full max-w-full overflow-hidden">
                     <button
                       type="button"
                       onClick={() => applyContrast("standard")}
-                      className={`w-full py-2.5 px-3 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "standard" ? "bg-[#0f62fe] text-white border-[#0f62fe]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
+                      className={`w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm border cursor-pointer transition-colors flex items-center justify-center gap-1.5 leading-tight ${
+                        contrastMode === "standard" 
+                          ? "bg-[#0f62fe] text-white border-[#0f62fe]" 
+                          : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--surface-1)]"
+                      }`}
                     >
                       <Sun className="w-4 h-4 shrink-0" /> Padrão (Branco)
                     </button>
                     <button
                       type="button"
                       onClick={() => applyContrast("high")}
-                      className={`w-full py-2.5 px-3 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "high" ? "bg-[#000000] text-white border-[#000000]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
+                      className={`w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm border cursor-pointer transition-colors flex items-center justify-center gap-1.5 leading-tight ${
+                        contrastMode === "high" 
+                          ? "bg-[#000000] text-white border-[#000000]" 
+                          : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--surface-1)]"
+                      }`}
                     >
                       <Eye className="w-4 h-4 shrink-0" /> Alto Contraste
                     </button>
                     <button
                       type="button"
                       onClick={() => applyContrast("dark")}
-                      className={`w-full py-2.5 px-3 text-xs font-semibold border cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${contrastMode === "dark" ? "bg-[#161616] text-[#f1c21b] border-[#161616]" : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)]"}`}
+                      className={`w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm border cursor-pointer transition-colors flex items-center justify-center gap-1.5 leading-tight ${
+                        contrastMode === "dark" 
+                          ? "bg-[#161616] text-[#f1c21b] border-[#161616]" 
+                          : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--surface-1)]"
+                      }`}
                     >
                       <Moon className="w-4 h-4 shrink-0" /> Modo Escuro
                     </button>
@@ -298,36 +306,36 @@ export const ProfilePage: React.FC = () => {
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <ShieldCheck className="w-6 h-6 text-[#24a148] shrink-0" />
                     <div className="min-w-0 flex-1">
-                      <div className="font-semibold text-sm sm:text-base text-[var(--ink)]">Confirmação Antes de Sair</div>
-                      <div className="text-xs text-[var(--ink-muted)]">Pede sua confirmação antes de ações críticas para evitar erros</div>
+                      <div className="font-semibold text-sm sm:text-base text-[var(--ink)]">Confirmação de Ações Críticas</div>
+                      <div className="text-xs text-[var(--ink-muted)]">Pede confirmação antes de excluir tarefas ou sair</div>
                     </div>
                   </div>
                   <div className="shrink-0">
                     <Switch
-                      checked={confirmActions}
-                      onCheckedChange={(checked) => {
-                        setConfirmActions(checked);
-                        triggerToast(checked ? "Confirmações ativadas" : "Confirmações desativadas");
+                      checked={settings.criticalConfirmation ?? true}
+                      onCheckedChange={async (checked) => {
+                        await updateSettings({ ...settings, criticalConfirmation: checked });
+                        triggerToast(checked ? "Confirmação de ações críticas ativada" : "Confirmações desativadas");
                       }}
                     />
                   </div>
                 </div>
 
-                {/* 4. Voice Reminders */}
+                {/* 4. Voice & Visual Feedback */}
                 <div className="flex flex-row items-center justify-between gap-3 p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <Volume2 className="w-6 h-6 text-[var(--primary)] shrink-0" />
                     <div className="min-w-0 flex-1">
-                      <div className="font-semibold text-sm sm:text-base text-[var(--ink)]">Lembretes por Voz Nativa</div>
-                      <div className="text-xs text-[var(--ink-muted)]">Permite ouvir orientações passo a passo em áudio</div>
+                      <div className="font-semibold text-sm sm:text-base text-[var(--ink)]">Feedback Visual e Sonoro Reforçado</div>
+                      <div className="text-xs text-[var(--ink-muted)]">Ativa animações festivas e sintetizador de voz nativo</div>
                     </div>
                   </div>
                   <div className="shrink-0">
                     <Switch
-                      checked={voiceReminders}
-                      onCheckedChange={(checked) => {
-                        setVoiceReminders(checked);
-                        triggerToast(checked ? "Lembretes por voz ativados" : "Voz desativada");
+                      checked={settings.feedbackVisual ?? true}
+                      onCheckedChange={async (checked) => {
+                        await updateSettings({ ...settings, feedbackVisual: checked });
+                        triggerToast(checked ? "Feedback reforçado ativado" : "Feedback reforçado desativado");
                       }}
                     />
                   </div>
@@ -339,15 +347,16 @@ export const ProfilePage: React.FC = () => {
                     <Bell className="w-6 h-6 text-[#f1c21b] shrink-0" />
                     <div className="min-w-0 flex-1">
                       <div className="font-semibold text-sm sm:text-base text-[var(--ink)]">Modo de Navegação Simplificado</div>
-                      <div className="text-xs text-[var(--ink-muted)]">Oculta detalhes secundários para foco máximo</div>
+                      <div className="text-xs text-[var(--ink-muted)]">Oculta distrações secundárias para foco máximo</div>
                     </div>
                   </div>
                   <div className="shrink-0">
                     <Switch
-                      checked={simplifiedMode}
-                      onCheckedChange={(checked) => {
-                        setSimplifiedMode(checked);
-                        triggerToast(checked ? "Modo simples ativado" : "Modo padrão");
+                      checked={settings.navigationMode === "simplified"}
+                      onCheckedChange={async (checked) => {
+                        const newMode = checked ? "simplified" : "standard";
+                        await updateSettings({ ...settings, navigationMode: newMode });
+                        triggerToast(checked ? "Modo de Navegação Simplificado ativado" : "Modo de Navegação Padrão ativado");
                       }}
                     />
                   </div>

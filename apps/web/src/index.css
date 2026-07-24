@@ -1409,3 +1409,36 @@ body {
   font-weight: 600 !important;
   color: var(--ink-muted) !important;
 }
+
+/* Mode: Simplified Navigation (Modo de Navegação Simplificado) */
+.simplified-mode {
+  --gap: 24px;
+}
+
+/* 1. Oculta ilustrações decorativas para eliminar ruído visual */
+.simplified-mode .welcome-illustration {
+  display: none !important;
+}
+
+/* 2. Oculta estatísticas secundárias (dias seguidos/gamificação) focando apenas nas tarefas do dia */
+.simplified-mode .stats-row .stat-card:nth-child(3) {
+  display: none !important;
+}
+
+/* 3. Oculta etiquetas técnicas de categoria (ACADÊMICO, ONLINE, LEITURA) nos cartões para focar no título e prazo */
+.simplified-mode .task-meta .task-tag {
+  display: none !important;
+}
+
+/* 4. Amplia áreas clicáveis, fontes e bordas para idosos */
+.simplified-mode .task-card {
+  padding: 24px !important;
+  border-width: 2px !important;
+}
+
+.simplified-mode button,
+.simplified-mode input,
+.simplified-mode select {
+  min-height: 48px !important;
+  font-size: 1.05rem !important;
+}
