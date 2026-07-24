@@ -20,7 +20,9 @@ import {
   Clock,
   CheckCircle2,
   Trash2,
-  Compass
+  Compass,
+  Pencil,
+  Save
 } from "lucide-react";
 import { taskSchema } from "../schemas/forms";
 import { startTasksTour } from "../utils/tour";
@@ -39,6 +41,7 @@ export const TasksPage: React.FC = () => {
 
   // Form State
   const [formOpen, setFormOpen] = useState(false);
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [newTaskName, setNewTaskName] = useState("");
   const [taskNameErrorMsg, setTaskNameErrorMsg] = useState<string | null>(null);
   const [newTaskCategory, setNewTaskCategory] = useState("ACADÊMICO");
@@ -46,6 +49,7 @@ export const TasksPage: React.FC = () => {
   const [newTaskDuePreset, setNewTaskDuePreset] = useState("HOJE 18:00");
   const [stepInputs, setStepInputs] = useState<string[]>([""]);
   const [isListening, setIsListening] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState<TaskItem | null>(null);
 
   const [successOverlay, setSuccessOverlay] = useState<string | null>(null);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
@@ -58,6 +62,35 @@ export const TasksPage: React.FC = () => {
   const triggerSuccess = (msg: string) => {
     setSuccessOverlay(msg);
     setTimeout(() => setSuccessOverlay(null), 2500);
+  };
+
+  const handleStartEditTask = (task: TaskItem) => {
+    setEditingTaskId(task.id);
+    setNewTaskName(task.title);
+    setNewTaskCategory(task.category || "ACADÊMICO");
+    setNewTaskPriority(task.priority || "medium");
+    setNewTaskDuePreset(task.due || "HOJE 18:00");
+    setStepInputs(task.steps && task.steps.length > 0 ? task.steps.map((s) => s.text) : [""]);
+    setTaskNameErrorMsg(null);
+    setFormOpen(true);
+
+    setTimeout(() => {
+      const formEl = document.getElementById("new-task-form");
+      if (formEl) {
+        formEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
+  };
+
+  const handleResetForm = () => {
+    setEditingTaskId(null);
+    setNewTaskName("");
+    setNewTaskCategory("ACADÊMICO");
+    setNewTaskPriority("medium");
+    setNewTaskDuePreset("HOJE 18:00");
+    setStepInputs([""]);
+    setTaskNameErrorMsg(null);
+    setFormOpen(false);
   };
 
   const handleToggleTask = (id: string) => {
@@ -76,9 +109,16 @@ export const TasksPage: React.FC = () => {
     toggleActivityStep(taskId, stepId);
   };
 
-  const handleDeleteTask = (id: string) => {
-    deleteActivityTask(id);
-    triggerToast("Atividade removida");
+  const onRequestDeleteTask = (task: TaskItem) => {
+    setTaskToDelete(task);
+  };
+
+  const handleConfirmDeleteTask = () => {
+    if (!taskToDelete) return;
+    const title = taskToDelete.title;
+    deleteActivityTask(taskToDelete.id);
+    setTaskToDelete(null);
+    triggerToast(`Atividade "${title}" excluída com sucesso`);
   };
 
   const handleSpeakText = (text: string) => {
@@ -161,28 +201,49 @@ export const TasksPage: React.FC = () => {
 
     const formattedSteps: Step[] = stepInputs
       .filter((s) => s.trim().length > 0)
-      .map((text, idx) => ({
-        id: idx + 1,
-        text: text.trim(),
+      .map((text, idx) => {
+        const existingTask = editingTaskId ? activityTasks.find((t) => t.id === editingTaskId) : null;
+        const existingDone = existingTask?.steps?.find((existing) => existing.text === text.trim())?.done || false;
+        return {
+          id: idx + 1,
+          text: text.trim(),
+          done: existingDone,
+        };
+      });
+
+    if (editingTaskId) {
+      setActivityTasks((prev) =>
+        prev.map((t) =>
+          t.id === editingTaskId
+            ? {
+                ...t,
+                title: result.data.title,
+                category: newTaskCategory.toUpperCase(),
+                due: newTaskDuePreset,
+                urgent: newTaskPriority === "high",
+                priority: newTaskPriority,
+                steps: formattedSteps.length > 0 ? formattedSteps : undefined,
+              }
+            : t
+        )
+      );
+      triggerToast(`Atividade "${result.data.title}" atualizada com sucesso!`);
+    } else {
+      const newTask: TaskItem = {
+        id: String(Date.now()),
+        title: result.data.title,
+        category: newTaskCategory.toUpperCase(),
+        due: newTaskDuePreset,
+        urgent: newTaskPriority === "high",
         done: false,
-      }));
+        priority: newTaskPriority,
+        steps: formattedSteps.length > 0 ? formattedSteps : undefined,
+      };
+      setActivityTasks((prev) => [newTask, ...prev]);
+      triggerToast("Atividade cadastrada com sucesso!");
+    }
 
-    const newTask: TaskItem = {
-      id: String(Date.now()),
-      title: result.data.title,
-      category: newTaskCategory.toUpperCase(),
-      due: newTaskDuePreset,
-      urgent: newTaskPriority === "high",
-      done: false,
-      priority: newTaskPriority,
-      steps: formattedSteps.length > 0 ? formattedSteps : undefined,
-    };
-
-    setActivityTasks((prev) => [newTask, ...prev]);
-    setNewTaskName("");
-    setStepInputs([""]);
-    setFormOpen(false);
-    triggerToast("Atividade cadastrada com sucesso!");
+    handleResetForm();
   };
 
   const completedCount = activityTasks.filter((t) => t.done).length;
@@ -216,7 +277,14 @@ export const TasksPage: React.FC = () => {
             <Button
               variant="primary"
               id="btn-new-task"
-              onClick={() => setFormOpen(!formOpen)}
+              onClick={() => {
+                if (formOpen) {
+                  handleResetForm();
+                } else {
+                  setEditingTaskId(null);
+                  setFormOpen(true);
+                }
+              }}
               aria-expanded={formOpen}
               className="flex-1 sm:flex-none flex items-center justify-center gap-2"
             >
@@ -229,9 +297,11 @@ export const TasksPage: React.FC = () => {
         {formOpen && (
           <Card className="new-task-form open mb-6 border-l-4 border-l-[#0f62fe]" id="new-task-form" role="region" aria-labelledby="form-heading">
             <div className="flex items-center justify-between mb-4">
-              <h3 id="form-heading" className="text-2xl font-normal text-[#161616]">Cadastrar Nova Atividade</h3>
+              <h3 id="form-heading" className="text-2xl font-normal text-[#161616]">
+                {editingTaskId ? "Editar Atividade e Passos" : "Cadastrar Nova Atividade"}
+              </h3>
               <span className="text-xs uppercase tracking-wider text-[#0f62fe] font-semibold bg-[#e5edff] px-3 py-1">
-                Formulário Assistido
+                {editingTaskId ? "Modo Edição" : "Formulário Assistido"}
               </span>
             </div>
 
@@ -390,9 +460,13 @@ export const TasksPage: React.FC = () => {
             {/* Actions */}
             <div className="form-actions flex gap-3">
               <Button variant="primary" id="save-task-btn" onClick={handleSaveTask} className="flex-1">
-                <CheckCircle2 className="w-5 h-5 ml-1" /> Confirmar e Salvar Atividade
+                {editingTaskId ? (
+                  <><Save className="w-5 h-5 ml-1" /> Salvar Alterações da Atividade</>
+                ) : (
+                  <><CheckCircle2 className="w-5 h-5 ml-1" /> Confirmar e Salvar Atividade</>
+                )}
               </Button>
-              <Button variant="tertiary" id="cancel-form-btn" onClick={() => setFormOpen(false)} className="flex-1">
+              <Button variant="tertiary" id="cancel-form-btn" onClick={handleResetForm} className="flex-1">
                 Cancelar
               </Button>
             </div>
@@ -471,10 +545,20 @@ export const TasksPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <button
                       type="button"
-                      onClick={() => handleDeleteTask(t.id)}
+                      onClick={() => handleStartEditTask(t)}
+                      className="p-2 text-[#525252] hover:text-[#0f62fe] hover:bg-[#e5edff] cursor-pointer border-0 rounded-sm transition-colors"
+                      title="Editar atividade e passos"
+                      aria-label={`Editar atividade: ${t.title}`}
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => onRequestDeleteTask(t)}
                       className="p-2 text-[#525252] hover:text-[#da1e28] hover:bg-[#fff0f0] cursor-pointer border-0 rounded-sm transition-colors"
                       title="Excluir atividade"
                       aria-label={`Excluir atividade: ${t.title}`}
@@ -521,18 +605,12 @@ export const TasksPage: React.FC = () => {
                       </div>
                     ))}
 
-                    <div className="step-actions flex gap-2 mt-4">
-                      <Button
-                        variant="primary"
-                        onClick={() => handleSpeakText(`Atividade: ${t.title}. Passos: ${t.steps?.map((s) => s.text).join(". ")}`)}
-                        className="flex items-center gap-2"
-                      >
-                        <Volume2 className="w-5 h-5" /> Ouvir tudo em voz alta
-                      </Button>
+                    <div className="mt-3 pt-3 border-t border-[var(--hairline)] flex justify-end">
                       <Button
                         variant="tertiary"
-                        onClick={() => triggerToast("⏰ Lembrete definido com sucesso")}
-                        className="flex items-center gap-2"
+                        size="sm"
+                        onClick={() => triggerToast(`Lembrete ativado para ${t.title}`)}
+                        className="text-xs flex items-center gap-1.5 h-8 border-[var(--hairline)]"
                       >
                         <Bell className="w-5 h-5" /> Definir lembrete
                       </Button>
@@ -544,6 +622,41 @@ export const TasksPage: React.FC = () => {
           </div>
         )}
       </main>
+
+      {/* Confirmation Modal for Task Deletion */}
+      {taskToDelete && (
+        <div className="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="delete-task-modal-heading">
+          <div className="modal-box p-6 max-w-md mx-auto w-[90vw] text-center border-t-4 border-t-[#da1e28]">
+            <div className="w-12 h-12 bg-[#fff0f0] rounded-full flex items-center justify-center mx-auto mb-4 text-[#da1e28]">
+              <Trash2 className="w-6 h-6" aria-hidden="true" />
+            </div>
+            <h3 id="delete-task-modal-heading" className="text-xl font-bold text-[var(--ink)] mb-2">
+              Tem certeza que deseja excluir?
+            </h3>
+            <p className="text-sm text-[var(--ink-muted)] mb-6">
+              A atividade <strong>"{taskToDelete.title}"</strong> será removida permanentemente.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button
+                variant="primary"
+                id="confirm-delete-btn"
+                onClick={handleConfirmDeleteTask}
+                className="w-full bg-[#da1e28] hover:bg-[#ba1b23] border-[#da1e28] text-white flex items-center justify-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" /> Sim, excluir atividade
+              </Button>
+              <Button
+                variant="tertiary"
+                id="cancel-delete-btn"
+                onClick={() => setTaskToDelete(null)}
+                className="w-full flex items-center justify-center"
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Success Overlay */}
       {successOverlay && (
