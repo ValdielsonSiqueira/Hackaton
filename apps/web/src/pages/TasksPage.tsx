@@ -17,7 +17,6 @@ import {
   PartyPopper,
   X,
   Mic,
-  Clock,
   CheckCircle2,
   Trash2,
   Compass,
@@ -26,6 +25,7 @@ import {
 } from "lucide-react";
 import { taskSchema } from "../schemas/forms";
 import { startTasksTour } from "../utils/tour";
+import { DateTimePicker } from "../components/ui/date-time-picker";
 
 export const TasksPage: React.FC = () => {
   const { 
@@ -394,23 +394,15 @@ export const TasksPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Row 3: Preset Time Selection */}
+            {/* Row 3: Accessible Date & Time Calendar Picker */}
             <div className="field-group mb-6">
-              <label className="flex items-center gap-1">
-                <Clock className="w-4 h-4 text-[#0f62fe]" /> 4. Horário e Lembrete
+              <label className="block text-sm font-semibold text-[var(--ink)] mb-2">
+                4. Horário e Lembrete
               </label>
-              <div className="flex gap-2 flex-wrap">
-                {["HOJE 18:00", "HOJE 20:00", "AMANHÃ 09:00", "AMANHÃ 14:00"].map((preset) => (
-                  <button
-                    key={preset}
-                    type="button"
-                    onClick={() => setNewTaskDuePreset(preset)}
-                    className={`px-4 py-2 text-sm border cursor-pointer ${newTaskDuePreset === preset ? "bg-[#0f62fe] text-white border-[#0f62fe]" : "bg-[#f4f4f4] text-[#161616] border-[#e0e0e0]"}`}
-                  >
-                    {preset}
-                  </button>
-                ))}
-              </div>
+              <DateTimePicker
+                value={newTaskDuePreset}
+                onChange={setNewTaskDuePreset}
+              />
             </div>
 
             {/* Row 4: Step-by-Step Guided Creator */}
