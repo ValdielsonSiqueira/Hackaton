@@ -37,61 +37,6 @@ export interface TaskItem {
   steps?: Step[];
 }
 
-export const initialTasks: TaskItem[] = [
-  {
-    id: "1",
-    title: "Entregar exercício 4",
-    category: "ACADÊMICO",
-    due: "HOJE 18:00",
-    urgent: true,
-    done: false,
-    priority: "high",
-    steps: [
-      { id: 1, text: "Abrir o portal da FIAP e entrar na disciplina", done: true },
-      { id: 2, text: "Baixar o arquivo do exercício 4", done: true },
-      { id: 3, text: "Preencher o formulário de respostas", done: false },
-      { id: 4, text: "Clicar em 'Enviar' e confirmar o envio", done: false },
-    ],
-  },
-  {
-    id: "2",
-    title: "Aula ao vivo — UX para Idosos",
-    category: "ONLINE",
-    due: "HOJE 20:00",
-    done: false,
-    priority: "medium",
-    steps: [
-      { id: 1, text: "Abrir o link da aula no Zoom", done: false },
-      { id: 2, text: "Testar áudio e câmera antes", done: false },
-      { id: 3, text: "Anotar dúvidas durante a aula", done: false },
-    ],
-  },
-  {
-    id: "3",
-    title: "Leitura do módulo 3",
-    category: "LEITURA",
-    due: "FEITO ÀS 09:30",
-    done: true,
-    priority: "low",
-  },
-  {
-    id: "4",
-    title: "Comentar no fórum da turma",
-    category: "PARTICIPAÇÃO",
-    due: "FEITO ÀS 11:15",
-    done: true,
-    priority: "low",
-  },
-  {
-    id: "5",
-    title: "Vídeo — Clean Architecture",
-    category: "CONTEÚDO",
-    due: "FEITO ONTEM",
-    done: true,
-    priority: "low",
-  },
-];
-
 interface AppContextProps {
   settings: UserSettings;
   tasks: Task[];
@@ -101,6 +46,7 @@ interface AppContextProps {
   updateUserProfile: (partial: Partial<UserProfile>) => void;
   setActivityTasks: React.Dispatch<React.SetStateAction<TaskItem[]>>;
   addActivityTask: (task: TaskItem) => void;
+  updateActivityTask: (task: TaskItem) => void;
   toggleActivityTask: (id: string) => void;
   toggleActivityStep: (taskId: string, stepId: number) => void;
   deleteActivityTask: (id: string) => void;
@@ -152,17 +98,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       const raw = localStorage.getItem(TASKS_KEY);
       if (!raw) return [];
-      const parsed: TaskItem[] = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        // If localStorage contains old hardcoded mock data, clear it so user starts fresh with real saved data
-        const isOldMock = parsed.some((t) => t.id === "1" && t.title === "Entregar exercício 4");
-        if (isOldMock) {
-          localStorage.removeItem(TASKS_KEY);
-          return [];
-        }
-        return parsed;
-      }
-      return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
     } catch (e) {
       return [];
     }
@@ -191,6 +128,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const addActivityTask = (task: TaskItem) => {
     saveActivityTasks([task, ...activityTasks]);
+  };
+
+  const updateActivityTask = (updatedTask: TaskItem) => {
+    const updated = activityTasks.map((t) => (t.id === updatedTask.id ? updatedTask : t));
+    saveActivityTasks(updated);
   };
 
   const toggleActivityTask = (id: string) => {
@@ -327,6 +269,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         activityTasks,
         setActivityTasks,
         addActivityTask,
+        updateActivityTask,
         toggleActivityTask,
         toggleActivityStep,
         deleteActivityTask,
