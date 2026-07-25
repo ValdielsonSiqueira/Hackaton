@@ -33,6 +33,7 @@ export const AccessibilityToolbar: React.FC = () => {
 
   return (
     <aside 
+      id="a11y-toolbar-floating"
       className="fixed right-0 top-[60px] sm:top-[68px] z-[9999] flex flex-col items-end gap-2 a11y-toolbar-fixed"
       aria-label="Painel Flutuante de Acessibilidade"
     >

@@ -15,7 +15,7 @@ export const resetTourCompleted = (): void => {
   localStorage.removeItem(TOUR_STORAGE_KEY);
 };
 
-export const startDashboardTour = (onComplete?: () => void) => {
+export const startDashboardTour = (onComplete?: (() => void) | unknown) => {
   const driverObj = driver({
     showProgress: true,
     animate: true,
@@ -38,7 +38,9 @@ export const startDashboardTour = (onComplete?: () => void) => {
     },
     onDestroyed: () => {
       markTourCompleted();
-      if (onComplete) onComplete();
+      if (typeof onComplete === "function") {
+        onComplete();
+      }
     },
     steps: [
       {
@@ -57,6 +59,15 @@ export const startDashboardTour = (onComplete?: () => void) => {
           description: "Aumente ou diminua as letras de qualquer página do sistema em tempo real usando estes botões no topo.",
           side: "bottom",
           align: "center"
+        }
+      },
+      {
+        element: "#a11y-toolbar-floating",
+        popover: {
+          title: "♿ Barra Flutuante de Acessibilidade",
+          description: "Tradução nativa em LIBRAS (VLibras), Modo Escuro e Alto Contraste ao seu alcance a qualquer momento.",
+          side: "left",
+          align: "start"
         }
       },
       {
@@ -119,7 +130,7 @@ export const startDashboardTour = (onComplete?: () => void) => {
   driverObj.drive();
 };
 
-export const startTasksTour = (onComplete?: () => void) => {
+export const startTasksTour = (onComplete?: (() => void) | unknown) => {
   const driverObj = driver({
     showProgress: true,
     animate: true,
@@ -140,7 +151,9 @@ export const startTasksTour = (onComplete?: () => void) => {
       }
     },
     onDestroyed: () => {
-      if (onComplete) onComplete();
+      if (typeof onComplete === "function") {
+        onComplete();
+      }
     },
     steps: [
       {
@@ -176,7 +189,7 @@ export const startTasksTour = (onComplete?: () => void) => {
   driverObj.drive();
 };
 
-export const startProfileTour = (onComplete?: () => void) => {
+export const startProfileTour = (onComplete?: (() => void) | unknown) => {
   const driverObj = driver({
     showProgress: true,
     animate: true,
@@ -197,7 +210,9 @@ export const startProfileTour = (onComplete?: () => void) => {
       }
     },
     onDestroyed: () => {
-      if (onComplete) onComplete();
+      if (typeof onComplete === "function") {
+        onComplete();
+      }
     },
     steps: [
       {
