@@ -173,13 +173,13 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
         </Button>
 
         <div className="flex items-center justify-between mt-5">
-          <button
+          <a
             type="button"
             onClick={openHelpModal}
             className="text-sm font-semibold text-[var(--primary)] hover:underline cursor-pointer border-0 bg-transparent p-0"
           >
             Preciso de ajuda
-          </button>
+          </a>
         </div>
 
         <AccessibilityTip />

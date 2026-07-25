@@ -16,9 +16,9 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
           variant === "secondary" && "bg-[var(--surface-1)] text-[var(--ink)] border border-[var(--hairline)]",
           variant === "destructive" && "bg-[var(--error)] text-white",
           variant === "outline" && "border border-[var(--hairline)] text-[var(--ink)] bg-transparent",
-          variant === "success" && "bg-[#24a148]/15 text-[#145c29] dark:bg-[#42be65]/25 dark:text-[#42be65]",
-          variant === "pending" && "bg-[#f1c21b]/25 text-[#684e00] dark:bg-[#f1c21b]/30 dark:text-[#f1c21b]",
-          variant === "urgent" && "bg-[#da1e28]/20 text-[#b21018] dark:bg-[#da1e28]/35 dark:text-[#ff8389]",
+          variant === "success" && "bg-[#24a148] text-white font-bold border border-[#1f8b3e] shadow-xs",
+          variant === "pending" && "bg-[#f1c21b] text-[#161616] font-bold border border-[#d4aa15] shadow-xs",
+          variant === "urgent" && "bg-[#da1e28] text-white font-bold border border-[#b21018] shadow-xs",
           className
         )}
         {...props}

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { TopNav } from "../components/layout/TopNav";
 import { Footer } from "../components/layout/Footer";
 import { useApp } from "../context/AppContext";
@@ -11,13 +11,16 @@ import { CtaBanner } from "../components/auth/CtaBanner";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { updateUserProfile, userProfile } = useApp();
+  const location = useLocation();
+  const { updateUserProfile, userProfile, loading } = useApp();
+
+  const fromPath = (location.state as any)?.from?.pathname || "/dashboard";
 
   useEffect(() => {
-    if (userProfile.isAuthenticated) {
-      navigate("/dashboard", { replace: true });
+    if (!loading && userProfile.isAuthenticated) {
+      navigate(fromPath, { replace: true });
     }
-  }, [userProfile.isAuthenticated, navigate]);
+  }, [loading, userProfile.isAuthenticated, fromPath, navigate]);
 
   const handleAuthSuccess = (data: { name?: string; email: string }) => {
     updateUserProfile({
@@ -25,7 +28,7 @@ export const LoginPage: React.FC = () => {
       email: data.email,
       isAuthenticated: true,
     });
-    navigate("/dashboard");
+    navigate(fromPath);
   };
 
   return (

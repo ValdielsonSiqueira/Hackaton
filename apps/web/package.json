@@ -19,7 +19,8 @@
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1",
     "tailwind-merge": "^2.5.2",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",

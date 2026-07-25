@@ -6,6 +6,7 @@ import { DateTimePicker } from "../ui/date-time-picker";
 import { Mic, Sparkles, Trash2 } from "lucide-react";
 import { taskSchema } from "../../schemas/forms";
 import type { TaskItem, Step } from "../../context/AppContext";
+import { voiceService } from "../../services/voiceService";
 
 interface CreateTaskModalProps {
   editingTask: TaskItem | null;
@@ -51,36 +52,29 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   const [isListening, setIsListening] = useState(false);
 
   const handleStartDictation = () => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      try {
-        const recognition = new SpeechRecognition();
-        recognition.lang = "pt-BR";
-        recognition.interimResults = false;
-        setIsListening(true);
-        onTriggerToast("🎙️ Ouvindo... Fale o nome da atividade");
-
-        recognition.onresult = (event: any) => {
-          const transcript = event.results[0][0].transcript;
-          setNewTaskName(transcript);
-          setTaskNameErrorMsg(null);
-          setIsListening(false);
-          onTriggerToast(`Atividade ditada: "${transcript}"`);
-        };
-
-        recognition.onerror = () => {
-          setIsListening(false);
-          onTriggerToast("Não foi possível ouvir. Tente digitar.");
-        };
-
-        recognition.start();
-      } catch (err) {
-        setIsListening(false);
-        onTriggerToast("Reconhecimento de voz não suportado neste navegador");
-      }
-    } else {
+    if (!voiceService.isSupported()) {
       onTriggerToast("Reconhecimento de voz não suportado neste navegador");
+      return;
     }
+
+    setIsListening(true);
+    onTriggerToast("🎙️ Ouvindo... Fale o nome da atividade");
+
+    voiceService.startListening({
+      onResult: (transcript) => {
+        setNewTaskName(transcript);
+        setTaskNameErrorMsg(null);
+        setIsListening(false);
+        onTriggerToast(`Atividade ditada: "${transcript}"`);
+      },
+      onError: () => {
+        setIsListening(false);
+        onTriggerToast("Não foi possível ouvir. Tente digitar.");
+      },
+      onEnd: () => {
+        setIsListening(false);
+      },
+    });
   };
 
   const handleAddStepInput = () => {

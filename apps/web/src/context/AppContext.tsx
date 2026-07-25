@@ -1,17 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import type { Task, UserSettings } from "@seniorease/core";
-import { defaultSettings, ManageTasks, ManageSettings } from "@seniorease/core";
-import { 
-  LocalStorageTaskRepository, 
-  LocalStorageSettingsRepository 
-} from "../data/LocalStorageRepositories";
+import type { UserProfile } from "../data/LocalStorageUserProfileRepository";
+import { useAppStore } from "../store/useAppStore";
 
-export interface UserProfile {
-  name: string;
-  email: string;
-  caregiverContact: string;
-  isAuthenticated: boolean;
-}
+export type { UserProfile };
 
 export const defaultUserProfile: UserProfile = {
   name: "",
@@ -56,233 +48,56 @@ interface AppContextProps {
   toggleTask: (taskId: string) => Promise<void>;
   deleteTask: (taskId: string) => Promise<void>;
   loading: boolean;
-  
   studentName: string;
-  setStudentName: (name: string) => void;
+  pendingToday: number;
+  totalTasks: number;
+  nextTask?: TaskItem;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
 
-const USER_PROFILE_KEY = "seniorease_user_profile";
-const TASKS_KEY = "seniorease_activity_tasks";
-
-// Instantiate repositories and use cases
-const taskRepo = new LocalStorageTaskRepository();
-const settingsRepo = new LocalStorageSettingsRepository();
-
-const taskUseCase = new ManageTasks(taskRepo);
-const settingsUseCase = new ManageSettings(settingsRepo);
-
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [settings, setSettings] = useState<UserSettings>(defaultSettings);
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
+  const store = useAppStore();
 
-  const [userProfile, setUserProfileState] = useState<UserProfile>(() => {
-    try {
-      const raw = localStorage.getItem(USER_PROFILE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed.caregiverContact === "Maria (Filha) - (11) 99999-8888") {
-          parsed.caregiverContact = "";
-        }
-        return parsed;
-      }
-      return defaultUserProfile;
-    } catch (e) {
-      return defaultUserProfile;
-    }
-  });
-
-  const [activityTasks, setActivityTasksState] = useState<TaskItem[]>(() => {
-    try {
-      const raw = localStorage.getItem(TASKS_KEY);
-      if (!raw) return [];
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
-      return [];
-    }
-  });
-
-  const saveActivityTasks = (newTasks: TaskItem[]) => {
-    setActivityTasksState(newTasks);
-    try {
-      localStorage.setItem(TASKS_KEY, JSON.stringify(newTasks));
-    } catch (e) {
-      console.error("Failed to save activity tasks to localStorage", e);
-    }
-  };
-
-  const setActivityTasks: React.Dispatch<React.SetStateAction<TaskItem[]>> = (action) => {
-    setActivityTasksState((prev) => {
-      const next = typeof action === "function" ? action(prev) : action;
-      try {
-        localStorage.setItem(TASKS_KEY, JSON.stringify(next));
-      } catch (e) {
-        console.error("Failed to save activity tasks to localStorage", e);
-      }
-      return next;
-    });
-  };
-
-  const addActivityTask = (task: TaskItem) => {
-    saveActivityTasks([task, ...activityTasks]);
-  };
-
-  const updateActivityTask = (updatedTask: TaskItem) => {
-    const updated = activityTasks.map((t) => (t.id === updatedTask.id ? updatedTask : t));
-    saveActivityTasks(updated);
-  };
-
-  const toggleActivityTask = (id: string) => {
-    const updated = activityTasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t));
-    saveActivityTasks(updated);
-  };
-
-  const toggleActivityStep = (taskId: string, stepId: number) => {
-    const updated = activityTasks.map((t) => {
-      if (t.id === taskId && t.steps) {
-        return {
-          ...t,
-          steps: t.steps.map((s) => (s.id === stepId ? { ...s, done: !s.done } : s)),
-        };
-      }
-      return t;
-    });
-    saveActivityTasks(updated);
-  };
-
-  const deleteActivityTask = (id: string) => {
-    const updated = activityTasks.filter((t) => t.id !== id);
-    saveActivityTasks(updated);
-  };
-
-  const clearAllActivityTasks = () => {
-    saveActivityTasks([]);
-  };
-
-  const updateUserProfile = (partial: Partial<UserProfile>) => {
-    setUserProfileState((prev) => {
-      const updated = { ...prev, ...partial };
-      try {
-        localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(updated));
-      } catch (e) {
-        console.error("Failed to save user profile to localStorage", e);
-      }
-      return updated;
-    });
-  };
-
-  const studentName = userProfile.name;
-  const setStudentName = (name: string) => {
-    updateUserProfile({ name });
-  };
-
-  // Load initial settings and tasks
   useEffect(() => {
-    async function loadData() {
-      try {
-        const loadedSettings = await settingsUseCase.loadSettings();
-        setSettings(loadedSettings);
-
-        const loadedTasks = await taskUseCase.listTasks();
-        setTasks(loadedTasks);
-      } catch (err) {
-        console.error("Failed to load initial data", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadData();
+    store.initializeStore();
   }, []);
 
-  // Sync settings with DOM variables and classes
-  useEffect(() => {
-    const root = document.documentElement;
+  const studentName = store.userProfile.name ? store.userProfile.name.split(" ")[0] : "Estudante";
+  const pendingToday = store.activityTasks.filter((t) => !t.done).length;
+  const totalTasks = store.activityTasks.length;
+  const nextTask = store.activityTasks.find((t) => !t.done);
 
-    // Apply font size scale
-    const scale = settings.fontScale || (settings.fontSizeScale === "large" ? 1.5 : settings.fontSizeScale === "medium" ? 1.25 : 1.0);
-    root.style.setProperty("--font-scale", scale.toString());
-    root.style.setProperty("--text-scale", scale.toString());
-
-    // Apply spacing scale
-    let spaceScale = 1.0;
-    if (settings.spacingScale === "large") spaceScale = 1.25;
-    root.style.setProperty("--spacing-scale", spaceScale.toString());
-
-    // Apply contrast & dark classes
-    if (settings.contrastMode === "high") {
-      root.classList.add("high-contrast");
-      root.classList.remove("dark-contrast");
-    } else if (settings.contrastMode === "dark") {
-      root.classList.add("dark-contrast");
-      root.classList.remove("high-contrast");
-    } else {
-      root.classList.remove("high-contrast", "dark-contrast");
-    }
-
-    // Apply simplified navigation mode class
-    if (settings.navigationMode === "simplified") {
-      root.classList.add("simplified-mode");
-    } else {
-      root.classList.remove("simplified-mode");
-    }
-  }, [settings]);
-
-  const updateSettings = async (newSettings: UserSettings) => {
-    await settingsUseCase.updateSettings(newSettings);
-    setSettings(newSettings);
-  };
-
-  const createTask = async (title: string, description: string, instructions: string[]) => {
-    await taskUseCase.createTask(title, description, instructions);
-    const updatedTasks = await taskUseCase.listTasks();
-    setTasks(updatedTasks);
-  };
-
-  const toggleStep = async (taskId: string, stepId: string) => {
-    const updated = await taskUseCase.toggleStep(taskId, stepId);
-    const updatedTasks = await taskUseCase.listTasks();
-    setTasks(updatedTasks);
-    return updated;
-  };
-
-  const toggleTask = async (taskId: string) => {
-    await taskUseCase.toggleTaskCompletion(taskId);
-    const updatedTasks = await taskUseCase.listTasks();
-    setTasks(updatedTasks);
-  };
-
-  const deleteTask = async (taskId: string) => {
-    await taskUseCase.deleteTask(taskId);
-    const updatedTasks = await taskUseCase.listTasks();
-    setTasks(updatedTasks);
+  const setActivityTasks: React.Dispatch<React.SetStateAction<TaskItem[]>> = (action) => {
+    const next = typeof action === "function" ? action(store.activityTasks) : action;
+    store.setActivityTasks(next);
   };
 
   return (
     <AppContext.Provider
       value={{
-        settings,
-        tasks,
-        userProfile,
-        activityTasks,
+        settings: store.settings,
+        tasks: store.tasks,
+        userProfile: store.userProfile,
+        activityTasks: store.activityTasks,
+        updateSettings: store.updateSettings,
+        updateUserProfile: store.updateUserProfile,
         setActivityTasks,
-        addActivityTask,
-        updateActivityTask,
-        toggleActivityTask,
-        toggleActivityStep,
-        deleteActivityTask,
-        clearAllActivityTasks,
-        updateSettings,
-        updateUserProfile,
-        createTask,
-        toggleStep,
-        toggleTask,
-        deleteTask,
-        loading,
+        addActivityTask: store.addActivityTask,
+        updateActivityTask: store.updateActivityTask,
+        toggleActivityTask: store.toggleActivityTask,
+        toggleActivityStep: store.toggleActivityStep,
+        deleteActivityTask: store.deleteActivityTask,
+        clearAllActivityTasks: store.clearAllActivityTasks,
+        createTask: store.createTask,
+        toggleStep: store.toggleStep,
+        toggleTask: store.toggleTask,
+        deleteTask: store.deleteTask,
+        loading: store.loading,
         studentName,
-        setStudentName
+        pendingToday,
+        totalTasks,
+        nextTask,
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { PhoneCall } from "lucide-react";
+import { phoneSupportService } from "../../services/phoneSupportService";
 
 interface HelpModalProps {
   isOpen: boolean;
@@ -9,6 +10,11 @@ interface HelpModalProps {
 
 export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+
+  const handleCallSupport = () => {
+    onClose();
+    phoneSupportService.initiateSupportCall();
+  };
 
   return (
     <div className="fixed inset-0 bg-black/60 z-[9999] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="help-heading">
@@ -19,17 +25,14 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
         <div className="flex flex-col gap-3 pt-2">
           <Button 
             variant="primary" 
-            className="w-full h-12 text-sm sm:text-base font-semibold bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] rounded-lg flex items-center justify-center gap-2"
-            onClick={() => { 
-              onClose(); 
-              alert("Chamando suporte telefônico 0800 700 8000..."); 
-            }}
+            className="w-full h-12 text-sm sm:text-base font-semibold bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] rounded-lg flex items-center justify-center gap-2 cursor-pointer"
+            onClick={handleCallSupport}
           >
-            📞 Ligar para Suporte (0800 700 8000)
+            📞 Ligar para Suporte ({phoneSupportService.getFormattedPhone()})
           </Button>
           <Button 
             variant="tertiary" 
-            className="w-full h-10 text-sm text-[var(--ink-muted)] hover:text-[var(--ink)] border border-[var(--hairline)] bg-[var(--canvas)] hover:bg-[var(--surface-1)] rounded-lg"
+            className="w-full h-10 text-sm text-[var(--ink-muted)] hover:text-[var(--ink)] border border-[var(--hairline)] bg-[var(--canvas)] hover:bg-[var(--surface-1)] rounded-lg cursor-pointer"
             onClick={onClose}
           >
             Fechar Ajuda

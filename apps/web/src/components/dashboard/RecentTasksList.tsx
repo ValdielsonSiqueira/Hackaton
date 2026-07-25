@@ -67,7 +67,7 @@ export const RecentTasksList: React.FC<RecentTasksListProps> = ({
             <div 
               key={t.id} 
               className={`flex flex-col sm:flex-row sm:items-center justify-between p-3.5 sm:p-4 border-b border-[var(--hairline)] last:border-0 hover:bg-[var(--surface-1)] transition-colors gap-3 rounded ${
-                t.done ? "opacity-75 bg-[var(--surface-1)]" : ""
+                t.done ? "bg-[var(--surface-1)]" : ""
               }`}
             >
               <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
@@ -89,7 +89,7 @@ export const RecentTasksList: React.FC<RecentTasksListProps> = ({
                 </div>
               </div>
               <div className="self-start sm:self-center shrink-0">
-                <Badge variant={t.done ? "success" : "pending"} className="text-xs px-3 py-1 inline-flex items-center">
+                <Badge variant={t.done ? "success" : "pending"} className="text-xs sm:text-sm px-3 py-1.5 font-bold inline-flex items-center shadow-xs">
                   {t.done ? "✓ Feito" : "⏳ Pendente"}
                 </Badge>
               </div>
