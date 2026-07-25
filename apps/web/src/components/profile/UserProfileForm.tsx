@@ -4,7 +4,6 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { User, Mail, HeartHandshake, Save } from "lucide-react";
 import { profileSchema } from "../../schemas/forms";
-
 import { Avatar, AvatarFallback } from "../ui/avatar";
 
 interface UserProfileFormProps {
@@ -57,24 +56,24 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
   };
 
   return (
-    <Card className="login-card p-6" id="user-profile-card">
+    <Card className="bg-[var(--canvas)] border border-[var(--hairline)] p-6 sm:p-8 rounded-xl shadow-xs" id="user-profile-card">
       <CardHeader className="p-0 mb-6">
         <div className="flex items-center gap-4">
           <Avatar className="w-16 h-16 shrink-0">
-            <AvatarFallback className="text-2xl bg-[#0f62fe] text-white font-semibold">
+            <AvatarFallback className="text-2xl bg-[var(--primary)] text-white font-semibold">
               {(nameInput || "U").charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div>
-            <CardTitle className="text-2xl font-normal">{nameInput || "Estudante"}</CardTitle>
-            <CardDescription className="text-[#525252]">Estudante SeniorEase — FIAP Inclusive</CardDescription>
+            <CardTitle className="text-2xl font-normal text-[var(--ink)]">{nameInput || "Estudante"}</CardTitle>
+            <CardDescription className="text-sm text-[var(--ink-muted)]">Estudante SeniorEase — FIAP Inclusive</CardDescription>
           </div>
         </div>
       </CardHeader>
 
       <CardContent className="p-0">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className={`form-group ${nameErrorMsg ? "error" : ""}`} id="fg-user-name">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="relative" id="fg-user-name">
             <label htmlFor="user-name-input" className="flex items-center gap-2 mb-2 font-semibold text-[var(--ink)]">
               <User className="w-4 h-4 text-[var(--primary)]" /> Seu Nome Completo
             </label>
@@ -90,12 +89,13 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
               aria-required="true"
               aria-invalid={Boolean(nameErrorMsg)}
               aria-describedby={nameErrorMsg ? "name-error-msg" : undefined}
+              className="w-full bg-[var(--surface-1)] border-b border-[var(--hairline)] text-[var(--ink)]"
             />
-            {!nameErrorMsg && <p className="form-helper">Como deseja ser chamado no sistema</p>}
-            {nameErrorMsg && <p className="form-error-msg" id="name-error-msg" role="alert">{nameErrorMsg}</p>}
+            {!nameErrorMsg && <p className="mt-1 text-xs text-[var(--ink-muted)]">Como deseja ser chamado no sistema</p>}
+            {nameErrorMsg && <p className="mt-1 text-xs text-[var(--error)] font-medium" id="name-error-msg" role="alert">{nameErrorMsg}</p>}
           </div>
 
-          <div className={`form-group ${emailErrorMsg ? "error" : ""}`} id="fg-user-email">
+          <div className="relative" id="fg-user-email">
             <label htmlFor="user-email-input" className="flex items-center gap-2 mb-2 font-semibold text-[var(--ink)]">
               <Mail className="w-4 h-4 text-[var(--primary)]" /> Seu E-mail
             </label>
@@ -112,12 +112,13 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
               aria-required="true"
               aria-invalid={Boolean(emailErrorMsg)}
               aria-describedby={emailErrorMsg ? "email-error-msg" : undefined}
+              className="w-full bg-[var(--surface-1)] border-b border-[var(--hairline)] text-[var(--ink)]"
             />
-            {!emailErrorMsg && <p className="form-helper">Seu e-mail de acesso e notificações</p>}
-            {emailErrorMsg && <p className="form-error-msg" id="email-error-msg" role="alert">{emailErrorMsg}</p>}
+            {!emailErrorMsg && <p className="mt-1 text-xs text-[var(--ink-muted)]">Seu e-mail de acesso e notificações</p>}
+            {emailErrorMsg && <p className="mt-1 text-xs text-[var(--error)] font-medium" id="email-error-msg" role="alert">{emailErrorMsg}</p>}
           </div>
 
-          <div className="form-group pt-2">
+          <div className="relative pt-2">
             <label htmlFor="caregiver-input" className="flex items-center gap-2 mb-2 font-semibold text-[var(--ink)]">
               <HeartHandshake className="w-4 h-4 text-[var(--primary)]" /> E-mail ou Telefone do Cuidador / Familiar (Opcional)
             </label>
@@ -126,15 +127,16 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
               value={caregiverContact}
               onChange={(e) => setCaregiverContact(e.target.value)}
               placeholder="Ex: Maria (Filha) - (11) 99999-8888"
+              className="w-full bg-[var(--surface-1)] border-b border-[var(--hairline)] text-[var(--ink)]"
             />
-            <p className="form-helper">Usado apenas para cópia de lembretes e apoio de emergência (deixe em branco se não houver).</p>
+            <p className="mt-1 text-xs text-[var(--ink-muted)]">Usado apenas para cópia de lembretes e apoio de emergência (deixe em branco se não houver).</p>
           </div>
 
           <div className="pt-2">
             <Button
               type="submit"
               variant="primary"
-              className="w-full flex items-center justify-center gap-2"
+              className="w-full flex items-center justify-center gap-2 h-12 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium"
             >
               <Save className="w-5 h-5" /> Salvar Informações Cadastrais
             </Button>

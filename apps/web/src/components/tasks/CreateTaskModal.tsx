@@ -141,7 +141,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   };
 
   return (
-    <Card className="new-task-form open mb-6 border-l-4 border-l-[#0f62fe]" id="new-task-form" role="region" aria-labelledby="form-heading">
+    <Card className="bg-[var(--canvas)] border border-[var(--hairline)] border-l-4 border-l-[var(--primary)] p-6 sm:p-8 mb-6 rounded-xl shadow-sm" id="new-task-form" role="region" aria-labelledby="form-heading">
       <div className="flex items-center justify-between mb-4">
         <h3 id="form-heading" className="text-2xl font-normal text-[#161616]">
           {editingTask ? "Editar Atividade e Passos" : "Cadastrar Nova Atividade"}

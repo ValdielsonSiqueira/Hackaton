@@ -50,9 +50,9 @@ export const QuickSettingsCard: React.FC<QuickSettingsCardProps> = ({
   };
 
   return (
-    <Card className="quick-settings" role="region" aria-labelledby="qs-heading">
+    <Card className="bg-[var(--canvas)] border border-[var(--hairline)] p-5 sm:p-6 mb-8 rounded-xl shadow-xs overflow-hidden" role="region" aria-labelledby="qs-heading">
       <div className="flex items-center justify-between flex-wrap gap-2 mb-4 pb-3 border-b border-[var(--hairline)]">
-        <h3 className="qs-heading flex items-center gap-2 mb-0" id="qs-heading">
+        <h3 className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-0" id="qs-heading">
           <Settings className="w-5 h-5 text-[var(--primary)]" /> Preferências Rápidas de Acessibilidade
         </h3>
         <Button
@@ -67,14 +67,14 @@ export const QuickSettingsCard: React.FC<QuickSettingsCardProps> = ({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* 1. Tamanho do Texto */}
-        <div className="qs-item p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0">
+        <div className="p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0 rounded-lg">
           <div>
             <label className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
               <ZoomIn className="w-5 h-5 text-[var(--primary)] shrink-0" /> Tamanho do Texto
             </label>
             <p className="text-xs text-[var(--ink-muted)] mb-3">Aumente ou diminua as letras da página</p>
           </div>
-          <div className="flex flex-col gap-2 bg-[var(--canvas)] p-2.5 border border-[var(--hairline)] w-full max-w-full overflow-hidden">
+          <div className="flex flex-col gap-2 bg-[var(--canvas)] p-2.5 border border-[var(--hairline)] w-full max-w-full overflow-hidden rounded-md">
             <div className="text-sm font-bold text-[var(--ink)] text-center py-2 px-3 bg-[var(--surface-1)] border border-[var(--hairline)] w-full rounded-sm">
               Tamanho Atual: {Math.round(fontScale * 100)}%
             </div>
@@ -100,18 +100,18 @@ export const QuickSettingsCard: React.FC<QuickSettingsCardProps> = ({
         </div>
 
         {/* 2. Modos de Contraste */}
-        <div className="qs-item p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0">
+        <div className="p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0 rounded-lg">
           <div>
             <label className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
               <Eye className="w-5 h-5 text-[var(--primary)] shrink-0" /> Tema e Contraste
             </label>
             <p className="text-xs text-[var(--ink-muted)] mb-3">Escolha a cor de fundo mais confortável</p>
           </div>
-          <div className="flex flex-col gap-2 bg-[var(--canvas)] p-2.5 border border-[var(--hairline)] w-full max-w-full overflow-hidden">
+          <div className="flex flex-col gap-2 bg-[var(--canvas)] p-2.5 border border-[var(--hairline)] w-full max-w-full overflow-hidden rounded-md">
             <button
               type="button"
               onClick={() => applyContrast("standard")}
-              className={`w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm border cursor-pointer transition-colors flex items-center justify-center gap-1.5 leading-tight ${
+              className={`w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm border cursor-pointer transition-colors flex items-center justify-center gap-1.5 leading-tight rounded-sm ${
                 contrastMode === "standard" 
                   ? "bg-[#0f62fe] text-white border-[#0f62fe]" 
                   : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--surface-1)]"
@@ -122,7 +122,7 @@ export const QuickSettingsCard: React.FC<QuickSettingsCardProps> = ({
             <button
               type="button"
               onClick={() => applyContrast("high")}
-              className={`w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm border cursor-pointer transition-colors flex items-center justify-center gap-1.5 leading-tight ${
+              className={`w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm border cursor-pointer transition-colors flex items-center justify-center gap-1.5 leading-tight rounded-sm ${
                 contrastMode === "high" 
                   ? "bg-[#000000] text-white border-[#000000]" 
                   : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--surface-1)]"
@@ -133,7 +133,7 @@ export const QuickSettingsCard: React.FC<QuickSettingsCardProps> = ({
             <button
               type="button"
               onClick={() => applyContrast("dark")}
-              className={`w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm border cursor-pointer transition-colors flex items-center justify-center gap-1.5 leading-tight ${
+              className={`w-full h-auto min-h-[44px] py-2 px-3 font-bold text-sm border cursor-pointer transition-colors flex items-center justify-center gap-1.5 leading-tight rounded-sm ${
                 contrastMode === "dark" 
                   ? "bg-[#161616] text-[#f1c21b] border-[#161616]" 
                   : "bg-[var(--canvas)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--surface-1)]"
@@ -145,14 +145,14 @@ export const QuickSettingsCard: React.FC<QuickSettingsCardProps> = ({
         </div>
 
         {/* 3. Recursos de Proteção & Voz */}
-        <div className="qs-item p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0">
+        <div className="p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0 rounded-lg">
           <div>
             <label className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
               <ShieldCheck className="w-5 h-5 text-[#24a148] shrink-0" /> Proteções & Leitura
             </label>
             <p className="text-xs text-[var(--ink-muted)] mb-3">Confirmações antes de ações e áudio</p>
           </div>
-          <div className="flex flex-col gap-2.5 bg-[var(--canvas)] p-3 border border-[var(--hairline)] w-full">
+          <div className="flex flex-col gap-2.5 bg-[var(--canvas)] p-3 border border-[var(--hairline)] w-full rounded-md">
             <div className="flex items-center justify-between gap-3 w-full pb-2 border-b border-[var(--hairline)] border-dashed">
               <label htmlFor="qs-confirm" className="text-xs sm:text-sm text-[var(--ink)] cursor-pointer font-medium">Confirmar Ações</label>
               <Switch id="qs-confirm" defaultChecked onCheckedChange={(checked) => onTriggerToast(checked ? "Confirmação ativada" : "Desativada")} />

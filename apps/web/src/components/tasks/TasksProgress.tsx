@@ -14,7 +14,7 @@ export const TasksProgress: React.FC<TasksProgressProps> = ({
   const percentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   return (
-    <Card className="progress-section mb-6 p-4 sm:p-6" id="tasks-progress-card">
+    <Card className="bg-[var(--canvas)] border border-[var(--hairline)] mb-6 p-4 sm:p-6 rounded-xl shadow-xs" id="tasks-progress-card">
       <div className="flex items-center justify-between gap-4 mb-2">
         <span className="font-semibold text-sm sm:text-base text-[var(--ink)]">
           Progresso do Dia
@@ -23,7 +23,7 @@ export const TasksProgress: React.FC<TasksProgressProps> = ({
           {completedCount} de {totalCount} concluídas ({percentage}%)
         </span>
       </div>
-      <Progress value={percentage} className="h-3 rounded-full" />
+      <Progress value={percentage} className="h-3 rounded-full bg-[var(--surface-2)]" />
     </Card>
   );
 };

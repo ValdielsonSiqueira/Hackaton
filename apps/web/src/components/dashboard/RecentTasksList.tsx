@@ -26,10 +26,10 @@ export const RecentTasksList: React.FC<RecentTasksListProps> = ({
 }) => {
   const getActivityIcon = (category: string) => {
     const cat = (category || "").toUpperCase();
-    if (cat.includes("AULA") || cat.includes("ONLINE")) return <Video className="w-5 h-5 text-[#0f62fe]" />;
-    if (cat.includes("LEITURA")) return <BookOpen className="w-5 h-5 text-[#0f62fe]" />;
-    if (cat.includes("PARTICIPAÇ") || cat.includes("FÓRUM")) return <MessageSquare className="w-5 h-5 text-[#24a148]" />;
-    return <FileCheck className="w-5 h-5 text-[#161616]" />;
+    if (cat.includes("AULA") || cat.includes("ONLINE")) return <Video className="w-5 h-5 text-[var(--primary)]" />;
+    if (cat.includes("LEITURA")) return <BookOpen className="w-5 h-5 text-[var(--primary)]" />;
+    if (cat.includes("PARTICIPAÇ") || cat.includes("FÓRUM")) return <MessageSquare className="w-5 h-5 text-[var(--success)]" />;
+    return <FileCheck className="w-5 h-5 text-[var(--ink)]" />;
   };
 
   const handleSpeakTask = (task: TaskItem) => {
@@ -42,17 +42,17 @@ export const RecentTasksList: React.FC<RecentTasksListProps> = ({
   };
 
   return (
-    <div id="recent-activity-section" className="recent-activity mt-8 sm:mt-10 p-3 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-xl">
-      <div className="section-header flex items-center justify-between flex-wrap gap-2">
-        <h2>Minhas Atividades Recentes ({tasks.length})</h2>
+    <div id="recent-activity-section" className="mt-8 sm:mt-10 p-4 sm:p-5 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-xl">
+      <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <h2 className="text-xl font-medium text-[var(--ink)]">Minhas Atividades Recentes ({tasks.length})</h2>
         <Link to="/tarefas">
-          <Button variant="tertiary" size="sm" className="text-xs h-9 px-3 flex items-center gap-1.5">
-            <Plus className="w-4 h-4 text-[#0f62fe]" /> Adicionar / Ver Todas
+          <Button variant="tertiary" size="sm" className="text-xs h-9 px-3 flex items-center gap-1.5 bg-[var(--canvas)] border border-[var(--hairline)]">
+            <Plus className="w-4 h-4 text-[var(--primary)]" /> Adicionar / Ver Todas
           </Button>
         </Link>
       </div>
 
-      <Card id="recent-activity-card" className="task-card-list p-2 sm:p-4 mt-3 mb-0">
+      <Card id="recent-activity-card" className="bg-[var(--canvas)] border border-[var(--hairline)] p-2 sm:p-4 rounded-lg shadow-xs">
         {tasks.length === 0 ? (
           <div className="p-8 text-center text-[var(--ink-muted)]">
             <p className="text-base mb-3 font-medium">Nenhuma atividade cadastrada no momento.</p>
@@ -66,26 +66,26 @@ export const RecentTasksList: React.FC<RecentTasksListProps> = ({
           tasks.slice(0, 5).map((t) => (
             <div 
               key={t.id} 
-              className={`task-card-row flex items-center justify-between p-3.5 sm:p-4 border-b border-[var(--hairline)] last:border-0 hover:bg-[var(--surface-1)] transition-colors gap-3 ${
-                t.done ? "opacity-70 bg-black/5" : ""
+              className={`flex items-center justify-between p-3.5 sm:p-4 border-b border-[var(--hairline)] last:border-0 hover:bg-[var(--surface-1)] transition-colors gap-3 rounded ${
+                t.done ? "opacity-75 bg-[var(--surface-1)]" : ""
               }`}
             >
               <div className="flex items-center gap-3 min-w-0 flex-1">
                 <button
                   type="button"
                   onClick={() => handleSpeakTask(t)}
-                  className="w-8 h-8 rounded-full bg-white border border-[var(--hairline)] hover:bg-[#e5edff] hover:text-[#0f62fe] flex items-center justify-center shrink-0 text-[var(--ink)] cursor-pointer transition-colors"
+                  className="w-8 h-8 rounded-full bg-[var(--canvas)] border border-[var(--hairline)] hover:bg-[var(--primary)] hover:text-white flex items-center justify-center shrink-0 text-[var(--primary)] cursor-pointer transition-colors"
                   aria-label={`Ouvir detalhes da atividade ${t.title}`}
                   title="Ouvir atividade"
                 >
-                  <Volume2 className="w-4 h-4 text-[var(--primary)]" />
+                  <Volume2 className="w-4 h-4" />
                 </button>
-                <div className="p-2 rounded bg-[var(--canvas)] border border-[var(--hairline)] shrink-0">
+                <div className="p-2 rounded bg-[var(--surface-1)] border border-[var(--hairline)] shrink-0">
                   {getActivityIcon(t.category)}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="title truncate text-sm sm:text-base font-medium text-[var(--ink)]">{t.title}</div>
-                  <div className="time text-xs text-[var(--ink-muted)]">{t.done ? `Concluído (${t.due})` : `Até ${t.due}`}</div>
+                  <div className="truncate text-sm sm:text-base font-medium text-[var(--ink)]">{t.title}</div>
+                  <div className="text-xs text-[var(--ink-muted)]">{t.done ? `Concluído (${t.due})` : `Até ${t.due}`}</div>
                 </div>
               </div>
               <Badge variant={t.done ? "success" : "pending"} className="text-xs px-3 py-1 shrink-0">

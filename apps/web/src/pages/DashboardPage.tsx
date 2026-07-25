@@ -67,10 +67,10 @@ export const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="min-h-screen flex flex-col">
       <TopNav onSignOutClick={() => setShowSignoutModal(true)} />
 
-      <main className="main-content" role="main">
+      <main className="max-w-[1080px] w-full mx-auto px-4 sm:px-6 pt-20 pb-24 flex-1" role="main">
         {/* Welcome Banner */}
         <WelcomeBanner
           studentName={studentName}

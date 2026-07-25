@@ -55,7 +55,7 @@ export const AccessibilityPreferencesForm: React.FC<AccessibilityPreferencesForm
   };
 
   return (
-    <Card className="login-card p-4 sm:p-6 w-full min-w-0 overflow-hidden" id="accessibility-preferences-card">
+    <Card className="bg-[var(--canvas)] border border-[var(--hairline)] p-5 sm:p-8 w-full min-w-0 overflow-hidden rounded-xl shadow-xs" id="accessibility-preferences-card">
       <CardHeader className="p-0 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <CardTitle className="text-lg sm:text-xl font-normal flex items-center gap-2">

@@ -23,10 +23,10 @@ export const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="min-h-screen flex flex-col">
       <TopNav />
 
-      <main className="main-content" role="main" style={{ flex: 1 }}>
+      <main className="max-w-[1080px] w-full mx-auto px-4 sm:px-6 pt-20 pb-24 flex-1" role="main">
         <ProfileHeader />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-[1040px] mx-auto mb-8">

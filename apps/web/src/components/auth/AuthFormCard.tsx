@@ -64,12 +64,12 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
   };
 
   return (
-    <Card className="login-card" id="login-card">
-      <CardHeader className="p-0 mb-4">
-        <CardTitle id="login-heading">
+    <Card className="bg-[var(--canvas)] border border-[var(--surface-2)] p-8 sm:p-10 rounded-lg shadow-sm w-full" id="login-card">
+      <CardHeader className="p-0 mb-6">
+        <CardTitle className="text-2xl font-normal text-[var(--ink)] mb-2" id="login-heading">
           {isRegisterMode ? "Criar sua conta" : "Bem-vindo de volta"}
         </CardTitle>
-        <CardDescription className="card-sub">
+        <CardDescription className="text-sm text-[var(--ink-muted)] tracking-wide">
           {isRegisterMode
             ? "Preencha seus dados para começar a usar"
             : "Entre com seus dados para continuar"}
@@ -77,10 +77,12 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
       </CardHeader>
 
       <CardContent className="p-0">
-        <form id="login-form" onSubmit={handleSubmit} noValidate>
+        <form id="login-form" onSubmit={handleSubmit} noValidate className="space-y-5">
           {isRegisterMode && (
-            <div className={`form-group ${nameErrorMsg ? "error" : ""}`} id="fg-name">
-              <label htmlFor="name-input">Seu nome completo</label>
+            <div className="relative" id="fg-name">
+              <label htmlFor="name-input" className="block text-sm font-medium text-[var(--ink)] mb-2 tracking-wide">
+                Seu nome completo
+              </label>
               <Input
                 type="text"
                 id="name-input"
@@ -94,14 +96,17 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
                 autoComplete="name"
                 required
                 aria-required="true"
+                className={`w-full h-14 bg-[var(--surface-1)] border-0 border-b ${nameErrorMsg ? "border-b-2 border-[var(--error)] focus:outline-[var(--error)]" : "border-[var(--ink-subtle)] focus:border-b-2 focus:border-[var(--primary)]"} px-4 text-base sm:text-lg text-[var(--ink)] placeholder:text-[var(--ink-subtle)] rounded-none transition-colors`}
               />
-              {!nameErrorMsg && <p className="form-helper">Como você deseja ser chamado</p>}
-              {nameErrorMsg && <p className="form-error-msg" role="alert">{nameErrorMsg}</p>}
+              {!nameErrorMsg && <p className="mt-1 text-xs text-[var(--ink-muted)]">Como você deseja ser chamado</p>}
+              {nameErrorMsg && <p className="mt-1 text-xs text-[var(--error)] font-medium" role="alert">{nameErrorMsg}</p>}
             </div>
           )}
 
-          <div className={`form-group ${emailErrorMsg ? "error" : ""}`} id="fg-email">
-            <label htmlFor="email-input">Seu e-mail</label>
+          <div className="relative" id="fg-email">
+            <label htmlFor="email-input" className="block text-sm font-medium text-[var(--ink)] mb-2 tracking-wide">
+              Seu e-mail
+            </label>
             <Input
               type="email"
               id="email-input"
@@ -115,13 +120,16 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
               autoComplete="email"
               required
               aria-required="true"
+              className={`w-full h-14 bg-[var(--surface-1)] border-0 border-b ${emailErrorMsg ? "border-b-2 border-[var(--error)] focus:outline-[var(--error)]" : "border-[var(--ink-subtle)] focus:border-b-2 focus:border-[var(--primary)]"} px-4 text-base sm:text-lg text-[var(--ink)] placeholder:text-[var(--ink-subtle)] rounded-none transition-colors`}
             />
-            {!emailErrorMsg && <p className="form-helper">Use seu e-mail principal</p>}
-            {emailErrorMsg && <p className="form-error-msg" role="alert">{emailErrorMsg}</p>}
+            {!emailErrorMsg && <p className="mt-1 text-xs text-[var(--ink-muted)]">Use seu e-mail principal</p>}
+            {emailErrorMsg && <p className="mt-1 text-xs text-[var(--error)] font-medium" role="alert">{emailErrorMsg}</p>}
           </div>
 
-          <div className={`form-group ${passwordErrorMsg ? "error" : ""}`} id="fg-password">
-            <label htmlFor="password-input">Sua senha</label>
+          <div className="relative" id="fg-password">
+            <label htmlFor="password-input" className="block text-sm font-medium text-[var(--ink)] mb-2 tracking-wide">
+              Sua senha
+            </label>
             <Input
               type="password"
               id="password-input"
@@ -135,16 +143,17 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
               autoComplete={isRegisterMode ? "new-password" : "current-password"}
               required
               aria-required="true"
+              className={`w-full h-14 bg-[var(--surface-1)] border-0 border-b ${passwordErrorMsg ? "border-b-2 border-[var(--error)] focus:outline-[var(--error)]" : "border-[var(--ink-subtle)] focus:border-b-2 focus:border-[var(--primary)]"} px-4 text-base sm:text-lg text-[var(--ink)] placeholder:text-[var(--ink-subtle)] rounded-none transition-colors`}
             />
-            {!passwordErrorMsg && <p className="form-helper">Mínimo 8 caracteres</p>}
-            {passwordErrorMsg && <p className="form-error-msg" role="alert">{passwordErrorMsg}</p>}
+            {!passwordErrorMsg && <p className="mt-1 text-xs text-[var(--ink-muted)]">Mínimo 8 caracteres</p>}
+            {passwordErrorMsg && <p className="mt-1 text-xs text-[var(--error)] font-medium" role="alert">{passwordErrorMsg}</p>}
           </div>
 
-          <Button type="submit" variant="primary" id="login-submit-btn" className="w-full">
+          <Button type="submit" variant="primary" id="login-submit-btn" className="w-full h-14 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium text-base rounded-none flex items-center justify-center gap-2 transition-colors">
             {isRegisterMode ? (
-              <>Criar e acessar minha conta <UserPlus className="w-5 h-5 ml-2" /></>
+              <>Criar e acessar minha conta <UserPlus className="w-5 h-5 ml-1" /></>
             ) : (
-              <>Entrar na minha conta <ArrowRight className="w-5 h-5 ml-2" /></>
+              <>Entrar na minha conta <ArrowRight className="w-5 h-5 ml-1" /></>
             )}
           </Button>
         </form>
@@ -153,23 +162,24 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
           type="button"
           variant="tertiary"
           id="register-btn"
-          className="w-full mt-3"
+          className="w-full h-14 mt-3 bg-[var(--canvas)] hover:bg-[var(--surface-1)] text-[var(--primary)] border border-[var(--primary)] font-medium text-base rounded-none flex items-center justify-center gap-2 transition-colors"
           onClick={toggleMode}
         >
           {isRegisterMode ? (
-            <>Já tenho conta — Fazer login <UserCheck className="w-5 h-5 ml-2" /></>
+            <>Já tenho conta — Fazer login <UserCheck className="w-5 h-5 ml-1" /></>
           ) : (
-            <>Criar minha conta <UserPlus className="w-5 h-5 ml-2" /></>
+            <>Criar minha conta <UserPlus className="w-5 h-5 ml-1" /></>
           )}
         </Button>
 
-        <div className="link-row">
-          <a
+        <div className="flex items-center justify-between mt-5">
+          <button
+            type="button"
             onClick={openHelpModal}
             className="text-sm font-semibold text-[var(--primary)] hover:underline cursor-pointer border-0 bg-transparent p-0"
           >
             Preciso de ajuda
-          </a>
+          </button>
         </div>
 
         <AccessibilityTip />

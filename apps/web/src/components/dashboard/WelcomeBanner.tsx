@@ -22,7 +22,7 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
     <div className="bg-[var(--inverse-canvas)] p-6 sm:p-9 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 w-full rounded-lg border border-[var(--inverse-surface-1)]" role="banner">
       <div className="flex-1">
         {isSimplified && (
-          <Badge className="bg-white text-[var(--primary)] font-bold text-xs px-3 py-1 mb-2">
+          <Badge className="bg-[var(--primary)] text-white font-bold text-xs px-3 py-1 mb-2 border-0">
             ✨ MODO SIMPLIFICADO ATIVO
           </Badge>
         )}
@@ -38,17 +38,17 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
           <Button 
             variant="tertiary" 
             onClick={onSpeakSummary}
-            className="bg-white/10 text-white border-white/30 hover:bg-white/20 text-sm h-10 min-h-[40px] px-4 w-auto inline-flex items-center gap-2"
+            className="bg-[var(--inverse-surface-1)] text-[var(--inverse-ink)] border border-[var(--inverse-surface-1)] hover:bg-[var(--primary)] hover:text-white text-sm h-10 min-h-[40px] px-4 w-auto inline-flex items-center gap-2 transition-colors"
           >
-            <Volume2 className="w-4 h-4 text-white" /> Ouvir resumo por voz
+            <Volume2 className="w-4 h-4 text-[var(--primary)]" /> Ouvir resumo por voz
           </Button>
 
           <Button 
             variant="tertiary" 
             onClick={onStartTour}
-            className="bg-white/10 text-white border-white/30 hover:bg-white/20 text-sm h-10 min-h-[40px] px-4 w-auto inline-flex items-center gap-2"
+            className="bg-[var(--inverse-surface-1)] text-[var(--inverse-ink)] border border-[var(--inverse-surface-1)] hover:bg-[var(--primary)] hover:text-white text-sm h-10 min-h-[40px] px-4 w-auto inline-flex items-center gap-2 transition-colors"
           >
-            <Compass className="w-4 h-4 text-white" /> Ver Tour Guiado
+            <Compass className="w-4 h-4 text-[var(--primary)]" /> Ver Tour Guiado
           </Button>
         </div>
       </div>

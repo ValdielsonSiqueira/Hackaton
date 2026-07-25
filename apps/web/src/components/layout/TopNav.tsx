@@ -67,48 +67,72 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
       )}
 
       {/* Top Header Bar */}
-      <nav className="top-nav px-4 sm:px-6 py-3 flex items-center justify-between gap-2 border-b border-[var(--hairline)] bg-[var(--canvas)] sticky top-0 z-40" role="navigation" aria-label="Navegação principal">
-        <Link to={isAuth ? "/dashboard" : "/login"} className="logo shrink-0" aria-label="SeniorEase">
-          Senior<span>Ease</span>
+      <nav className="sticky top-0 z-40 h-14 px-4 sm:px-8 border-b border-[var(--hairline)] bg-[var(--canvas)] flex items-center justify-between gap-3 shadow-xs" role="navigation" aria-label="Navegação principal">
+        <Link to={isAuth ? "/dashboard" : "/login"} className="text-xl font-semibold text-[var(--ink)] tracking-tight no-underline shrink-0" aria-label="SeniorEase">
+          Senior<span className="text-[var(--primary)]">Ease</span>
         </Link>
 
         {/* Desktop Navigation Links */}
         {isAuth && (
-          <ul className="nav-links hidden md:flex items-center gap-6" role="list">
+          <ul className="hidden md:flex items-center gap-6 list-none m-0 p-0" role="list">
             <li>
-              <Link to="/dashboard" className={isActive("/dashboard") ? "active font-bold text-[var(--primary)] border-b-2 border-[var(--primary)] pb-1" : "text-[var(--ink)] hover:text-[var(--primary)]"} aria-current={isActive("/dashboard") ? "page" : undefined}>
+              <Link 
+                to="/dashboard" 
+                className={`text-sm font-medium py-1.5 no-underline transition-colors ${
+                  isActive("/dashboard") 
+                    ? "font-bold text-[var(--primary)] border-b-2 border-[var(--primary)]" 
+                    : "text-[var(--ink-muted)] hover:text-[var(--ink)]"
+                }`}
+                aria-current={isActive("/dashboard") ? "page" : undefined}
+              >
                 Painel
               </Link>
             </li>
             <li>
-              <Link to="/tarefas" className={isActive("/tarefas") ? "active font-bold text-[var(--primary)] border-b-2 border-[var(--primary)] pb-1" : "text-[var(--ink)] hover:text-[var(--primary)]"} aria-current={isActive("/tarefas") ? "page" : undefined}>
+              <Link 
+                to="/tarefas" 
+                className={`text-sm font-medium py-1.5 no-underline transition-colors ${
+                  isActive("/tarefas") 
+                    ? "font-bold text-[var(--primary)] border-b-2 border-[var(--primary)]" 
+                    : "text-[var(--ink-muted)] hover:text-[var(--ink)]"
+                }`}
+                aria-current={isActive("/tarefas") ? "page" : undefined}
+              >
                 Atividades
               </Link>
             </li>
             <li>
-              <Link to="/perfil" className={isActive("/perfil") ? "active font-bold text-[var(--primary)] border-b-2 border-[var(--primary)] pb-1" : "text-[var(--ink)] hover:text-[var(--primary)]"} aria-current={isActive("/perfil") ? "page" : undefined}>
+              <Link 
+                to="/perfil" 
+                className={`text-sm font-medium py-1.5 no-underline transition-colors ${
+                  isActive("/perfil") 
+                    ? "font-bold text-[var(--primary)] border-b-2 border-[var(--primary)]" 
+                    : "text-[var(--ink-muted)] hover:text-[var(--ink)]"
+                }`}
+                aria-current={isActive("/perfil") ? "page" : undefined}
+              >
                 Perfil
               </Link>
             </li>
             <li>
-              <a href="#help" onClick={handleHelpClick} className="text-[var(--ink)] hover:text-[var(--primary)] cursor-pointer">
+              <a href="#help" onClick={handleHelpClick} className="text-sm font-medium text-[var(--ink-muted)] hover:text-[var(--primary)] no-underline cursor-pointer transition-colors">
                 Ajuda
               </a>
             </li>
           </ul>
         )}
 
-        <div className="nav-right flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {isAuth && (
-            <span className="nav-greeting hidden sm:inline-block text-sm font-medium text-[var(--ink)]">
+            <span className="hidden sm:inline-block text-sm font-medium text-[var(--ink-muted)]">
               Olá, {studentName || "Estudante"} 👋
             </span>
           )}
 
-          <div className="font-btn-group flex items-center gap-1 shrink-0 self-center">
+          <div className="flex items-center gap-1 shrink-0 self-center">
             <button 
               type="button" 
-              className="font-btn min-h-[36px] min-w-[36px] px-2 py-1 text-xs sm:text-sm font-bold border border-[var(--hairline)] rounded bg-[var(--surface-1)] text-[var(--ink)] hover:bg-[var(--primary)] hover:text-white transition-colors" 
+              className="h-8 min-w-[34px] px-2 text-xs sm:text-sm font-bold border border-[var(--hairline)] rounded bg-[var(--surface-1)] text-[var(--ink)] hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer flex items-center justify-center" 
               onClick={() => changeFontScale(-0.1)} 
               aria-label="Diminuir texto"
               title="Diminuir texto"
@@ -117,7 +141,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
             </button>
             <button 
               type="button" 
-              className="font-btn min-h-[36px] min-w-[36px] px-2 py-1 text-xs sm:text-sm font-bold border border-[var(--hairline)] rounded bg-[var(--surface-1)] text-[var(--ink)] hover:bg-[var(--primary)] hover:text-white transition-colors" 
+              className="h-8 min-w-[34px] px-2 text-xs sm:text-sm font-bold border border-[var(--hairline)] rounded bg-[var(--surface-1)] text-[var(--ink)] hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer flex items-center justify-center" 
               onClick={() => changeFontScale(0.1)} 
               aria-label="Aumentar texto"
               title="Aumentar texto"
@@ -128,7 +152,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
 
           {isAuth && (
             <button 
-              className="btn-nav-out min-h-[36px] px-3 py-1.5 text-xs sm:text-sm font-medium rounded border border-[#da1e28] text-[#da1e28] hover:bg-[#da1e28] hover:text-white transition-colors flex items-center gap-1.5 shrink-0" 
+              className="h-9 px-3 py-1.5 text-xs sm:text-sm font-semibold rounded border border-[#da1e28] text-[#da1e28] hover:bg-[#da1e28] hover:text-white transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer" 
               id="sign-out-btn" 
               onClick={handleSignOutClick}
             >
@@ -193,12 +217,12 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
 
       {/* Internal Modal Fallback for Sign Out Confirmation */}
       {showConfirmModal && (
-        <div className="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="topnav-modal-heading">
-          <div className="modal-box p-6 max-w-sm mx-auto w-[90vw]">
+        <div className="fixed inset-0 bg-black/60 z-[999] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="topnav-modal-heading">
+          <div className="bg-[var(--canvas)] p-6 max-w-sm w-full text-center rounded-lg shadow-xl border border-[var(--hairline)]">
             <LogOut className="w-12 h-12 text-[#da1e28] mx-auto mb-4" aria-hidden="true" />
-            <h3 id="topnav-modal-heading" className="text-xl font-bold mb-2">Tem certeza que quer sair?</h3>
+            <h3 id="topnav-modal-heading" className="text-xl font-bold mb-2 text-[var(--ink)]">Tem certeza que quer sair?</h3>
             <p className="text-sm text-[var(--ink-muted)]">Suas preferências estão salvas e você poderá entrar novamente quando quiser.</p>
-            <div className="modal-actions flex flex-col sm:flex-row gap-3 mt-6">
+            <div className="flex flex-col sm:flex-row gap-3 mt-6">
               <Button variant="primary" id="modal-confirm-btn" onClick={handleConfirmSignOut} className="w-full">
                 Sim, quero sair <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
