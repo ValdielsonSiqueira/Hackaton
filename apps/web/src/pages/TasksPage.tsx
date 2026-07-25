@@ -3,6 +3,7 @@ import { TopNav } from "../components/layout/TopNav";
 import { useApp } from "../context/AppContext";
 import type { TaskItem, Step } from "../context/AppContext";
 import { Button } from "../components/ui/button";
+import { speakText } from "../services/speech";
 import { Input } from "../components/ui/input";
 import { Card } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
@@ -122,12 +123,8 @@ export const TasksPage: React.FC = () => {
   };
 
   const handleSpeakText = (text: string) => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "pt-BR";
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
+    const success = speakText(text);
+    if (success) {
       triggerToast("🔊 Lendo em voz alta...");
     } else {
       triggerToast("Seu navegador não suporta leitura em voz alta");

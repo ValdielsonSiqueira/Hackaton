@@ -20,10 +20,22 @@ export const startDashboardTour = (onComplete?: () => void) => {
     showProgress: true,
     animate: true,
     allowClose: true,
+    smoothScroll: true,
+    stagePadding: 8,
     nextBtnText: "Próximo ➔",
     prevBtnText: "← Anterior",
     doneBtnText: "Concluir ➔",
     progressText: "Passo {{current}} de {{total}}",
+    onHighlightStarted: (element) => {
+      if (element) {
+        element.scrollIntoView({ behavior: "instant" as ScrollBehavior, block: "center" });
+        setTimeout(() => {
+          try {
+            driverObj.refresh();
+          } catch (e) {}
+        }, 20);
+      }
+    },
     onDestroyed: () => {
       markTourCompleted();
       if (onComplete) onComplete();
@@ -66,19 +78,46 @@ export const startDashboardTour = (onComplete?: () => void) => {
         }
       },
       {
+        element: ".priority-task-card",
+        popover: {
+          title: "🎯 Próxima Atividade Prioritária",
+          description: "Veja o seu próximo compromisso acadêmico ou tarefa em destaque e execute diretamente em um único clique.",
+          side: "bottom",
+          align: "center"
+        }
+      },
+      {
+        element: ".stats-row",
+        popover: {
+          title: "📊 Resumo de Desempenho",
+          description: "Acompanhe quantas tarefas foram concluídas hoje, quantas estão pendentes e sua sequência de dias ativos.",
+          side: "bottom",
+          align: "center"
+        }
+      },
+      {
         element: "#qs-heading",
         popover: {
-          title: "⚙️ Preferências Rápidas no Painel",
+          title: "⚙️ Preferências Rápidas",
           description: "Alterne instantaneamente entre o tema Padrão (Branco), Alto Contraste e Modo Escuro.",
           side: "top",
           align: "start"
         }
       },
       {
-        element: ".recent-activity",
+        element: ".modules-grid",
+        popover: {
+          title: "🧩 Módulos Principais",
+          description: "Acesse rapidamente a área de Personalização, Minhas Atividades, Perfil ou Suporte por telefone 0800.",
+          side: "top",
+          align: "center"
+        }
+      },
+      {
+        element: "#recent-activity-section",
         popover: {
           title: "📋 Histórico de Atividades",
-          description: "Acompanhe de forma simples o status de tudo o que você concluiu ou ainda precisa fazer.",
+          description: "Acompanhe de forma simples o status de tudo o que você concluiu ou ainda precisa fazer, com botão de áudio por item.",
           side: "top",
           align: "center"
         }
@@ -94,10 +133,21 @@ export const startTasksTour = (onComplete?: () => void) => {
     showProgress: true,
     animate: true,
     allowClose: true,
+    smoothScroll: true,
     nextBtnText: "Próximo ➔",
     prevBtnText: "← Anterior",
     doneBtnText: "Concluir ➔",
     progressText: "Passo {{current}} de {{total}}",
+    onHighlightStarted: (element) => {
+      if (element) {
+        element.scrollIntoView({ behavior: "instant" as ScrollBehavior, block: "center" });
+        setTimeout(() => {
+          try {
+            driverObj.refresh();
+          } catch (e) {}
+        }, 20);
+      }
+    },
     onDestroyed: () => {
       if (onComplete) onComplete();
     },
@@ -140,10 +190,21 @@ export const startProfileTour = (onComplete?: () => void) => {
     showProgress: true,
     animate: true,
     allowClose: true,
+    smoothScroll: true,
     nextBtnText: "Próximo ➔",
     prevBtnText: "← Anterior",
     doneBtnText: "Concluir ➔",
     progressText: "Passo {{current}} de {{total}}",
+    onHighlightStarted: (element) => {
+      if (element) {
+        element.scrollIntoView({ behavior: "instant" as ScrollBehavior, block: "center" });
+        setTimeout(() => {
+          try {
+            driverObj.refresh();
+          } catch (e) {}
+        }, 20);
+      }
+    },
     onDestroyed: () => {
       if (onComplete) onComplete();
     },
