@@ -10,16 +10,28 @@ import {
   HelpCircle 
 } from "lucide-react";
 import { Button } from "../ui/button";
+import { useHelp } from "../../context/HelpContext";
 
 interface TopNavProps {
   onSignOutClick?: () => void;
+  onHelpClick?: () => void;
 }
 
-export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick }) => {
+export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { studentName, userProfile, updateUserProfile, settings, updateSettings } = useApp();
+  const { openHelpModal } = useHelp();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleHelpClick = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    if (onHelpClick) {
+      onHelpClick();
+    } else {
+      openHelpModal();
+    }
+  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -79,7 +91,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick }) => {
               </Link>
             </li>
             <li>
-              <a href="#help" onClick={(e) => { e.preventDefault(); alert("Central de Ajuda SeniorEase: Ligue 0800 700 8000"); }} className="text-[var(--ink)] hover:text-[var(--primary)]">
+              <a href="#help" onClick={handleHelpClick} className="text-[var(--ink)] hover:text-[var(--primary)] cursor-pointer">
                 Ajuda
               </a>
             </li>
@@ -170,7 +182,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick }) => {
 
           <button
             type="button"
-            onClick={() => alert("Central de Ajuda SeniorEase: Ligue 0800 700 8000")}
+            onClick={handleHelpClick}
             className="flex flex-col items-center justify-center flex-1 py-1 text-[var(--ink-muted)] hover:text-[var(--primary)] border-0 bg-transparent cursor-pointer"
           >
             <HelpCircle className="w-5 h-5 mb-0.5" />

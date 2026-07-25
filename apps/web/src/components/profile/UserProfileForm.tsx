@@ -5,6 +5,8 @@ import { Input } from "../ui/input";
 import { User, Mail, HeartHandshake, Save } from "lucide-react";
 import { profileSchema } from "../../schemas/forms";
 
+import { Avatar, AvatarFallback } from "../ui/avatar";
+
 interface UserProfileFormProps {
   initialName: string;
   initialEmail: string;
@@ -58,9 +60,11 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
     <Card className="login-card p-6" id="user-profile-card">
       <CardHeader className="p-0 mb-6">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-[#0f62fe] text-white flex items-center justify-center text-2xl font-semibold shrink-0">
-            {(nameInput || "U").charAt(0).toUpperCase()}
-          </div>
+          <Avatar className="w-16 h-16 shrink-0">
+            <AvatarFallback className="text-2xl bg-[#0f62fe] text-white font-semibold">
+              {(nameInput || "U").charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
           <div>
             <CardTitle className="text-2xl font-normal">{nameInput || "Estudante"}</CardTitle>
             <CardDescription className="text-[#525252]">Estudante SeniorEase — FIAP Inclusive</CardDescription>

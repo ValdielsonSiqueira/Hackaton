@@ -17,27 +17,27 @@ export const TaskFilterTabs: React.FC<TaskFilterTabsProps> = ({
   doneCount,
 }) => {
   return (
-    <div className="mb-6">
-      <Tabs>
-        <TabsList className="w-full sm:w-auto grid grid-cols-3 sm:inline-flex h-auto p-1 bg-[var(--surface-1)] border border-[var(--hairline)]">
+    <div className="mb-6 w-full">
+      <Tabs className="w-full">
+        <TabsList className="w-full grid grid-cols-3 h-auto p-1 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-lg">
           <TabsTrigger
             active={filter === "all"}
             onClick={() => onFilterChange("all")}
-            className="text-xs sm:text-sm font-semibold py-2 px-3"
+            className="w-full text-xs sm:text-sm font-semibold py-2.5 px-3 flex items-center justify-center text-center"
           >
             Todas ({totalCount})
           </TabsTrigger>
           <TabsTrigger
             active={filter === "pending"}
             onClick={() => onFilterChange("pending")}
-            className="text-xs sm:text-sm font-semibold py-2 px-3"
+            className="w-full text-xs sm:text-sm font-semibold py-2.5 px-3 flex items-center justify-center text-center"
           >
             Pendentes ({pendingCount})
           </TabsTrigger>
           <TabsTrigger
             active={filter === "done"}
             onClick={() => onFilterChange("done")}
-            className="text-xs sm:text-sm font-semibold py-2 px-3"
+            className="w-full text-xs sm:text-sm font-semibold py-2.5 px-3 flex items-center justify-center text-center"
           >
             Concluídas ({doneCount})
           </TabsTrigger>

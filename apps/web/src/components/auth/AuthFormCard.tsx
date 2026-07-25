@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../ui
 import { ArrowRight, UserPlus, UserCheck } from "lucide-react";
 import { loginSchema, registerSchema } from "../../schemas/forms";
 import { AccessibilityTip } from "./AccessibilityTip";
+import { useHelp } from "../../context/HelpContext";
 
 interface AuthFormCardProps {
   initialName?: string;
@@ -17,6 +18,7 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
   initialEmail = "joao@exemplo.com",
   onSuccess,
 }) => {
+  const { openHelpModal } = useHelp();
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [name, setName] = useState(initialName);
   const [email, setEmail] = useState(initialEmail);
@@ -162,10 +164,10 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
         </Button>
 
         <div className="link-row">
-          <a href="#forgot" onClick={(e) => { e.preventDefault(); alert("Enviamos as instruções para o seu e-mail!"); }}>
-            Esqueci minha senha
-          </a>
-          <a href="#help" onClick={(e) => { e.preventDefault(); alert("Suporte 24h SeniorEase: 0800 700 8000"); }}>
+          <a
+            onClick={openHelpModal}
+            className="text-sm font-semibold text-[var(--primary)] hover:underline cursor-pointer border-0 bg-transparent p-0"
+          >
             Preciso de ajuda
           </a>
         </div>

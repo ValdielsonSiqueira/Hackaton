@@ -8,11 +8,22 @@ import {
   ArrowRight 
 } from "lucide-react";
 
+import { useHelp } from "../../context/HelpContext";
+
 interface ModulesGridProps {
-  onOpenHelpModal: () => void;
+  onOpenHelpModal?: () => void;
 }
 
 export const ModulesGrid: React.FC<ModulesGridProps> = ({ onOpenHelpModal }) => {
+  const { openHelpModal } = useHelp();
+
+  const handleHelpClick = () => {
+    if (onOpenHelpModal) {
+      onOpenHelpModal();
+    } else {
+      openHelpModal();
+    }
+  };
   return (
     <div className="mt-8 sm:mt-10">
       <div className="section-header">
@@ -41,7 +52,7 @@ export const ModulesGrid: React.FC<ModulesGridProps> = ({ onOpenHelpModal }) => 
         </Link>
 
         <div 
-          onClick={onOpenHelpModal}
+          onClick={handleHelpClick}
           className="module-card mod-teal cursor-pointer" 
           role="listitem" 
           id="mod-help-btn"
