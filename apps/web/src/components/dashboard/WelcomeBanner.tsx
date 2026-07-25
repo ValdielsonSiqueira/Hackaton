@@ -19,7 +19,7 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
   onStartTour,
 }) => {
   return (
-    <div className="bg-[var(--inverse-canvas)] p-6 sm:p-9 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 w-full rounded-lg border border-[var(--inverse-surface-1)]" role="banner">
+    <div id="welcome-banner" className="bg-[var(--inverse-canvas)] p-6 sm:p-9 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 w-full rounded-lg border border-[var(--inverse-surface-1)]" role="banner">
       <div className="flex-1">
         {isSimplified && (
           <Badge className="bg-[var(--primary)] text-white font-bold text-xs px-3 py-1 mb-2 border-0">

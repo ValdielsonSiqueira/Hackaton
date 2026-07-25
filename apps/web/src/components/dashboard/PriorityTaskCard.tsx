@@ -11,7 +11,7 @@ interface PriorityTaskCardProps {
 
 export const PriorityTaskCard: React.FC<PriorityTaskCardProps> = ({ nextTask }) => {
   return (
-    <Card className="mb-6 sm:mb-8 border-l-4 border-l-[var(--primary)] border-t border-r border-b border-[var(--hairline)] bg-[var(--surface-1)] p-4 sm:p-6 w-full overflow-hidden rounded-lg">
+    <Card id="priority-task-card" className="mb-6 sm:mb-8 border-l-4 border-l-[var(--primary)] border-t border-r border-b border-[var(--hairline)] bg-[var(--surface-1)] p-4 sm:p-6 w-full overflow-hidden rounded-lg">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start gap-3 sm:gap-4">
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--primary)] text-white flex items-center justify-center shrink-0 mt-0.5 sm:mt-1 rounded">

@@ -12,7 +12,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
   pendingToday,
 }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8 w-full" role="list" aria-label="Resumo das suas atividades">
+    <div id="dashboard-stats-row" className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8 w-full" role="list" aria-label="Resumo das suas atividades">
       <Card className="bg-[var(--canvas)] p-5 sm:p-7 rounded-lg border border-[var(--hairline)] shadow-sm" role="listitem">
         <CheckCircle2 className="w-7 h-7 text-[var(--success)] mb-3" aria-hidden="true" />
         <div className="text-4xl sm:text-5xl font-light text-[var(--success)] tracking-tight leading-none mb-1.5">{completedToday}</div>

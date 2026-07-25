@@ -68,7 +68,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
 
       {/* Top Header Bar */}
       <nav className="sticky top-0 z-40 h-14 px-4 sm:px-8 border-b border-[var(--hairline)] bg-[var(--canvas)] flex items-center justify-between gap-3 shadow-xs" role="navigation" aria-label="Navegação principal">
-        <Link to={isAuth ? "/dashboard" : "/login"} className="text-xl font-semibold text-[var(--ink)] tracking-tight no-underline shrink-0" aria-label="SeniorEase">
+        <Link to={isAuth ? "/dashboard" : "/login"} id="senior-ease-logo" className="text-xl font-semibold text-[var(--ink)] tracking-tight no-underline shrink-0" aria-label="SeniorEase">
           Senior<span className="text-[var(--primary)]">Ease</span>
         </Link>
 
@@ -129,7 +129,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
             </span>
           )}
 
-          <div className="flex items-center gap-1 shrink-0 self-center">
+          <div id="font-btn-group" className="flex items-center gap-1 shrink-0 self-center">
             <button 
               type="button" 
               className="h-8 min-w-[34px] px-2 text-xs sm:text-sm font-bold border border-[var(--hairline)] rounded bg-[var(--surface-1)] text-[var(--ink)] hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer flex items-center justify-center" 

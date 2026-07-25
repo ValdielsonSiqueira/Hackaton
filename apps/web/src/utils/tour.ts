@@ -42,7 +42,7 @@ export const startDashboardTour = (onComplete?: () => void) => {
     },
     steps: [
       {
-        element: ".logo",
+        element: "#senior-ease-logo",
         popover: {
           title: "👋 Bem-vindo ao SeniorEase!",
           description: "Sua plataforma acessível de atividades com leitura por voz, auto-contraste e navegação simplificada para a terceira idade.",
@@ -51,7 +51,7 @@ export const startDashboardTour = (onComplete?: () => void) => {
         }
       },
       {
-        element: ".font-btn-group",
+        element: "#font-btn-group",
         popover: {
           title: "🔍 Controle de Fonte (A- / A+)",
           description: "Aumente ou diminua as letras de qualquer página do sistema em tempo real usando estes botões no topo.",
@@ -60,16 +60,7 @@ export const startDashboardTour = (onComplete?: () => void) => {
         }
       },
       {
-        element: ".a11y-toolbar-fixed",
-        popover: {
-          title: "♿ Barra Flutuante de Acessibilidade",
-          description: "Tradução nativa em LIBRAS (VLibras), Modo Escuro Carbon e Alto Contraste ao seu alcance.",
-          side: "left",
-          align: "start"
-        }
-      },
-      {
-        element: ".welcome-banner",
+        element: "#welcome-banner",
         popover: {
           title: "🔊 Resumo Falado em Voz Alta",
           description: "Clique no botão de voz para ouvir a síntese falada com as principais orientações e tarefas do seu dia.",
@@ -78,7 +69,7 @@ export const startDashboardTour = (onComplete?: () => void) => {
         }
       },
       {
-        element: ".priority-task-card",
+        element: "#priority-task-card",
         popover: {
           title: "🎯 Próxima Atividade Prioritária",
           description: "Veja o seu próximo compromisso acadêmico ou tarefa em destaque e execute diretamente em um único clique.",
@@ -87,7 +78,7 @@ export const startDashboardTour = (onComplete?: () => void) => {
         }
       },
       {
-        element: ".stats-row",
+        element: "#dashboard-stats-row",
         popover: {
           title: "📊 Resumo de Desempenho",
           description: "Acompanhe quantas tarefas foram concluídas hoje, quantas estão pendentes e sua sequência de dias ativos.",
@@ -105,7 +96,7 @@ export const startDashboardTour = (onComplete?: () => void) => {
         }
       },
       {
-        element: ".modules-grid",
+        element: "#modules-grid",
         popover: {
           title: "🧩 Módulos Principais",
           description: "Acesse rapidamente a área de Personalização, Minhas Atividades, Perfil ou Suporte por telefone 0800.",
@@ -162,7 +153,7 @@ export const startTasksTour = (onComplete?: () => void) => {
         }
       },
       {
-        element: ".progress-section",
+        element: "#tasks-progress-card",
         popover: {
           title: "📊 Barra de Progresso",
           description: "Visualize a porcentagem e quantas atividades já foram finalizadas no dia.",

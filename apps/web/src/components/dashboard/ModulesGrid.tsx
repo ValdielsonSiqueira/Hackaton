@@ -30,7 +30,7 @@ export const ModulesGrid: React.FC<ModulesGridProps> = ({ onOpenHelpModal }) => 
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-medium text-[var(--ink)]">Acesse os módulos</h2>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8" role="list">
+      <div id="modules-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8" role="list">
         <a 
           href="#qs-heading" 
           className="bg-[var(--canvas)] p-7 rounded-lg border-t-4 border-t-[var(--primary)] border-x border-b border-[var(--hairline)] hover:bg-[var(--surface-1)] transition-colors no-underline block min-h-[200px]" 
