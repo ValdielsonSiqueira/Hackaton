@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 import { 
   Pencil, 
   Trash2, 
@@ -72,6 +73,12 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             <span className="text-xs font-semibold px-2 py-0.5 bg-[var(--surface-1)] border border-[var(--hairline)] text-[var(--ink-muted)] rounded">
               {task.category}
             </span>
+            <Badge 
+              variant={task.priority === "high" ? "urgent" : task.priority === "medium" ? "pending" : "success"}
+              className="text-xs px-2 py-0.5"
+            >
+              {task.priority === "high" ? "Urgente" : task.priority === "medium" ? "Média" : "Baixa"}
+            </Badge>
             <span className={`text-xs ${task.urgent ? "text-[var(--error)] font-bold" : "text-[var(--ink-subtle)]"}`}>
               {task.due}
             </span>

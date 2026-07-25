@@ -217,29 +217,44 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             </select>
           </div>
 
-          <div className="field-group">
-            <label>3. Nível de Prioridade</label>
-            <div className="flex gap-2 h-[56px] items-center">
+          <div className="relative">
+            <label className="block text-sm font-semibold text-[var(--ink)] mb-2">3. Nível de Prioridade</label>
+            <div className="flex gap-2.5 min-h-[48px] items-center">
               <button
                 type="button"
                 onClick={() => setNewTaskPriority("low")}
-                className={`flex-1 h-full font-medium text-sm border cursor-pointer transition-colors ${newTaskPriority === "low" ? "bg-[#24a148] text-white border-[#24a148]" : "bg-[#f4f4f4] text-[#161616] border-[#e0e0e0]"}`}
+                className={`flex-1 h-12 rounded-lg font-bold text-sm sm:text-base border flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  newTaskPriority === "low" 
+                    ? "bg-[#24a148] text-white border-2 border-[#24a148] shadow-md" 
+                    : "bg-[var(--surface-1)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--canvas)]"
+                }`}
               >
-                🟢 Baixa
+                <span className={`w-3 h-3 rounded-full shrink-0 ${newTaskPriority === "low" ? "bg-white" : "bg-[#24a148]"}`} aria-hidden="true" />
+                Baixa
               </button>
               <button
                 type="button"
                 onClick={() => setNewTaskPriority("medium")}
-                className={`flex-1 h-full font-medium text-sm border cursor-pointer transition-colors ${newTaskPriority === "medium" ? "bg-[#f1c21b] text-[#161616] border-[#f1c21b]" : "bg-[#f4f4f4] text-[#161616] border-[#e0e0e0]"}`}
+                className={`flex-1 h-12 rounded-lg font-bold text-sm sm:text-base border flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  newTaskPriority === "medium" 
+                    ? "bg-[#f1c21b] text-[#161616] border-2 border-[#f1c21b] shadow-md" 
+                    : "bg-[var(--surface-1)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--canvas)]"
+                }`}
               >
-                🟡 Média
+                <span className={`w-3 h-3 rounded-full shrink-0 ${newTaskPriority === "medium" ? "bg-[#161616]" : "bg-[#f1c21b]"}`} aria-hidden="true" />
+                Média
               </button>
               <button
                 type="button"
                 onClick={() => setNewTaskPriority("high")}
-                className={`flex-1 h-full font-medium text-sm border cursor-pointer transition-colors ${newTaskPriority === "high" ? "bg-[#da1e28] text-white border-[#da1e28]" : "bg-[#f4f4f4] text-[#161616] border-[#e0e0e0]"}`}
+                className={`flex-1 h-12 rounded-lg font-bold text-sm sm:text-base border flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  newTaskPriority === "high" 
+                    ? "bg-[#da1e28] text-white border-2 border-[#da1e28] shadow-md" 
+                    : "bg-[var(--surface-1)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--canvas)]"
+                }`}
               >
-                🔴 Urgente
+                <span className={`w-3 h-3 rounded-full shrink-0 ${newTaskPriority === "high" ? "bg-white" : "bg-[#da1e28]"}`} aria-hidden="true" />
+                Urgente
               </button>
             </div>
           </div>
