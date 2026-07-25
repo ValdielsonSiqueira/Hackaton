@@ -11,6 +11,17 @@ interface WelcomeBannerProps {
   onStartTour: () => void;
 }
 
+const getGreeting = () => {
+  const hours = new Date().getHours();
+  if (hours >= 5 && hours < 12) {
+    return { text: "Bom dia", icon: "☀️🌿" };
+  } else if (hours >= 12 && hours < 18) {
+    return { text: "Boa tarde", icon: "🌤️🌿" };
+  } else {
+    return { text: "Boa noite", icon: "🌙🌿" };
+  }
+};
+
 export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
   studentName,
   pendingToday,
@@ -18,6 +29,8 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
   onSpeakSummary,
   onStartTour,
 }) => {
+  const greeting = getGreeting();
+
   return (
     <div id="welcome-banner" className="bg-[var(--inverse-canvas)] p-5 sm:p-8 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 w-full rounded-lg border border-[var(--inverse-surface-1)]" role="banner">
       <div className="flex-1 w-full">
@@ -27,7 +40,7 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
           </Badge>
         )}
         <h2 className="text-xl sm:text-2xl font-light text-[var(--inverse-ink)] mb-2.5 leading-snug break-words">
-          Bom dia, {studentName || "Estudante"}! ☀️🌿
+          {greeting.text}, {studentName || "Estudante"}! {greeting.icon}
         </h2>
         <p className="text-xs sm:text-sm text-[var(--inverse-ink-muted)] tracking-wide mb-4 leading-relaxed break-words">
           {pendingToday > 0
