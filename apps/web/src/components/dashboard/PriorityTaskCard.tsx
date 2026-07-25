@@ -30,8 +30,8 @@ export const PriorityTaskCard: React.FC<PriorityTaskCardProps> = ({ nextTask }) 
           </div>
         </div>
         <Link to="/tarefas" className="no-underline w-full sm:w-auto shrink-0">
-          <Button variant="primary" className="w-full sm:w-auto flex items-center justify-center gap-2">
-            {nextTask ? "Executar Atividade Agora" : "Ver Todas as Atividades"} <ArrowRight className="w-5 h-5 ml-1" />
+          <Button variant="primary" className="w-full sm:w-auto min-h-[48px] h-auto py-2.5 px-4 flex items-center justify-center text-center gap-2 leading-normal cursor-pointer">
+            {nextTask ? "Executar Atividade Agora" : "Ver Todas as Atividades"} <ArrowRight className="w-5 h-5 ml-1 shrink-0" />
           </Button>
         </Link>
       </div>

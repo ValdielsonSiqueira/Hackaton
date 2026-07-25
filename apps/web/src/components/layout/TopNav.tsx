@@ -67,7 +67,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
       )}
 
       {/* Top Header Bar */}
-      <nav className="sticky top-0 z-40 h-14 px-4 sm:px-8 border-b border-[var(--hairline)] bg-[var(--canvas)] flex items-center justify-between gap-3 shadow-xs" role="navigation" aria-label="Navegação principal">
+      <nav className="sticky top-0 z-40 min-h-[56px] h-auto py-2 px-4 sm:px-8 border-b border-[var(--hairline)] bg-[var(--canvas)] flex items-center justify-between gap-3 shadow-xs" role="navigation" aria-label="Navegação principal">
         <Link to={isAuth ? "/dashboard" : "/login"} id="senior-ease-logo" className="text-xl font-semibold text-[var(--ink)] tracking-tight no-underline shrink-0" aria-label="SeniorEase">
           Senior<span className="text-[var(--primary)]">Ease</span>
         </Link>
