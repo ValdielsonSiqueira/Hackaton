@@ -60,12 +60,6 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
 
   return (
     <>
-      {settings.navigationMode === "simplified" && isAuth && (
-        <div className="bg-[#0f62fe] text-white text-xs sm:text-sm font-bold py-1.5 px-4 text-center tracking-wide flex items-center justify-center gap-2 border-b border-[#0043ce]">
-          <span>✨ MODO DE NAVEGAÇÃO SIMPLIFICADO ATIVO (FOCO MÁXIMO)</span>
-        </div>
-      )}
-
       {/* Top Header Bar */}
       <nav className="sticky top-0 z-40 min-h-[56px] h-auto py-2 px-4 sm:px-8 border-b border-[var(--hairline)] bg-[var(--canvas)] flex items-center justify-between gap-3 shadow-xs" role="navigation" aria-label="Navegação principal">
         <Link to={isAuth ? "/dashboard" : "/login"} id="senior-ease-logo" className="text-xl font-semibold text-[var(--ink)] tracking-tight no-underline shrink-0" aria-label="SeniorEase">

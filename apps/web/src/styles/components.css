@@ -147,20 +147,33 @@ div[vw] .vw-access-button,
   background-color: #e5edff !important;
 }
 
-/* Mode: Simplified Navigation (Modo de Navegação Simplificado) */
+/* Mode: Simplified Navigation (Modo de Navegação Simplificado - Foco Máximo) */
 .simplified-mode {
   --gap: 24px;
 }
 
+/* 1. Oculta ilustrações decorativas para eliminar ruído visual */
 .simplified-mode .welcome-illustration {
   display: none !important;
 }
 
+/* 2. Oculta estatísticas secundárias (dias seguidos/gamificação) focando apenas nas tarefas do dia */
+.simplified-mode #dashboard-stats-row > div:nth-child(3) {
+  display: none !important;
+}
+
+/* 3. Amplia áreas clicáveis, botões e fontes para facilitar o toque de idosos */
 .simplified-mode button,
 .simplified-mode input,
 .simplified-mode select {
-  min-height: 48px !important;
-  font-size: 1.05rem !important;
+  min-height: 52px !important;
+  font-size: 1.1rem !important;
+}
+
+.simplified-mode article,
+.simplified-mode [role="listitem"] {
+  padding: 24px !important;
+  border-width: 2px !important;
 }
 
 /* Comprehensive Dark Mode & High Contrast Container & Button Overrides */

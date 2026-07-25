@@ -89,12 +89,14 @@ export const DashboardPage: React.FC = () => {
           pendingToday={pendingToday}
         />
 
-        {/* Quick Accessibility Settings */}
-        <QuickSettingsCard
-          settings={settings}
-          updateSettings={updateSettings}
-          onTriggerToast={triggerToast}
-        />
+        {/* Quick Accessibility Settings (oculto no Modo Simplificado para Foco Máximo) */}
+        {!isSimplified && (
+          <QuickSettingsCard
+            settings={settings}
+            updateSettings={updateSettings}
+            onTriggerToast={triggerToast}
+          />
+        )}
 
         {/* Modules Navigation Grid */}
         <ModulesGrid onOpenHelpModal={() => setShowHelpModal(true)} />
