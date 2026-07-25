@@ -1,0 +1,30 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: calc(var(--font-base) * var(--font-scale));
+}
+
+body {
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.16px;
+  color: var(--ink);
+  background: var(--canvas);
+  min-height: 100vh;
+}
+
+/* Accessibility Focus Ring Standards */
+:focus-visible {
+  outline: 3px solid var(--primary) !important;
+  outline-offset: 2px !important;
+}
+
+/* Smooth transitions for SeniorEase Accessibility controls */
+body, button, input, select, textarea {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}

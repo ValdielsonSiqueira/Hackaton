@@ -12,21 +12,21 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
   pendingToday,
 }) => {
   return (
-    <div className="stats-row" role="list" aria-label="Resumo das suas atividades" style={{ marginTop: "1px" }}>
-      <Card className="stat-card" role="listitem">
-        <CheckCircle2 className="w-7 h-7 text-[#24a148] mb-3" aria-hidden="true" />
-        <div className="stat-number green">{completedToday}</div>
-        <div className="stat-label">Concluídas hoje</div>
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8 w-full" role="list" aria-label="Resumo das suas atividades">
+      <Card className="bg-[var(--canvas)] p-5 sm:p-7 rounded-lg border border-[var(--hairline)] shadow-sm" role="listitem">
+        <CheckCircle2 className="w-7 h-7 text-[var(--success)] mb-3" aria-hidden="true" />
+        <div className="text-4xl sm:text-5xl font-light text-[var(--success)] tracking-tight leading-none mb-1.5">{completedToday}</div>
+        <div className="text-xs sm:text-sm text-[var(--ink-muted)] tracking-wide">Concluídas hoje</div>
       </Card>
-      <Card className="stat-card" role="listitem">
-        <Clock className="w-7 h-7 text-[#161616] mb-3" aria-hidden="true" />
-        <div className="stat-number">{pendingToday}</div>
-        <div className="stat-label">Pendentes</div>
+      <Card className="bg-[var(--canvas)] p-5 sm:p-7 rounded-lg border border-[var(--hairline)] shadow-sm" role="listitem">
+        <Clock className="w-7 h-7 text-[var(--ink)] mb-3" aria-hidden="true" />
+        <div className="text-4xl sm:text-5xl font-light text-[var(--ink)] tracking-tight leading-none mb-1.5">{pendingToday}</div>
+        <div className="text-xs sm:text-sm text-[var(--ink-muted)] tracking-wide">Pendentes</div>
       </Card>
-      <Card className="stat-card" role="listitem">
-        <Flame className="w-7 h-7 text-[#0f62fe] mb-3" aria-hidden="true" />
-        <div className="stat-number blue">7</div>
-        <div className="stat-label">Dias seguidos</div>
+      <Card className="bg-[var(--canvas)] p-5 sm:p-7 rounded-lg border border-[var(--hairline)] shadow-sm" role="listitem">
+        <Flame className="w-7 h-7 text-[var(--primary)] mb-3" aria-hidden="true" />
+        <div className="text-4xl sm:text-5xl font-light text-[var(--primary)] tracking-tight leading-none mb-1.5">7</div>
+        <div className="text-xs sm:text-sm text-[var(--ink-muted)] tracking-wide">Dias seguidos</div>
       </Card>
     </div>
   );

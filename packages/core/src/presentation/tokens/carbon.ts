@@ -25,4 +25,32 @@ export const carbonTokens = {
   btnHeight: "56px"
 };
 
+export const highContrastCarbonTokens = {
+  ink: "#000000",
+  inkMuted: "#1a1a1a",
+  canvas: "#ffffff"
+};
+
+export const darkCarbonTokens = {
+  ink: "#ffffff",
+  inkMuted: "#c6c6c6",
+  inkSubtle: "#a8a8a8",
+  canvas: "#121212",
+  surface1: "#1e1e1e",
+  surface2: "#2d2d2d",
+  inverseCanvas: "#262626",
+  inverseSurface1: "#383838",
+  inverseInk: "#ffffff",
+  inverseInkMuted: "#c6c6c6",
+  hairline: "#383838",
+  hairlineStrong: "#ffffff",
+  primary: "#4589ff",
+  primaryHover: "#78a9ff",
+  primaryPressed: "#a6c8ff",
+  onPrimary: "#ffffff",
+  success: "#42be65",
+  warning: "#f1c21b",
+  error: "#ff8389"
+};
+
 export type CarbonTokens = typeof carbonTokens;

@@ -4,27 +4,39 @@ import { ZoomIn, ListTodo, ShieldCheck } from "lucide-react";
 
 export const FeaturesGrid: React.FC = () => {
   return (
-    <section className="features-section" aria-labelledby="features-heading">
-      <div style={{ maxWidth: "1080px", margin: "0 auto" }}>
-        <p className="section-label">Por que o SeniorEase</p>
-        <h2 id="features-heading">Feito para a sua vida</h2>
-        <p>Tudo que você precisa, sem nada que atrapalhe.</p>
+    <section className="bg-[var(--surface-1)] py-16 sm:py-24 px-4 sm:px-8" aria-labelledby="features-heading">
+      <div className="max-w-[1080px] mx-auto">
+        <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[var(--primary)] mb-3">
+          Por que o SeniorEase
+        </p>
+        <h2 className="text-3xl sm:text-4xl font-light text-[var(--ink)] mb-3 leading-tight" id="features-heading">
+          Feito para a sua vida
+        </h2>
+        <p className="text-base sm:text-lg text-[var(--ink-muted)] mb-12 sm:mb-16 max-w-[560px]">
+          Tudo que você precisa, sem nada que atrapalhe.
+        </p>
 
-        <div className="feature-grid" role="list">
-          <Card className="feature-card">
-            <ZoomIn className="w-8 h-8 text-[#0f62fe] mb-4" aria-hidden="true" />
-            <h3>Texto do seu tamanho</h3>
-            <p>Ajuste o tamanho das letras com um toque. A plataforma lembra sua preferência sempre que você entrar.</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6" role="list">
+          <Card className="bg-[var(--canvas)] p-6 sm:p-8 rounded-lg border border-[var(--hairline)] shadow-sm">
+            <ZoomIn className="w-8 h-8 text-[var(--primary)] mb-4" aria-hidden="true" />
+            <h3 className="text-lg font-medium text-[var(--ink)] mb-2 leading-snug">Texto do seu tamanho</h3>
+            <p className="text-sm sm:text-base text-[var(--ink-muted)] leading-relaxed">
+              Ajuste o tamanho das letras com um toque. A plataforma lembra sua preferência sempre que você entrar.
+            </p>
           </Card>
-          <Card className="feature-card">
-            <ListTodo className="w-8 h-8 text-[#0f62fe] mb-4" aria-hidden="true" />
-            <h3>Tarefas simplificadas</h3>
-            <p>Organize seu dia com passos claros e guiados. Nunca mais esqueça uma atividade importante.</p>
+          <Card className="bg-[var(--canvas)] p-6 sm:p-8 rounded-lg border border-[var(--hairline)] shadow-sm">
+            <ListTodo className="w-8 h-8 text-[var(--primary)] mb-4" aria-hidden="true" />
+            <h3 className="text-lg font-medium text-[var(--ink)] mb-2 leading-snug">Tarefas simplificadas</h3>
+            <p className="text-sm sm:text-base text-[var(--ink-muted)] leading-relaxed">
+              Organize seu dia com passos claros e guiados. Nunca mais esqueça uma atividade importante.
+            </p>
           </Card>
-          <Card className="feature-card">
-            <ShieldCheck className="w-8 h-8 text-[#0f62fe] mb-4" aria-hidden="true" />
-            <h3>Segurança em cada clique</h3>
-            <p>Antes de qualquer ação importante, a plataforma sempre pede sua confirmação. Sem surpresas.</p>
+          <Card className="bg-[var(--canvas)] p-6 sm:p-8 rounded-lg border border-[var(--hairline)] shadow-sm">
+            <ShieldCheck className="w-8 h-8 text-[var(--primary)] mb-4" aria-hidden="true" />
+            <h3 className="text-lg font-medium text-[var(--ink)] mb-2 leading-snug">Segurança em cada clique</h3>
+            <p className="text-sm sm:text-base text-[var(--ink-muted)] leading-relaxed">
+              Antes de qualquer ação importante, a plataforma sempre pede sua confirmação. Sem surpresas.
+            </p>
           </Card>
         </div>
       </div>
