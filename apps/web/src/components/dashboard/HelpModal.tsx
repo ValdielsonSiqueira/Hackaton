@@ -15,7 +15,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
       <div className="bg-[var(--canvas)] border border-[var(--hairline)] p-6 sm:p-8 max-w-md w-full text-center rounded-xl shadow-2xl space-y-4">
         <PhoneCall className="w-12 h-12 text-[var(--primary)] mx-auto mb-2" aria-hidden="true" />
         <h3 id="help-heading" className="text-xl sm:text-2xl font-bold text-[var(--ink)]">Central de Ajuda SeniorEase</h3>
-        <p className="text-sm sm:text-base text-[var(--ink-muted)] leading-relaxed">Você não está sozinho! Nossa equipe de suporte para a terceira idade está pronta para ajudar.</p>
+        <p className="text-sm sm:text-base text-[var(--ink-muted)] leading-relaxed">Você não está sozinho! Nossa equipe de suporte inclusivo SeniorEase está pronta para ajudar.</p>
         <div className="flex flex-col gap-3 pt-2">
           <Button 
             variant="primary" 

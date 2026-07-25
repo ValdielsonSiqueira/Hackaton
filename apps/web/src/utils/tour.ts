@@ -47,7 +47,7 @@ export const startDashboardTour = (onComplete?: (() => void) | unknown) => {
         element: "#senior-ease-logo",
         popover: {
           title: "👋 Bem-vindo ao SeniorEase!",
-          description: "Sua plataforma acessível de atividades com leitura por voz, auto-contraste e navegação simplificada para a terceira idade.",
+          description: "Sua plataforma acessível de atividades com leitura por voz, auto-contraste e navegação simplificada e inclusiva.",
           side: "bottom",
           align: "start"
         }
