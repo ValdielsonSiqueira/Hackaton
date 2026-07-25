@@ -27,6 +27,19 @@ const WEEKDAY_NAMES = Array.from({ length: 7 }, (_, i) => {
   return shortName.charAt(0).toUpperCase() + shortName.slice(1);
 });
 
+interface QuickPresetConfig {
+  label: string;
+  type: "today" | "tomorrow" | "next_week";
+  time: string;
+}
+
+const QUICK_PRESETS: QuickPresetConfig[] = [
+  { label: "HOJE 18:00", type: "today", time: "18:00" },
+  { label: "HOJE 20:00", type: "today", time: "20:00" },
+  { label: "AMANHÃ 09:00", type: "tomorrow", time: "09:00" },
+  { label: "AMANHÃ 14:00", type: "tomorrow", time: "14:00" },
+];
+
 export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange }) => {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
@@ -163,50 +176,23 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
 
       {/* Preset Quick Buttons */}
       <div className="flex gap-2 flex-wrap mb-3" aria-label="Atalhos rápidos de horário">
-        <button
-          type="button"
-          onClick={() => handleQuickPreset("today", "18:00")}
-          className={`px-3 py-1.5 text-xs sm:text-sm font-semibold border cursor-pointer transition-colors ${
-            value.startsWith("HOJE 18:00")
-              ? "bg-[#0f62fe] text-white border-[#0f62fe]"
-              : "bg-[var(--surface-1)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--canvas)]"
-          }`}
-        >
-          HOJE 18:00
-        </button>
-        <button
-          type="button"
-          onClick={() => handleQuickPreset("today", "20:00")}
-          className={`px-3 py-1.5 text-xs sm:text-sm font-semibold border cursor-pointer transition-colors ${
-            value.startsWith("HOJE 20:00")
-              ? "bg-[#0f62fe] text-white border-[#0f62fe]"
-              : "bg-[var(--surface-1)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--canvas)]"
-          }`}
-        >
-          HOJE 20:00
-        </button>
-        <button
-          type="button"
-          onClick={() => handleQuickPreset("tomorrow", "09:00")}
-          className={`px-3 py-1.5 text-xs sm:text-sm font-semibold border cursor-pointer transition-colors ${
-            value.startsWith("AMANHÃ 09:00")
-              ? "bg-[#0f62fe] text-white border-[#0f62fe]"
-              : "bg-[var(--surface-1)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--canvas)]"
-          }`}
-        >
-          AMANHÃ 09:00
-        </button>
-        <button
-          type="button"
-          onClick={() => handleQuickPreset("tomorrow", "14:00")}
-          className={`px-3 py-1.5 text-xs sm:text-sm font-semibold border cursor-pointer transition-colors ${
-            value.startsWith("AMANHÃ 14:00")
-              ? "bg-[#0f62fe] text-white border-[#0f62fe]"
-              : "bg-[var(--surface-1)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--canvas)]"
-          }`}
-        >
-          AMANHÃ 14:00
-        </button>
+        {QUICK_PRESETS.map((preset) => {
+          const isSelected = value.startsWith(preset.label);
+          return (
+            <button
+              key={preset.label}
+              type="button"
+              onClick={() => handleQuickPreset(preset.type, preset.time)}
+              className={`px-3 py-1.5 text-xs sm:text-sm font-semibold border cursor-pointer transition-colors ${
+                isSelected
+                  ? "bg-[#0f62fe] text-white border-[#0f62fe]"
+                  : "bg-[var(--surface-1)] text-[var(--ink)] border-[var(--hairline)] hover:bg-[var(--canvas)]"
+              }`}
+            >
+              {preset.label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Accessible Interactive Calendar Drawer */}
@@ -214,29 +200,32 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
         <div className="bg-[var(--canvas)] border-2 border-[var(--primary)] rounded-lg shadow-2xl p-4 sm:p-5 my-3 w-full max-w-md mx-auto space-y-4">
           {/* Month Header Navigation */}
           <div className="flex items-center justify-between pb-3 border-b border-[var(--hairline)]">
-            <button
-              type="button"
-              onClick={handlePrevMonth}
-              className="w-10 h-10 border border-[var(--hairline)] bg-[var(--surface-1)] hover:bg-[var(--primary)] hover:text-white rounded flex items-center justify-center cursor-pointer transition-colors"
-              aria-label="Mês anterior"
-              title="Mês anterior"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <span className="text-base sm:text-lg font-bold text-[var(--ink)] tracking-wide">
-              {getMonthName(currentYear, currentMonth)} {currentYear}
-            </span>
-
-            <button
-              type="button"
-              onClick={handleNextMonth}
-              className="w-10 h-10 border border-[var(--hairline)] bg-[var(--surface-1)] hover:bg-[var(--primary)] hover:text-white rounded flex items-center justify-center cursor-pointer transition-colors"
-              aria-label="Próximo mês"
-              title="Próximo mês"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
+            {[
+              { label: "Mês anterior", icon: ChevronLeft, onClick: handlePrevMonth },
+              { label: "Próximo mês", icon: ChevronRight, onClick: handleNextMonth },
+            ].reduce<(React.ReactNode | null)[]>((acc, btn, idx) => {
+              const navButton = (
+                <button
+                  key={btn.label}
+                  type="button"
+                  onClick={btn.onClick}
+                  className="w-10 h-10 border border-[var(--hairline)] bg-[var(--surface-1)] hover:bg-[var(--primary)] hover:text-white rounded flex items-center justify-center cursor-pointer transition-colors"
+                  aria-label={btn.label}
+                  title={btn.label}
+                >
+                  <btn.icon className="w-5 h-5" />
+                </button>
+              );
+              if (idx === 1) {
+                acc.push(
+                  <span key="month-label" className="text-base sm:text-lg font-bold text-[var(--ink)] tracking-wide">
+                    {getMonthName(currentYear, currentMonth)} {currentYear}
+                  </span>
+                );
+              }
+              acc.push(navButton);
+              return acc;
+            }, [])}
           </div>
 
           {/* Weekday Labels Header */}
