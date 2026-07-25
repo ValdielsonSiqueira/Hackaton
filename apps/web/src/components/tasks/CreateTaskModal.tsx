@@ -151,9 +151,9 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
         </span>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         {/* Task Title + Voice Dictation */}
-        <div className={`form-group ${taskNameErrorMsg ? "error" : ""}`} id="fg-task-name">
+        <div className="relative mb-5" id="fg-task-name">
           <label htmlFor="new-task-name" className="flex items-center justify-between gap-2 mb-2 w-full">
             <span className="text-sm font-semibold text-[var(--ink)]">1. Nome da Atividade</span>
             <span className="text-xs text-[var(--ink-muted)] font-normal">Digite ou use o microfone</span>
@@ -169,7 +169,11 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               }}
               placeholder="Ex: Ler capítulo 5 de UX Design"
               autoComplete="off"
-              className="flex-1"
+              className={`flex-1 bg-[var(--surface-1)] border-0 border-b ${
+                taskNameErrorMsg 
+                  ? "border-b-2 border-[var(--error)] focus:outline-[var(--error)] text-[var(--ink)]" 
+                  : "border-[var(--ink-subtle)] focus:border-b-2 focus:border-[var(--primary)] text-[var(--ink)]"
+              } h-12 px-4 rounded-none transition-colors`}
               required
               aria-required="true"
               aria-invalid={Boolean(taskNameErrorMsg)}
@@ -187,9 +191,9 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               <Mic className="w-6 h-6 text-white shrink-0" />
             </Button>
           </div>
-          {!taskNameErrorMsg && <p className="form-helper">Escreva um nome simples e claro para a tarefa</p>}
+          {!taskNameErrorMsg && <p className="mt-1 text-xs text-[var(--ink-muted)]">Escreva um nome simples e claro para a tarefa</p>}
           {taskNameErrorMsg && (
-            <p className="form-error-msg" id="task-name-error-msg" role="alert">
+            <p className="mt-1 text-xs text-[var(--error)] font-medium" id="task-name-error-msg" role="alert">
               {taskNameErrorMsg}
             </p>
           )}
@@ -197,13 +201,13 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
 
         {/* Row 2: Category & Priority */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div className="field-group">
-            <label htmlFor="new-task-cat">2. Categoria</label>
+          <div className="relative">
+            <label htmlFor="new-task-cat" className="block text-sm font-semibold text-[var(--ink)] mb-2">2. Categoria</label>
             <select
               id="new-task-cat"
               value={newTaskCategory}
               onChange={(e) => setNewTaskCategory(e.target.value)}
-              className="h-[56px] w-full bg-[#f4f4f4] border-b-2 border-[#8c8c8c] px-4 font-sans text-base text-[#161616]"
+              className="h-12 w-full bg-[var(--surface-1)] border-0 border-b border-[var(--ink-subtle)] focus:border-b-2 focus:border-[var(--primary)] px-4 text-base text-[var(--ink)] outline-none"
             >
               <option value="Acadêmico">Acadêmico</option>
               <option value="Aula online">Aula online</option>

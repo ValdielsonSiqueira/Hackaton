@@ -72,7 +72,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
       </CardHeader>
 
       <CardContent className="p-0">
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} noValidate className="space-y-5">
           <div className="relative" id="fg-user-name">
             <label htmlFor="user-name-input" className="flex items-center gap-2 mb-2 font-semibold text-[var(--ink)]">
               <User className="w-4 h-4 text-[var(--primary)]" /> Seu Nome Completo
@@ -89,7 +89,11 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
               aria-required="true"
               aria-invalid={Boolean(nameErrorMsg)}
               aria-describedby={nameErrorMsg ? "name-error-msg" : undefined}
-              className="w-full bg-[var(--surface-1)] border-b border-[var(--hairline)] text-[var(--ink)]"
+              className={`w-full bg-[var(--surface-1)] border-0 border-b ${
+                nameErrorMsg 
+                  ? "border-b-2 border-[var(--error)] focus:outline-[var(--error)] text-[var(--ink)]" 
+                  : "border-[var(--ink-subtle)] focus:border-b-2 focus:border-[var(--primary)] text-[var(--ink)]"
+              } h-12 px-4 rounded-none transition-colors`}
             />
             {!nameErrorMsg && <p className="mt-1 text-xs text-[var(--ink-muted)]">Como deseja ser chamado no sistema</p>}
             {nameErrorMsg && <p className="mt-1 text-xs text-[var(--error)] font-medium" id="name-error-msg" role="alert">{nameErrorMsg}</p>}
@@ -112,7 +116,11 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
               aria-required="true"
               aria-invalid={Boolean(emailErrorMsg)}
               aria-describedby={emailErrorMsg ? "email-error-msg" : undefined}
-              className="w-full bg-[var(--surface-1)] border-b border-[var(--hairline)] text-[var(--ink)]"
+              className={`w-full bg-[var(--surface-1)] border-0 border-b ${
+                emailErrorMsg 
+                  ? "border-b-2 border-[var(--error)] focus:outline-[var(--error)] text-[var(--ink)]" 
+                  : "border-[var(--ink-subtle)] focus:border-b-2 focus:border-[var(--primary)] text-[var(--ink)]"
+              } h-12 px-4 rounded-none transition-colors`}
             />
             {!emailErrorMsg && <p className="mt-1 text-xs text-[var(--ink-muted)]">Seu e-mail de acesso e notificações</p>}
             {emailErrorMsg && <p className="mt-1 text-xs text-[var(--error)] font-medium" id="email-error-msg" role="alert">{emailErrorMsg}</p>}
@@ -127,7 +135,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
               value={caregiverContact}
               onChange={(e) => setCaregiverContact(e.target.value)}
               placeholder="Ex: Maria (Filha) - (11) 99999-8888"
-              className="w-full bg-[var(--surface-1)] border-b border-[var(--hairline)] text-[var(--ink)]"
+              className="w-full bg-[var(--surface-1)] border-0 border-b border-[var(--ink-subtle)] focus:border-b-2 focus:border-[var(--primary)] text-[var(--ink)] h-12 px-4 rounded-none transition-colors"
             />
             <p className="mt-1 text-xs text-[var(--ink-muted)]">Usado apenas para cópia de lembretes e apoio de emergência (deixe em branco se não houver).</p>
           </div>
@@ -136,7 +144,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
             <Button
               type="submit"
               variant="primary"
-              className="w-full flex items-center justify-center gap-2 h-12 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium"
+              className="w-full flex items-center justify-center gap-2 h-12 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium cursor-pointer"
             >
               <Save className="w-5 h-5" /> Salvar Informações Cadastrais
             </Button>
