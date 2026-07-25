@@ -1,7 +1,10 @@
-/* Accessibility Toolbar Fixed Sizing */
-.a11y-toolbar-fixed {
-  font-size: 16px;
-  line-height: 1.4;
+/* Accessibility Toolbar Fixed Sizing - Protected from Global Mode Overrides */
+.a11y-toolbar-fixed,
+.a11y-toolbar-fixed *,
+.a11y-toolbar-fixed button {
+  font-size: 16px !important;
+  line-height: 1.4 !important;
+  box-sizing: border-box !important;
 }
 
 /* VLibras Positioning below Accessibility Toolbar */
@@ -162,10 +165,10 @@ div[vw] .vw-access-button,
   display: none !important;
 }
 
-/* 3. Amplia áreas clicáveis, botões e fontes para facilitar o toque de idosos */
-.simplified-mode button,
-.simplified-mode input,
-.simplified-mode select {
+/* 3. Amplia apenas botões e inputs do conteúdo principal, PRESERVANDO A BARRA DE ACESSIBILIDADE */
+.simplified-mode main button,
+.simplified-mode main input,
+.simplified-mode main select {
   min-height: 52px !important;
   font-size: 1.1rem !important;
 }
