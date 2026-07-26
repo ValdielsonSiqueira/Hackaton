@@ -63,7 +63,7 @@ jobs:
           pnpm --filter @seniorease/core build
 
       - name: Instalar navegadores do Playwright
-        run: npx playwright install --with-deps chromium
+        run: pnpm --filter web exec playwright install --with-deps chromium
 
       - name: Executar Testes E2E (Playwright)
         run: pnpm --filter web test:e2e
