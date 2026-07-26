@@ -262,32 +262,57 @@ export const TasksView: React.FC<TasksViewProps> = ({
                   },
                 ]}
               >
-                {/* Task Header Row */}
+                {/* Task Main Stacked Container */}
                 <View style={styles.taskCardMainRow}>
-                  {/* Square Checkbox (Matching Web 1:1) */}
-                  <TouchableOpacity
-                    style={[
-                      styles.squareCheckbox,
-                      { 
-                        backgroundColor: t.done ? colors.success : colors.card, 
-                        borderColor: t.done ? colors.success : colors.border, 
-                      },
-                    ]}
-                    onPress={() => toggleActivityTask(t.id)}
-                  >
-                    {t.done && <Text style={styles.checkmarkText}>✓</Text>}
-                  </TouchableOpacity>
+                  {/* Top Bar: Checkbox on Left, Action Icons on Right */}
+                  <View style={styles.taskCardTopBar}>
+                    <TouchableOpacity
+                      style={[
+                        styles.squareCheckbox,
+                        { 
+                          backgroundColor: t.done ? colors.success : colors.card, 
+                          borderColor: t.done ? colors.success : colors.border, 
+                        },
+                      ]}
+                      onPress={() => toggleActivityTask(t.id)}
+                    >
+                      {t.done && <Text style={styles.checkmarkText}>✓</Text>}
+                    </TouchableOpacity>
 
-                  {/* Task Content */}
-                  <View style={{ flex: 1 }}>
-                    <Text style={[styles.taskTitleWeb, { color: colors.text, fontSize: Math.round(16 * fontScale), textDecorationLine: t.done ? "line-through" : "none" }]}>
+                    {/* Actions Group (Pencil, Trash, Chevron) */}
+                    <View style={styles.actionsColumnWeb}>
+                      <TouchableOpacity
+                        style={styles.actionIconBtn}
+                        onPress={() => {
+                          setEditingTask(t);
+                          setCreateModalVisible(true);
+                        }}
+                      >
+                        <Pencil size={Math.min(26, Math.round(18 * fontScale))} color={colors.textMuted} />
+                      </TouchableOpacity>
+
+                      <TouchableOpacity style={styles.actionIconBtn} onPress={() => setDeleteModalTask(t)}>
+                        <Trash2 size={Math.min(26, Math.round(18 * fontScale))} color={colors.urgent} />
+                      </TouchableOpacity>
+
+                      {t.steps && t.steps.length > 0 && (
+                        <TouchableOpacity style={styles.actionIconBtn} onPress={() => toggleExpand(t.id)}>
+                          {isExpanded ? <ChevronUp size={Math.min(28, Math.round(20 * fontScale))} color={colors.textMuted} /> : <ChevronDown size={Math.min(28, Math.round(20 * fontScale))} color={colors.textMuted} />}
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  </View>
+
+                  {/* Bottom Main Content Area: 100% width for clean word wrapping */}
+                  <View style={styles.taskCardContentBox}>
+                    <Text style={[styles.taskTitleWeb, { color: colors.text, fontSize: Math.round(17 * fontScale), textDecorationLine: t.done ? "line-through" : "none" }]}>
                       {t.title}
                     </Text>
 
                     {/* Badges Row Below Title (Matching Web 1:1) */}
                     <View style={styles.badgesRowWeb}>
                       <View style={[styles.categoryBadgeWeb, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}>
-                        <Text style={[styles.categoryBadgeTextWeb, { color: colors.textMuted, fontSize: Math.round(11 * fontScale) }]}>
+                        <Text style={[styles.categoryBadgeTextWeb, { color: colors.textMuted, fontSize: Math.round(12 * fontScale) }]}>
                           {t.category}
                         </Text>
                       </View>
@@ -302,38 +327,15 @@ export const TasksView: React.FC<TasksViewProps> = ({
                           },
                         ]}
                       >
-                        <Text style={[styles.priorityBadgeTextWeb, { color: t.done || t.priority === "high" || t.priority === "low" ? "#FFFFFF" : "#161616", fontSize: Math.round(11 * fontScale) }]}>
+                        <Text style={[styles.priorityBadgeTextWeb, { color: t.done || t.priority === "high" || t.priority === "low" ? "#FFFFFF" : "#161616", fontSize: Math.round(12 * fontScale) }]}>
                           {t.priority === "high" ? "Urgente" : t.priority === "medium" ? "Média" : "Baixa"}
                         </Text>
                       </View>
 
-                      <Text style={[styles.dueTextWeb, { color: t.priority === "high" ? colors.urgent : colors.textMuted, fontSize: Math.round(11 * fontScale) }]}>
+                      <Text style={[styles.dueTextWeb, { color: t.priority === "high" ? colors.urgent : colors.textMuted, fontSize: Math.round(12 * fontScale) }]}>
                         {t.due}
                       </Text>
                     </View>
-                  </View>
-
-                  {/* Actions Column (Pencil, Trash, Chevron) */}
-                  <View style={styles.actionsColumnWeb}>
-                    <TouchableOpacity
-                      style={styles.actionIconBtn}
-                      onPress={() => {
-                        setEditingTask(t);
-                        setCreateModalVisible(true);
-                      }}
-                    >
-                      <Pencil size={18} color={colors.textMuted} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.actionIconBtn} onPress={() => setDeleteModalTask(t)}>
-                      <Trash2 size={18} color={colors.urgent} />
-                    </TouchableOpacity>
-
-                    {t.steps && t.steps.length > 0 && (
-                      <TouchableOpacity style={styles.actionIconBtn} onPress={() => toggleExpand(t.id)}>
-                        {isExpanded ? <ChevronUp size={20} color={colors.textMuted} /> : <ChevronDown size={20} color={colors.textMuted} />}
-                      </TouchableOpacity>
-                    )}
                   </View>
                 </View>
 
@@ -341,34 +343,36 @@ export const TasksView: React.FC<TasksViewProps> = ({
                 {t.steps && t.steps.length > 0 && isExpanded && (
                   <View style={[styles.expandedStepsRegion, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}>
                     <View style={styles.stepRegionHeader}>
-                      <Sparkles size={14} color={primaryAccentColor} />
-                      <Text style={[styles.stepRegionHeaderText, { color: colors.textMuted, fontSize: Math.round(11 * fontScale) }]}>
+                      <Sparkles size={16} color={primaryAccentColor} />
+                      <Text style={[styles.stepRegionHeaderText, { color: colors.textMuted, fontSize: Math.round(12 * fontScale) }]}>
                         PASSO A PASSO COM LEITURA POR VOZ
                       </Text>
                     </View>
 
                     {t.steps.map((st) => (
                       <View key={st.id} style={[styles.stepCardItem, { backgroundColor: colors.card, borderColor: colors.border }]}>
-                        <TouchableOpacity
-                          style={[styles.stepNumberBadge, { backgroundColor: st.done ? colors.success : primaryAccentColor }]}
-                          onPress={() => toggleActivityStep(t.id, st.id)}
-                        >
-                          <Text style={styles.stepNumberText}>{st.id}</Text>
-                        </TouchableOpacity>
+                        <View style={styles.stepCardTopBar}>
+                          <TouchableOpacity
+                            style={[styles.stepNumberBadge, { backgroundColor: st.done ? colors.success : primaryAccentColor }]}
+                            onPress={() => toggleActivityStep(t.id, st.id)}
+                          >
+                            <Text style={[styles.stepNumberText, { fontSize: Math.round(14 * fontScale) }]}>{st.id}</Text>
+                          </TouchableOpacity>
 
-                        <Text style={[styles.stepDescriptionText, { color: colors.text, fontSize: Math.round(13 * fontScale), textDecorationLine: st.done ? "line-through" : "none" }]}>
+                          <TouchableOpacity
+                            style={[styles.stepAudioBtnCircle, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}
+                            onPress={() => {
+                              speakText(st.text);
+                              triggerToast("🔊 Lendo instrução em voz alta...");
+                            }}
+                          >
+                            <Volume2 size={Math.min(24, Math.round(16 * fontScale))} color={primaryAccentColor} />
+                          </TouchableOpacity>
+                        </View>
+
+                        <Text style={[styles.stepDescriptionText, { color: colors.text, fontSize: Math.round(15 * fontScale), textDecorationLine: st.done ? "line-through" : "none" }]}>
                           {st.text}
                         </Text>
-
-                        <TouchableOpacity
-                          style={[styles.stepAudioBtnCircle, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}
-                          onPress={() => {
-                            speakText(st.text);
-                            triggerToast("🔊 Lendo instrução em voz alta...");
-                          }}
-                        >
-                          <Volume2 size={14} color={primaryAccentColor} />
-                        </TouchableOpacity>
                       </View>
                     ))}
 
@@ -565,15 +569,25 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   taskCardMainRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
+    flexDirection: "column",
+    paddingVertical: 18,
+    paddingHorizontal: 16,
     gap: 14,
   },
+  taskCardTopBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  taskCardContentBox: {
+    width: "100%",
+    gap: 8,
+  },
   squareCheckbox: {
-    width: 42,
-    height: 42,
-    borderRadius: 8,
+    width: 44,
+    height: 44,
+    borderRadius: 10,
     borderWidth: 2.5,
     alignItems: "center",
     justifyContent: "center",
@@ -584,7 +598,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   taskTitleWeb: {
-    fontWeight: "500",
+    fontWeight: "600",
     flexShrink: 1,
     flexWrap: "wrap",
     width: "100%",
@@ -592,26 +606,30 @@ const styles = StyleSheet.create({
   badgesRowWeb: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    marginTop: 4,
+    gap: 8,
+    marginTop: 2,
     flexWrap: "wrap",
   },
   categoryBadgeWeb: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
     borderWidth: 1,
   },
   categoryBadgeTextWeb: {
     fontWeight: "bold",
+    flexShrink: 1,
+    flexWrap: "wrap",
   },
   priorityBadgeWeb: {
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 6,
   },
   priorityBadgeTextWeb: {
     fontWeight: "bold",
+    flexShrink: 1,
+    flexWrap: "wrap",
   },
   dueTextWeb: {
     fontWeight: "bold",
@@ -621,57 +639,68 @@ const styles = StyleSheet.create({
   actionsColumnWeb: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 4,
   },
   actionIconBtn: {
     minWidth: 44,
     minHeight: 44,
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
+    padding: 8,
   },
   expandedStepsRegion: {
-    padding: 14,
+    padding: 16,
     borderTopWidth: 1,
-    gap: 8,
+    gap: 12,
   },
   stepRegionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
-    marginBottom: 2,
+    gap: 6,
+    marginBottom: 4,
+    flexWrap: "wrap",
   },
   stepRegionHeaderText: {
     fontWeight: "bold",
     letterSpacing: 0.5,
+    flexShrink: 1,
+    flexWrap: "wrap",
   },
   stepCardItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 12,
-    borderRadius: 8,
+    flexDirection: "column",
+    padding: 16,
+    borderRadius: 10,
     borderWidth: 1,
     gap: 12,
   },
+  stepCardTopBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
   stepNumberBadge: {
-    width: 28,
-    height: 28,
-    borderRadius: 6,
+    minWidth: 36,
+    minHeight: 36,
+    paddingHorizontal: 10,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
   },
   stepNumberText: {
     color: "#FFFFFF",
-    fontSize: 13,
     fontWeight: "bold",
   },
   stepDescriptionText: {
-    flex: 1,
+    width: "100%",
+    flexShrink: 1,
+    flexWrap: "wrap",
+    fontWeight: "500",
   },
   stepAudioBtnCircle: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     borderWidth: 1.5,
     alignItems: "center",
     justifyContent: "center",

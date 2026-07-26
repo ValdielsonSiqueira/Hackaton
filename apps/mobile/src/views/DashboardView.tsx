@@ -490,37 +490,53 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </Text>
 
               <View style={[styles.innerBox, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: colors.borderWidth }]}>
-                <View style={styles.switchRow}>
-                  <Text style={[styles.switchLabel, { color: colors.text, fontSize: Math.round(13 * fontScale) }]}>
+                <TouchableOpacity
+                  activeOpacity={0.75}
+                  style={styles.switchRow}
+                  onPress={() => {
+                    const newVal = !confirmActions;
+                    setConfirmActions(newVal);
+                    triggerToast(newVal ? "Confirmação de ações ativada" : "Confirmação desativada");
+                  }}
+                  accessibilityRole="switch"
+                  accessibilityState={{ checked: confirmActions }}
+                >
+                  <Text style={[styles.switchLabel, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
                     Confirmar Ações
                   </Text>
-                  <Switch
-                    value={confirmActions}
-                    onValueChange={(val) => {
-                      setConfirmActions(val);
-                      triggerToast(val ? "Confirmação de ações ativada" : "Confirmação desativada");
-                    }}
-                    trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
-                    thumbColor="#FFFFFF"
-                  />
-                </View>
+                  <View pointerEvents="none">
+                    <Switch
+                      value={confirmActions}
+                      trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
+                      thumbColor="#FFFFFF"
+                    />
+                  </View>
+                </TouchableOpacity>
 
                 <View style={styles.dividerDashed} />
 
-                <View style={styles.switchRow}>
-                  <Text style={[styles.switchLabel, { color: colors.text, fontSize: Math.round(13 * fontScale) }]}>
+                <TouchableOpacity
+                  activeOpacity={0.75}
+                  style={styles.switchRow}
+                  onPress={() => {
+                    const newVal = !voiceReminders;
+                    setVoiceReminders(newVal);
+                    triggerToast(newVal ? "Lembretes por voz ativados" : "Lembretes desativados");
+                  }}
+                  accessibilityRole="switch"
+                  accessibilityState={{ checked: voiceReminders }}
+                >
+                  <Text style={[styles.switchLabel, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
                     Lembretes por Voz
                   </Text>
-                  <Switch
-                    value={voiceReminders}
-                    onValueChange={(val) => {
-                      setVoiceReminders(val);
-                      triggerToast(val ? "Lembretes por voz ativados" : "Lembretes desativados");
-                    }}
-                    trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
-                    thumbColor="#FFFFFF"
-                  />
-                </View>
+                  <View pointerEvents="none">
+                    <Switch
+                      value={voiceReminders}
+                      trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
+                      thumbColor="#FFFFFF"
+                    />
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -991,10 +1007,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 4,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    minHeight: 48,
   },
   switchLabel: {
-    fontWeight: "500",
+    fontWeight: "600",
+    flexShrink: 1,
+    flexWrap: "wrap",
   },
   dividerDashed: {
     height: 1,

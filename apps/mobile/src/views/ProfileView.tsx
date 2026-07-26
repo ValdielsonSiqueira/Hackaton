@@ -426,71 +426,98 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
         </View>
 
         {/* Switch Row 1: Confirmação de Ações Críticas */}
-        <View style={[styles.switchCardRow, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, borderWidth: colors.borderWidth }]}>
-          <ShieldCheck size={22} color="#24A148" />
+        <TouchableOpacity
+          activeOpacity={0.75}
+          style={[styles.switchCardRow, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, borderWidth: colors.borderWidth }]}
+          onPress={async () => {
+            const newVal = !(settings.criticalConfirmation ?? true);
+            await updateSettings({ ...settings, criticalConfirmation: newVal });
+            triggerToast(newVal ? "Confirmação de ações ativada" : "Confirmações desativadas");
+          }}
+          accessibilityRole="switch"
+          accessibilityState={{ checked: settings.criticalConfirmation ?? true }}
+          accessibilityLabel="Confirmação de Ações Críticas. Toque para alternar."
+        >
+          <ShieldCheck size={26} color="#24A148" />
           <View style={{ flex: 1 }}>
-            <Text style={[styles.switchCardTitle, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
+            <Text style={[styles.switchCardTitle, { color: colors.text, fontSize: Math.round(15 * fontScale) }]}>
               Confirmação de Ações Críticas
             </Text>
-            <Text style={[styles.switchCardSub, { color: colors.textMuted, fontSize: Math.round(12 * fontScale) }]}>
+            <Text style={[styles.switchCardSub, { color: colors.textMuted, fontSize: Math.round(13 * fontScale) }]}>
               Pede confirmação antes de excluir tarefas ou sair
             </Text>
           </View>
-          <Switch
-            value={settings.criticalConfirmation ?? true}
-            onValueChange={async (val) => {
-              await updateSettings({ ...settings, criticalConfirmation: val });
-              triggerToast(val ? "Confirmação de ações ativada" : "Confirmações desativadas");
-            }}
-            trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
-            thumbColor="#FFFFFF"
-          />
-        </View>
+          <View pointerEvents="none">
+            <Switch
+              value={settings.criticalConfirmation ?? true}
+              trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
+              thumbColor="#FFFFFF"
+            />
+          </View>
+        </TouchableOpacity>
 
         {/* Switch Row 2: Feedback Visual e Sonoro Reforçado */}
-        <View style={[styles.switchCardRow, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, borderWidth: colors.borderWidth }]}>
-          <Volume2 size={22} color={primaryAccentColor} />
+        <TouchableOpacity
+          activeOpacity={0.75}
+          style={[styles.switchCardRow, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, borderWidth: colors.borderWidth }]}
+          onPress={async () => {
+            const newVal = !(settings.feedbackVisual ?? true);
+            await updateSettings({ ...settings, feedbackVisual: newVal });
+            triggerToast(newVal ? "Feedback reforçado ativado" : "Feedback desativado");
+          }}
+          accessibilityRole="switch"
+          accessibilityState={{ checked: settings.feedbackVisual ?? true }}
+          accessibilityLabel="Feedback Visual e Sonoro Reforçado. Toque para alternar."
+        >
+          <Volume2 size={26} color={primaryAccentColor} />
           <View style={{ flex: 1 }}>
-            <Text style={[styles.switchCardTitle, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
+            <Text style={[styles.switchCardTitle, { color: colors.text, fontSize: Math.round(15 * fontScale) }]}>
               Feedback Visual e Sonoro Reforçado
             </Text>
-            <Text style={[styles.switchCardSub, { color: colors.textMuted, fontSize: Math.round(12 * fontScale) }]}>
+            <Text style={[styles.switchCardSub, { color: colors.textMuted, fontSize: Math.round(13 * fontScale) }]}>
               Ativa animações festivas e sintetizador de voz nativo
             </Text>
           </View>
-          <Switch
-            value={settings.feedbackVisual ?? true}
-            onValueChange={async (val) => {
-              await updateSettings({ ...settings, feedbackVisual: val });
-              triggerToast(val ? "Feedback reforçado ativado" : "Feedback desativado");
-            }}
-            trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
-            thumbColor="#FFFFFF"
-          />
-        </View>
+          <View pointerEvents="none">
+            <Switch
+              value={settings.feedbackVisual ?? true}
+              trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
+              thumbColor="#FFFFFF"
+            />
+          </View>
+        </TouchableOpacity>
 
         {/* Switch Row 3: Modo de Navegação Simplificado */}
-        <View style={[styles.switchCardRow, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, borderWidth: colors.borderWidth }]}>
-          <Bell size={22} color="#F1C21B" />
+        <TouchableOpacity
+          activeOpacity={0.75}
+          style={[styles.switchCardRow, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, borderWidth: colors.borderWidth }]}
+          onPress={async () => {
+            const currentSimplified = settings.navigationMode === "simplified";
+            const newMode = !currentSimplified ? "simplified" : "standard";
+            await updateSettings({ ...settings, navigationMode: newMode });
+            triggerToast(!currentSimplified ? "Modo Simplificado ativado" : "Modo Padrão ativado");
+          }}
+          accessibilityRole="switch"
+          accessibilityState={{ checked: settings.navigationMode === "simplified" }}
+          accessibilityLabel="Modo de Navegação Simplificado. Toque para alternar."
+        >
+          <Bell size={26} color="#F1C21B" />
           <View style={{ flex: 1 }}>
-            <Text style={[styles.switchCardTitle, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
+            <Text style={[styles.switchCardTitle, { color: colors.text, fontSize: Math.round(15 * fontScale) }]}>
               Modo de Navegação Simplificado
             </Text>
-            <Text style={[styles.switchCardSub, { color: colors.textMuted, fontSize: Math.round(12 * fontScale) }]}>
+            <Text style={[styles.switchCardSub, { color: colors.textMuted, fontSize: Math.round(13 * fontScale) }]}>
               Oculta distrações secundárias para foco máximo
             </Text>
           </View>
-          <Switch
-            value={settings.navigationMode === "simplified"}
-            onValueChange={async (val) => {
-              const newMode = val ? "simplified" : "standard";
-              await updateSettings({ ...settings, navigationMode: newMode });
-              triggerToast(val ? "Modo Simplificado ativado" : "Modo Padrão ativado");
-            }}
-            trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
-            thumbColor="#FFFFFF"
-          />
-        </View>
+          <View pointerEvents="none">
+            <Switch
+              value={settings.navigationMode === "simplified"}
+              trackColor={{ false: "#E0E0E0", true: primaryAccentColor }}
+              thumbColor="#FFFFFF"
+            />
+          </View>
+        </TouchableOpacity>
 
         {/* Save All Preferences Button */}
         <TouchableOpacity style={[styles.submitBtnPrimary, { backgroundColor: primaryAccentColor, marginTop: 6 }]} onPress={handleSaveAllPreferences}>
@@ -758,14 +785,20 @@ const styles = StyleSheet.create({
   switchCardRow: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 12,
-    borderRadius: 8,
-    gap: 10,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    gap: 14,
+    minHeight: 68,
   },
   switchCardTitle: {
     fontWeight: "bold",
+    flexShrink: 1,
+    flexWrap: "wrap",
   },
   switchCardSub: {
-    marginTop: 2,
+    marginTop: 4,
+    flexShrink: 1,
+    flexWrap: "wrap",
   },
 });
