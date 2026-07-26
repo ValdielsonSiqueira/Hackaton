@@ -52,8 +52,6 @@ interface AppContextProps {
   deleteActivityTask: (id: string) => Promise<void>;
   speakText: (text: string) => void;
   stopSpeech: () => void;
-  activeLibrasText: string;
-  setActiveLibrasText: (text: string) => void;
 
   // Academic state
   completedLessons: string[];
@@ -108,9 +106,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     },
   ]);
   const [loading, setLoading] = useState(true);
-  const [activeLibrasText, setActiveLibrasText] = useState<string>(
-    "Olá! Selecione ou toque no texto de qualquer atividade da página para traduzir para a Língua Brasileira de Sinais."
-  );
 
   // Academic states
   const [completedLessons, setCompletedLessons] = useState<string[]>(["1", "2", "3"]);
@@ -186,7 +181,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const speakText = (text: string) => {
-    setActiveLibrasText(text);
     try {
       Speech.stop();
       Speech.speak(text, { language: "pt-BR", rate: 0.85 });
@@ -230,8 +224,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         completeLesson,
         currentLessonId,
         setCurrentLessonId,
-        activeLibrasText,
-        setActiveLibrasText,
       }}
     >
       {children}

@@ -23,9 +23,8 @@ import { TasksView } from "./src/views/TasksView";
 import { ProfileView } from "./src/views/ProfileView";
 import { HelpModalView } from "./src/views/HelpModalView";
 
-// Import Floating Accessibility Toolbar & VLibras
+// Import Floating Accessibility Toolbar
 import { AccessibilityToolbarMobile } from "./src/components/AccessibilityToolbarMobile";
-import { VLibrasToolbarMobile } from "./src/components/VLibrasToolbarMobile";
 
 // Import Safety & Guided Tour Components
 import { SignOutModalMobile } from "./src/components/SignOutModalMobile";
@@ -56,7 +55,6 @@ function MainAppContent() {
     deleteActivityTask, 
     theme, 
     speakText,
-    activeLibrasText,
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<"dashboard" | "tasks" | "profile" | "help">("dashboard");
@@ -228,14 +226,6 @@ function MainAppContent() {
         updateSettings={updateSettings}
         theme={theme}
         topInset={topInset}
-      />
-
-      {/* Floating VLibras Toolbar */}
-      <VLibrasToolbarMobile
-        theme={theme}
-        topInset={topInset}
-        triggerToast={triggerToast}
-        activeText={activeLibrasText}
       />
 
       {/* Global Help Modal */}
