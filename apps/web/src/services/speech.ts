@@ -17,7 +17,7 @@ export const speakText = (text: string, rate: number = 0.85): boolean => {
 
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "pt-BR";
-  utterance.rate = rate; // Paused speech rate tailored for senior comprehension
+  utterance.rate = rate; 
   window.speechSynthesis.speak(utterance);
   return true;
 };

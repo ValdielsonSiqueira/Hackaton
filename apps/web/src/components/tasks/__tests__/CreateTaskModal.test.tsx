@@ -42,7 +42,6 @@ describe("CreateTaskModal Component", () => {
     const nameInput = screen.getByLabelText(/1. Nome da Atividade/i);
     fireEvent.change(nameInput, { target: { value: "Estudar para Prova de Software" } });
 
-    // Select Urgent Priority
     const urgentBtn = screen.getByRole("button", { name: /Urgente/i });
     fireEvent.click(urgentBtn);
 

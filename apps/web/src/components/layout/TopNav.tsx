@@ -60,13 +60,11 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
 
   return (
     <>
-      {/* Top Header Bar */}
       <nav className="sticky top-0 z-40 min-h-[56px] h-auto py-2 px-4 sm:px-8 border-b border-[var(--hairline)] bg-[var(--canvas)] flex items-center justify-between gap-3 shadow-xs" role="navigation" aria-label="Navegação principal">
         <Link to={isAuth ? "/dashboard" : "/login"} id="senior-ease-logo" className="text-xl font-semibold text-[var(--ink)] tracking-tight no-underline shrink-0" aria-label="SeniorEase">
           Senior<span className="text-[var(--primary)]">Ease</span>
         </Link>
 
-        {/* Desktop Navigation Links */}
         {isAuth && (
           <ul className="hidden md:flex items-center gap-6 list-none m-0 p-0" role="list">
             <li>
@@ -156,7 +154,6 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
         </div>
       </nav>
 
-      {/* Mobile Bottom Navigation Bar */}
       {isAuth && (
         <nav 
           className="fixed bottom-0 inset-x-0 z-40 bg-[var(--canvas)] border-t-2 border-[var(--primary)] shadow-2xl flex items-center justify-around h-16 md:hidden px-2" 
@@ -209,7 +206,6 @@ export const TopNav: React.FC<TopNavProps> = ({ onSignOutClick, onHelpClick }) =
         </nav>
       )}
 
-      {/* Internal Modal Fallback for Sign Out Confirmation */}
       {showConfirmModal && (
         <div className="fixed inset-0 bg-black/60 z-[999] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="topnav-modal-heading">
           <div className="bg-[var(--canvas)] p-6 max-w-sm w-full text-center rounded-lg shadow-xl border border-[var(--hairline)]">

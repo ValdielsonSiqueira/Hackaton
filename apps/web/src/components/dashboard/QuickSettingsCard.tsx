@@ -66,7 +66,6 @@ export const QuickSettingsCard: React.FC<QuickSettingsCardProps> = ({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full box-border">
-        {/* 1. Tamanho do Texto */}
         <div className="p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0 w-full rounded-lg box-border overflow-hidden">
           <div>
             <label className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
@@ -99,7 +98,6 @@ export const QuickSettingsCard: React.FC<QuickSettingsCardProps> = ({
           </div>
         </div>
 
-        {/* 2. Modos de Contraste */}
         <div className="p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0 w-full rounded-lg box-border overflow-hidden">
           <div>
             <label className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">
@@ -144,7 +142,6 @@ export const QuickSettingsCard: React.FC<QuickSettingsCardProps> = ({
           </div>
         </div>
 
-        {/* 3. Recursos de Proteção & Voz */}
         <div className="p-4 bg-[var(--surface-1)] border border-[var(--hairline)] flex flex-col justify-between gap-3 min-w-0 w-full rounded-lg box-border overflow-hidden">
           <div>
             <label className="text-base font-semibold text-[var(--ink)] flex items-center gap-2 mb-1">

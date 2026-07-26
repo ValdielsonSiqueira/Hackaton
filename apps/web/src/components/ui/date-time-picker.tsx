@@ -14,14 +14,12 @@ interface DateTimePickerProps {
   onChange: (formattedValue: string) => void;
 }
 
-// Dynamic Locale Helpers using Intl.DateTimeFormat (pt-BR)
 const getMonthName = (year: number, monthIndex: number) => {
   const name = new Date(year, monthIndex, 1).toLocaleDateString("pt-BR", { month: "long" });
   return name.charAt(0).toUpperCase() + name.slice(1);
 };
 
 const WEEKDAY_NAMES = Array.from({ length: 7 }, (_, i) => {
-  // Sunday 2026-03-01 through Saturday 2026-03-07
   const d = new Date(2026, 2, 1 + i);
   const shortName = d.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", "");
   return shortName.charAt(0).toUpperCase() + shortName.slice(1);
@@ -48,7 +46,6 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
   const [timeString, setTimeString] = useState("18:00");
   const [isOpen, setIsOpen] = useState(false);
 
-  // Calculate days in current month view
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
@@ -122,9 +119,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
     applySelection(newDate, time);
   };
 
-  // Build grid calendar cells
   const calendarCells = [];
-  // Previous month trailing days
   for (let i = firstDayOfMonth - 1; i >= 0; i--) {
     calendarCells.push({
       day: daysInPrevMonth - i,
@@ -132,7 +127,6 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
       date: new Date(currentYear, currentMonth - 1, daysInPrevMonth - i),
     });
   }
-  // Current month days
   for (let d = 1; d <= daysInMonth; d++) {
     calendarCells.push({
       day: d,
@@ -140,7 +134,6 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
       date: new Date(currentYear, currentMonth, d),
     });
   }
-  // Next month leading days to fill grid
   const totalCells = Math.ceil(calendarCells.length / 7) * 7;
   const nextMonthDays = totalCells - calendarCells.length;
   for (let n = 1; n <= nextMonthDays; n++) {
@@ -153,7 +146,6 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
 
   return (
     <div className="w-full">
-      {/* Input Display Bar */}
       <div className="flex flex-col sm:flex-row gap-2 mb-3">
         <button
           type="button"
@@ -174,7 +166,6 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
         </button>
       </div>
 
-      {/* Preset Quick Buttons */}
       <div className="flex gap-2 flex-wrap mb-3" aria-label="Atalhos rápidos de horário">
         {QUICK_PRESETS.map((preset) => {
           const isSelected = value.startsWith(preset.label);
@@ -195,10 +186,8 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
         })}
       </div>
 
-      {/* Accessible Interactive Calendar Drawer */}
       {isOpen && (
         <div className="bg-[var(--canvas)] border-2 border-[var(--primary)] rounded-lg shadow-2xl p-4 sm:p-5 my-3 w-full max-w-md mx-auto space-y-4">
-          {/* Month Header Navigation */}
           <div className="flex items-center justify-between pb-3 border-b border-[var(--hairline)]">
             {[
               { label: "Mês anterior", icon: ChevronLeft, onClick: handlePrevMonth },
@@ -228,14 +217,12 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
             }, [])}
           </div>
 
-          {/* Weekday Labels Header */}
           <div className="grid grid-cols-7 gap-1 text-center font-bold text-xs sm:text-sm text-[var(--ink-muted)] py-1">
             {WEEKDAY_NAMES.map((wd) => (
               <div key={wd}>{wd}</div>
             ))}
           </div>
 
-          {/* Days Grid */}
           <div className="grid grid-cols-7 gap-1">
             {calendarCells.map((cell, idx) => {
               const isSelected =
@@ -273,7 +260,6 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
             })}
           </div>
 
-          {/* Time Picker Section */}
           <div className="pt-3 border-t border-[var(--hairline)] space-y-3">
             <label htmlFor="time-select-input" className="flex items-center gap-2 text-sm font-semibold text-[var(--ink)]">
               <Clock className="w-4 h-4 text-[var(--primary)]" /> Horário da Atividade:
@@ -305,7 +291,6 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, onChange 
             </div>
           </div>
 
-          {/* Confirm Button inside Drawer */}
           <Button
             variant="primary"
             onClick={() => setIsOpen(false)}

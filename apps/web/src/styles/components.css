@@ -1,9 +1,7 @@
-/* Accessibility Toolbar Fixed Sizing - Protected from Global Mode Overrides */
 .a11y-toolbar-fixed {
   box-sizing: border-box !important;
 }
 
-/* VLibras Positioning below Accessibility Toolbar */
 div[vw],
 [vw] {
   position: relative !important;
@@ -30,7 +28,6 @@ div[vw] .vw-access-button,
   margin-bottom: 4px !important;
 }
 
-/* Driver.js Tour Styling for SeniorEase Accessibility */
 .driver-popover,
 .driver-popover * {
   box-sizing: border-box !important;
@@ -146,22 +143,16 @@ div[vw] .vw-access-button,
   background-color: #e5edff !important;
 }
 
-/* Mode: Simplified Navigation (Modo de Navegação Simplificado - Foco Máximo) */
 .simplified-mode {
   --gap: 24px;
 }
-
-/* 1. Oculta ilustrações decorativas para eliminar ruído visual */
 .simplified-mode .welcome-illustration {
   display: none !important;
 }
 
-/* 2. Oculta estatísticas secundárias (dias seguidos/gamificação) focando apenas nas tarefas do dia */
 .simplified-mode #dashboard-stats-row > div:nth-child(3) {
   display: none !important;
 }
-
-/* 3. Amplia apenas botões e inputs do conteúdo principal, PRESERVANDO A BARRA DE ACESSIBILIDADE */
 .simplified-mode main button,
 .simplified-mode main input,
 .simplified-mode main select {
@@ -175,7 +166,6 @@ div[vw] .vw-access-button,
   border-width: 2px !important;
 }
 
-/* Comprehensive Dark Mode & High Contrast Container & Button Overrides */
 .dark-contrast,
 .dark-contrast body,
 .dark-contrast #root {

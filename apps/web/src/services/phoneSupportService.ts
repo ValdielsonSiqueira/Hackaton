@@ -22,7 +22,6 @@ export class PhoneSupportService {
   initiateSupportCall(onSuccess?: (msg: string) => void): void {
     const msg = `Iniciando atendimento de suporte pelo número ${this.config.formattedDisplay}...`;
     if (typeof window !== "undefined" && window.location) {
-      // In browsers, tel: protocol opens native dialer
       try {
         window.location.href = `tel:${this.config.phoneNumber}`;
       } catch (e) {}

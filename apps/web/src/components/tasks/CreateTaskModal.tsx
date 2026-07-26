@@ -146,7 +146,6 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
       </div>
 
       <form onSubmit={handleSubmit} noValidate>
-        {/* Task Title + Voice Dictation */}
         <div className="relative mb-5" id="fg-task-name">
           <label htmlFor="new-task-name" className="flex items-center justify-between gap-2 mb-2 w-full">
             <span className="text-sm font-semibold text-[var(--ink)]">1. Nome da Atividade</span>
@@ -193,7 +192,6 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
           )}
         </div>
 
-        {/* Row 2: Category & Priority */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="relative">
             <label htmlFor="new-task-cat" className="block text-sm font-semibold text-[var(--ink)] mb-2">2. Categoria</label>
@@ -254,7 +252,6 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
           </div>
         </div>
 
-        {/* Row 3: Accessible Date & Time Calendar Picker */}
         <div className="field-group mb-6">
           <label className="block text-sm font-semibold text-[var(--ink)] mb-2">
             4. Horário e Lembrete
@@ -265,7 +262,6 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
           />
         </div>
 
-        {/* Row 4: Step-by-Step Guided Creator */}
         <div className="field-group mb-6 border-t border-[#e0e0e0] pt-4">
           <div className="flex items-center justify-between mb-2">
             <label className="flex items-center gap-1">
@@ -309,7 +305,6 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
           </div>
         </div>
 
-        {/* Actions */}
         <div className="form-actions flex gap-3">
           <Button type="submit" variant="primary" id="save-task-btn" className="flex-1">
             {editingTask ? "Atualizar Atividade" : "Salvar Atividade"}

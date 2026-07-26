@@ -7,7 +7,6 @@ import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { Plus, Sparkles, PartyPopper } from "lucide-react";
 
-// Tasks Modular Sub-components
 import { TasksHeader } from "../components/tasks/TasksHeader";
 import { TasksProgress } from "../components/tasks/TasksProgress";
 import { TaskFilterTabs } from "../components/tasks/TaskFilterTabs";
@@ -163,7 +162,6 @@ export const TasksPage: React.FC = () => {
           doneCount={completedCount}
         />
 
-        {/* Modal / Form for Creating or Editing Task */}
         <CreateTaskModal
           editingTask={editingTask}
           isOpen={formOpen}
@@ -175,7 +173,6 @@ export const TasksPage: React.FC = () => {
           onTriggerToast={triggerToast}
         />
 
-        {/* Task Cards List */}
         {filteredTasks.length === 0 ? (
           <Card className="empty-state p-10 text-center bg-[var(--canvas)] border border-[var(--hairline)] my-4 flex flex-col items-center justify-center">
             <Sparkles className="w-12 h-12 text-[#0f62fe] mb-3 opacity-60" aria-hidden="true" />
@@ -220,14 +217,12 @@ export const TasksPage: React.FC = () => {
         )}
       </main>
 
-      {/* Confirmation Modal for Task Deletion */}
       <DeleteTaskModal
         task={taskToDelete}
         onConfirm={handleConfirmDelete}
         onClose={() => setTaskToDelete(null)}
       />
 
-      {/* Celebration Success Overlay */}
       {showSuccessOverlay && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fade-in pointer-events-none">
           <div className="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm mx-4 transform animate-bounce-short">
@@ -242,10 +237,8 @@ export const TasksPage: React.FC = () => {
         </div>
       )}
 
-      {/* Global Footer */}
       <Footer />
 
-      {/* Toast Notification */}
       {toastMsg && (
         <div className="toast show" role="status" aria-live="polite">
           {toastMsg}

@@ -15,7 +15,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section className="bg-[var(--inverse-canvas)] py-24 sm:py-36 px-4 sm:px-8 min-h-screen flex items-center justify-center" aria-labelledby="hero-heading">
       <div className="max-w-[1040px] w-full grid grid-cols-1 md:grid-cols-[1fr_480px] gap-8 md:gap-16 items-center">
-        {/* Left Column */}
         <div>
           <p className="text-xs sm:text-sm font-normal tracking-wide text-[var(--inverse-ink-muted)] mb-4 uppercase">
             FIAP Inclusive
@@ -29,7 +28,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </p>
         </div>
 
-        {/* Right Column: Shadcn Card Login */}
         <AuthFormCard
           initialName={initialName}
           initialEmail={initialEmail}

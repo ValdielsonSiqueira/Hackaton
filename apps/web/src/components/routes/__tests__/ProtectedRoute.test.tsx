@@ -7,7 +7,6 @@ import { useAppStore } from "../../../store/useAppStore";
 
 describe("ProtectedRoute Component", () => {
   beforeEach(() => {
-    // Prevent initializeStore from resetting custom test state
     useAppStore.setState({
       loading: false,
       userProfile: { name: "", email: "", caregiverContact: "", isAuthenticated: false },

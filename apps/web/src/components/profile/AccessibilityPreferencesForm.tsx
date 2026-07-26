@@ -74,7 +74,6 @@ export const AccessibilityPreferencesForm: React.FC<AccessibilityPreferencesForm
       </CardHeader>
 
       <CardContent className="p-0 space-y-4 sm:space-y-5">
-        {/* 1. Font Size */}
         <div className="p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
           <div className="flex items-center gap-3 mb-3">
             <ZoomIn className="w-6 h-6 text-[var(--primary)] shrink-0" />
@@ -108,7 +107,6 @@ export const AccessibilityPreferencesForm: React.FC<AccessibilityPreferencesForm
           </div>
         </div>
 
-        {/* 2. Contrast Modes */}
         <div className="p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
           <div className="flex items-center gap-3 mb-3">
             <Eye className="w-6 h-6 text-[var(--primary)] shrink-0" />
@@ -154,7 +152,6 @@ export const AccessibilityPreferencesForm: React.FC<AccessibilityPreferencesForm
           </div>
         </div>
 
-        {/* 3. Confirm Actions */}
         <div className="flex flex-row items-center justify-between gap-3 p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <ShieldCheck className="w-6 h-6 text-[#24a148] shrink-0" />
@@ -174,7 +171,6 @@ export const AccessibilityPreferencesForm: React.FC<AccessibilityPreferencesForm
           </div>
         </div>
 
-        {/* 4. Voice & Visual Feedback */}
         <div className="flex flex-row items-center justify-between gap-3 p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <Volume2 className="w-6 h-6 text-[var(--primary)] shrink-0" />
@@ -194,7 +190,6 @@ export const AccessibilityPreferencesForm: React.FC<AccessibilityPreferencesForm
           </div>
         </div>
 
-        {/* 5. Simplified Mode */}
         <div className="flex flex-row items-center justify-between gap-3 p-3.5 sm:p-4 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-sm min-w-0">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <Bell className="w-6 h-6 text-[#f1c21b] shrink-0" />

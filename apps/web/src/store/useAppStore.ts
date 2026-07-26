@@ -29,12 +29,10 @@ interface AppState {
   activityTasks: TaskItem[];
   loading: boolean;
 
-  // Actions
   initializeStore: () => Promise<void>;
   updateSettings: (newSettings: UserSettings) => Promise<void>;
   updateUserProfile: (partial: Partial<UserProfile>) => Promise<void>;
   
-  // Activity Tasks Actions
   setActivityTasks: (tasks: TaskItem[]) => Promise<void>;
   addActivityTask: (task: TaskItem) => Promise<void>;
   updateActivityTask: (task: TaskItem) => Promise<void>;
@@ -43,7 +41,6 @@ interface AppState {
   deleteActivityTask: (id: string) => Promise<void>;
   clearAllActivityTasks: () => Promise<void>;
 
-  // Core Tasks Actions
   createTask: (title: string, description: string, instructions: string[]) => Promise<void>;
   toggleStep: (taskId: string, stepId: string) => Promise<Task | null>;
   toggleTask: (taskId: string) => Promise<void>;
@@ -74,7 +71,6 @@ export const useAppStore = create<AppState>((set, get) => ({
         loading: false,
       });
 
-      // Apply initial DOM variables
       get().updateSettings(loadedSettings);
     } catch (err) {
       console.error("Failed to initialize Zustand AppStore", err);
@@ -86,7 +82,6 @@ export const useAppStore = create<AppState>((set, get) => ({
     await settingsUseCase.updateSettings(newSettings);
     set({ settings: newSettings });
 
-    // Sync CSS Variables & Document Classes
     if (typeof document !== "undefined") {
       const root = document.documentElement;
 

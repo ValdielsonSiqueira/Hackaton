@@ -37,11 +37,9 @@ export const AccessibilityToolbar: React.FC = () => {
       className="fixed right-0 top-[60px] sm:top-[68px] z-[9999] flex flex-col items-end gap-2 a11y-toolbar-fixed"
       aria-label="Painel Flutuante de Acessibilidade"
     >
-      {/* VLibras Widget (Above Toolbar) */}
       <VLibras />
 
       <div className="flex items-start">
-        {/* Sidebar Trigger Button */}
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
@@ -55,7 +53,6 @@ export const AccessibilityToolbar: React.FC = () => {
           {isOpen ? <ChevronRight className="w-3.5 h-3.5 text-white mt-0.5" /> : <ChevronLeft className="w-3.5 h-3.5 text-white mt-0.5" />}
         </button>
 
-        {/* Drawer Panel */}
         {isOpen && (
           <div className="bg-[var(--canvas)] border-2 border-[#24a148] shadow-2xl w-[260px] sm:w-[290px] max-w-[calc(100vw-55px)] p-2 rounded-l-lg flex flex-col gap-1 text-[var(--ink)] font-sans">
             <div className="bg-[#24a148] text-white p-[12px] font-semibold text-[16px] leading-[20px] flex items-center justify-between">
@@ -71,7 +68,6 @@ export const AccessibilityToolbar: React.FC = () => {
               </button>
             </div>
 
-            {/* Font Controls */}
             <button
               type="button"
               onClick={() => changeFontScale(0.1)}
@@ -90,7 +86,6 @@ export const AccessibilityToolbar: React.FC = () => {
               <span className="text-[13px] leading-[16px] text-[#525252] font-normal">({Math.round(fontScale * 100)}%)</span>
             </button>
 
-            {/* Contrast Controls */}
             <button
               type="button"
               onClick={() => applyContrast("high")}
@@ -121,7 +116,6 @@ export const AccessibilityToolbar: React.FC = () => {
               </span>
             </button>
 
-            {/* Reset Control */}
             <button
               type="button"
               onClick={resetAll}

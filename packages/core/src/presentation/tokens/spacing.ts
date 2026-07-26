@@ -13,7 +13,7 @@ export const spacing = {
     md: "24px",
     lg: "32px",
     xl: "40px",
-    buttonHeight: "56px" // Accessible touch target
+    buttonHeight: "56px" 
   }
 };
 export type SpacingTheme = typeof spacing.standard;

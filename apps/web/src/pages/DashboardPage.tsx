@@ -4,7 +4,6 @@ import { TopNav } from "../components/layout/TopNav";
 import { useApp } from "../context/AppContext";
 import { isTourCompleted, startDashboardTour } from "../utils/tour";
 
-// Modular Dashboard Sub-components
 import { WelcomeBanner } from "../components/dashboard/WelcomeBanner";
 import { PriorityTaskCard } from "../components/dashboard/PriorityTaskCard";
 import { DashboardStats } from "../components/dashboard/DashboardStats";
@@ -71,7 +70,6 @@ export const DashboardPage: React.FC = () => {
       <TopNav onSignOutClick={() => setShowSignoutModal(true)} />
 
       <main className="max-w-[1080px] w-full mx-auto px-4 sm:px-6 pt-20 pb-24 flex-1" role="main">
-        {/* Welcome Banner */}
         <WelcomeBanner
           studentName={studentName}
           pendingToday={pendingToday}
@@ -80,16 +78,13 @@ export const DashboardPage: React.FC = () => {
           onStartTour={startDashboardTour}
         />
 
-        {/* Hero Priority Action Card */}
         <PriorityTaskCard nextTask={nextTask} />
 
-        {/* Stats Row */}
         <DashboardStats
           completedToday={completedToday}
           pendingToday={pendingToday}
         />
 
-        {/* Quick Accessibility Settings (oculto no Modo Simplificado para Foco Máximo) */}
         {!isSimplified && (
           <QuickSettingsCard
             settings={settings}
@@ -98,17 +93,14 @@ export const DashboardPage: React.FC = () => {
           />
         )}
 
-        {/* Modules Navigation Grid */}
         <ModulesGrid onOpenHelpModal={() => setShowHelpModal(true)} />
 
-        {/* Recent Tasks Section */}
         <RecentTasksList
           tasks={activityTasks}
           onTriggerToast={triggerToast}
         />
       </main>
 
-      {/* Modals */}
       <SignOutModal
         isOpen={showSignoutModal}
         onConfirm={handleSignOutConfirm}
@@ -120,7 +112,6 @@ export const DashboardPage: React.FC = () => {
         onClose={() => setShowHelpModal(false)}
       />
 
-      {/* Toast Feedback */}
       {toastMessage && (
         <div 
           className="fixed bottom-6 right-6 bg-[#161616] text-white px-5 py-3 rounded-lg shadow-2xl z-[9999] text-sm font-semibold border border-[#393939] animate-fade-in"

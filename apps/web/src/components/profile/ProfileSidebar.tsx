@@ -7,7 +7,6 @@ import { CheckCircle2, ArrowRight } from "lucide-react";
 export const ProfileSidebar: React.FC = () => {
   return (
     <div className="flex flex-col gap-6">
-      {/* Persistence Status Card */}
       <Card className="p-6 bg-[var(--surface-1)] border border-[var(--hairline)] rounded-xl">
         <div className="flex items-center gap-2 text-[var(--primary)] font-semibold text-sm mb-2">
           <CheckCircle2 className="w-5 h-5" /> Armazenamento Persistente
@@ -18,7 +17,6 @@ export const ProfileSidebar: React.FC = () => {
         </p>
       </Card>
 
-      {/* Navigation Card */}
       <Card className="p-6 bg-[var(--canvas)] border border-[var(--hairline)] rounded-xl">
         <h4 className="text-base font-semibold text-[var(--ink)] mb-4">Navegação Rápida</h4>
         <div className="flex flex-col gap-3">

@@ -18,13 +18,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           "inline-flex items-center justify-between font-sans text-base leading-tight tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f62fe] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer border-0 rounded-none",
           
-          // Senior Touch Target Sizes (56px default min-height que cresce com a fonte)
           size === "default" && "min-h-[56px] h-auto justify-between px-6 py-3",
           size === "sm" && "min-h-[40px] h-auto justify-center px-4 py-2 text-sm",
           size === "lg" && "min-h-[64px] h-auto justify-between px-8 py-4 text-lg",
           size === "icon" && "h-[56px] w-[56px] min-w-[56px] p-0 justify-center flex items-center shrink-0",
 
-          // IBM Carbon Variants
           variant === "primary" && "bg-[#0f62fe] text-white hover:bg-[#0050e6] active:bg-[#002d9c]",
           variant === "tertiary" && "bg-white text-[#0f62fe] border border-[#0f62fe] hover:bg-[#f4f4f4] active:bg-[#e0e0e0]",
           variant === "nav" && "bg-[#0f62fe] text-white hover:bg-[#0050e6] min-h-[40px] h-auto px-5 py-2 text-sm",

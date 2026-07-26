@@ -25,7 +25,6 @@ describe("AuthFormCard Component", () => {
     const submitBtn = screen.getByRole("button", { name: /Entrar na minha conta/i });
     fireEvent.click(submitBtn);
 
-    // Form should fail validation without submitting
     expect(handleSuccess).not.toHaveBeenCalled();
     expect(screen.getByText(/Por favor, digite seu e-mail/i)).toBeInTheDocument();
   });

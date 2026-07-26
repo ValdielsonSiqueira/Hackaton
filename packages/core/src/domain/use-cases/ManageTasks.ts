@@ -35,7 +35,6 @@ export class ManageTasks {
       step.isCompleted = !step.isCompleted;
     }
 
-    // Auto complete task if all steps are completed
     task.isCompleted = task.steps.every(s => s.isCompleted);
     await this.taskRepo.saveTask(task);
     return task;

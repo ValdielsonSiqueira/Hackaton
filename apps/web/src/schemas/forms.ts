@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// 1. Login Form Schema
 export const loginSchema = z.object({
   email: z
     .string()
@@ -14,7 +13,6 @@ export const loginSchema = z.object({
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
-// 1b. Register Form Schema
 export const registerSchema = z.object({
   name: z
     .string()
@@ -32,7 +30,6 @@ export const registerSchema = z.object({
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 
-// 2. Task Form Schema
 export const taskSchema = z.object({
   title: z
     .string()
@@ -45,7 +42,6 @@ export const taskSchema = z.object({
 
 export type TaskFormData = z.infer<typeof taskSchema>;
 
-// 3. Profile Form Schema
 export const profileSchema = z.object({
   name: z
     .string()

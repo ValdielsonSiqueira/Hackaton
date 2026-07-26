@@ -1,15 +1,14 @@
 export const colors = {
   light: {
-    background: "#F9F9F9", // Off-white/f9f9f9 to eliminate harsh glare
+    background: "#F9F9F9",
     surface: "#F9F9F9",
-    text: "#1A1C1C", // on-surface
-    primary: "#041627", // Deep Navy (main buttons, headers, borders)
+    text: "#1A1C1C",
+    primary: "#041627",
     primaryContrast: "#FFFFFF",
-    secondary: "#36693d", // Forest Green (positive proceed actions)
+    secondary: "#36693d", 
     secondaryContrast: "#FFFFFF",
     border: "#CBD5E1",
-    
-    // Material style containers from DESIGN.md
+
     surfaceContainerLowest: "#FFFFFF",
     surfaceContainerLow: "#F3F3F3",
     surfaceContainer: "#EEEEEE",
@@ -18,9 +17,8 @@ export const colors = {
     onSurfaceVariant: "#44474C",
     outlineVariant: "#C4C6CD",
     
-    // Alerts/Tertiary
     tertiaryContainer: "#432100",
-    onTertiaryContainer: "#DA7807", // Amber warning
+    onTertiaryContainer: "#DA7807",
     error: "#BA1A1A",
     onError: "#FFFFFF"
   },
@@ -48,7 +46,7 @@ export const colors = {
   highContrast: {
     background: "#000000",
     surface: "#000000",
-    text: "#FFFF00", // Yellow on black for extreme legibility
+    text: "#FFFF00", 
     primary: "#FFFF00",
     primaryContrast: "#000000",
     secondary: "#FFFF00",

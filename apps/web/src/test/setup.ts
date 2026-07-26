@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 
-// Mock localStorage
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
   return {
@@ -22,7 +21,6 @@ Object.defineProperty(window, "localStorage", {
   writable: true,
 });
 
-// Mock SpeechSynthesis
 if (typeof window !== "undefined") {
   (window as any).SpeechSynthesisUtterance = class {
     text: string;

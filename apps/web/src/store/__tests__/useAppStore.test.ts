@@ -5,7 +5,6 @@ import type { TaskItem } from "../../context/AppContext";
 describe("useAppStore (Zustand)", () => {
   beforeEach(() => {
     localStorage.clear();
-    // Reset store state
     useAppStore.setState({
       settings: {
         contrastMode: "standard",
@@ -56,11 +55,9 @@ describe("useAppStore (Zustand)", () => {
     await store.addActivityTask(newTask);
     expect(useAppStore.getState().activityTasks).toHaveLength(1);
 
-    // Toggle completion
     await store.toggleActivityTask("activity-100");
     expect(useAppStore.getState().activityTasks[0].done).toBe(true);
 
-    // Delete task
     await store.deleteActivityTask("activity-100");
     expect(useAppStore.getState().activityTasks).toHaveLength(0);
   });

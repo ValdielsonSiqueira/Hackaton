@@ -4,7 +4,6 @@ import { TopNav } from "../components/layout/TopNav";
 import { Footer } from "../components/layout/Footer";
 import { useApp } from "../context/AppContext";
 
-// Auth Components
 import { HeroSection } from "../components/auth/HeroSection";
 import { FeaturesGrid } from "../components/auth/FeaturesGrid";
 import { CtaBanner } from "../components/auth/CtaBanner";
@@ -36,21 +35,17 @@ export const LoginPage: React.FC = () => {
       <TopNav />
 
       <main style={{ flex: 1 }}>
-        {/* Hero & Login/Register Form Section */}
         <HeroSection
           initialName={userProfile.name}
           initialEmail={userProfile.email}
           onSuccess={handleAuthSuccess}
         />
 
-        {/* Value Proposition Features Section */}
         <FeaturesGrid />
 
-        {/* Call-to-action Banner */}
         <CtaBanner onAccess={() => navigate("/dashboard")} />
       </main>
 
-      {/* Global Footer */}
       <Footer />
     </div>
   );
