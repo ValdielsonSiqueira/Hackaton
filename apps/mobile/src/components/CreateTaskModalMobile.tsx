@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { 
   StyleSheet, 
   Text, 
@@ -52,6 +52,7 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
   const [stepInputs, setStepInputs] = useState<string[]>([""]);
   const [titleError, setTitleError] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
+  const titleInputRef = useRef<TextInput>(null);
 
   useEffect(() => {
     if (editingTask) {
@@ -75,12 +76,50 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
   }, [editingTask, visible]);
 
   const handleStartDictation = () => {
-    setIsListening(true);
-    triggerToast("🎙️ Fale o nome da atividade em alta voz...");
-    speakText("Pode falar o nome da atividade agora.");
-    setTimeout(() => {
-      setIsListening(false);
-    }, 4000);
+    // 1. Em ambientes Web/Navegador: utiliza a API SpeechRecognition nativa de real-time
+    const WebSpeechRecognition = typeof window !== "undefined" && ((window as any).webkitSpeechRecognition || (window as any).SpeechRecognition);
+    if (WebSpeechRecognition) {
+      try {
+        const recognition = new WebSpeechRecognition();
+        recognition.lang = "pt-BR";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        setIsListening(true);
+        triggerToast("🎙️ Ouvindo... Fale o nome da atividade");
+        speakText("Pode falar o nome da atividade agora.");
+
+        recognition.onresult = (event: any) => {
+          const transcript = event?.results?.[0]?.[0]?.transcript || "";
+          if (transcript) {
+            setTitle(transcript.trim());
+            if (titleError) setTitleError(null);
+            triggerToast(`Atividade ditada: "${transcript.trim()}"`);
+            speakText(`Atividade inserida: ${transcript.trim()}`);
+          }
+          setIsListening(false);
+        };
+
+        recognition.onerror = () => {
+          setIsListening(false);
+          triggerToast("⚠️ Não foi possível captar a voz. Tente usar o teclado.");
+        };
+
+        recognition.onend = () => {
+          setIsListening(false);
+        };
+
+        recognition.start();
+        return;
+      } catch (err) {
+        console.warn("Falha ao inicializar SpeechRecognition no navegador:", err);
+      }
+    }
+
+    // 2. No Celular / Expo Go: Foca automaticamente o campo para acionar o teclado nativo com microfone neural integrado
+    titleInputRef.current?.focus();
+    triggerToast("🎙️ Toque no ícone de microfone 🎤 no seu teclado na tela para ditar por voz!");
+    speakText("Para ditar por voz no celular, toque no microfone do seu teclado aberto na tela.");
   };
 
   const handleAddStepInput = () => {
@@ -171,6 +210,7 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
 
               <View style={styles.inputMicRow}>
                 <TextInput
+                  ref={titleInputRef}
                   style={[
                     styles.textInput,
                     {
@@ -197,8 +237,8 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
               {titleError ? (
                 <Text style={[styles.errorText, { color: colors.urgent }]}>{titleError}</Text>
               ) : (
-                <Text style={[styles.hintText, { color: colors.textMuted, fontSize: Math.round(11 * fontScale) }]}>
-                  Escreva um nome simples e claro para a tarefa
+                <Text style={[styles.hintText, { color: colors.textMuted, fontSize: Math.round(12 * fontScale) }]}>
+                  💡 Dica de Acessibilidade: No celular, toque no ícone de microfone 🎤 do seu teclado aberto na tela para transcrição de voz com precisão total.
                 </Text>
               )}
             </View>
