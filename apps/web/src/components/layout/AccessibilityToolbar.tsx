@@ -45,14 +45,14 @@ export const AccessibilityToolbar: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-[#24a148] hover:bg-[#198038] text-white p-2.5 sm:p-3 rounded-l-md shadow-2xl flex flex-col items-center gap-1 cursor-pointer transition-transform hover:scale-105 border-0 focus-visible:outline-2 focus-visible:outline-[#0f62fe]"
+          className="bg-[#24a148] hover:bg-[#198038] text-white px-2 py-2 rounded-l-md shadow-xl flex flex-col items-center gap-0.5 cursor-pointer transition-transform hover:scale-105 border-0 focus-visible:outline-2 focus-visible:outline-[#0f62fe]"
           aria-expanded={isOpen}
           aria-label={isOpen ? "Fechar ferramentas de acessibilidade" : "Abrir ferramentas de acessibilidade"}
           title="Acessibilidade"
         >
-          <Accessibility className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-          <span className="text-[9px] sm:text-[10px] leading-3 font-bold tracking-wider uppercase text-white">Acessível</span>
-          {isOpen ? <ChevronRight className="w-4 h-4 text-white mt-1" /> : <ChevronLeft className="w-4 h-4 text-white mt-1" />}
+          <Accessibility className="w-5 h-5 text-white" />
+          <span className="text-[9px] leading-tight font-bold tracking-wider uppercase text-white">Acessível</span>
+          {isOpen ? <ChevronRight className="w-3.5 h-3.5 text-white mt-0.5" /> : <ChevronLeft className="w-3.5 h-3.5 text-white mt-0.5" />}
         </button>
 
         {/* Drawer Panel */}

@@ -1,9 +1,5 @@
 /* Accessibility Toolbar Fixed Sizing - Protected from Global Mode Overrides */
-.a11y-toolbar-fixed,
-.a11y-toolbar-fixed *,
-.a11y-toolbar-fixed button {
-  font-size: 16px !important;
-  line-height: 1.4 !important;
+.a11y-toolbar-fixed {
   box-sizing: border-box !important;
 }
 
