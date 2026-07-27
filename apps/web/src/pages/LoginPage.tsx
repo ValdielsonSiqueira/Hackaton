@@ -43,7 +43,7 @@ export const LoginPage: React.FC = () => {
 
         <FeaturesGrid />
 
-        <CtaBanner onAccess={() => navigate("/dashboard")} />
+        <CtaBanner onAccess={() => document.getElementById("login-card")?.scrollIntoView({ behavior: "smooth", block: "start" })} />
       </main>
 
       <Footer />

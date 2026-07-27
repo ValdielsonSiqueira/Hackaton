@@ -1,6 +1,6 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { AuthFormCard } from "../AuthFormCard";
 import { HelpProvider } from "../../../context/HelpContext";
 
@@ -9,7 +9,11 @@ const renderWithProviders = (ui: React.ReactElement) => {
 };
 
 describe("AuthFormCard Component", () => {
-  it("should render login fields and trigger validation on empty submit", () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it("should render login fields and trigger validation on empty submit", async () => {
     const handleSuccess = vi.fn();
 
     renderWithProviders(
@@ -25,11 +29,46 @@ describe("AuthFormCard Component", () => {
     const submitBtn = screen.getByRole("button", { name: /Entrar na minha conta/i });
     fireEvent.click(submitBtn);
 
-    expect(handleSuccess).not.toHaveBeenCalled();
-    expect(screen.getByText(/Por favor, digite seu e-mail/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(handleSuccess).not.toHaveBeenCalled();
+      expect(screen.getByText(/Por favor, digite seu e-mail/i)).toBeInTheDocument();
+    });
   });
 
-  it("should submit auth successfully when valid credentials are provided", () => {
+  it("should block login when user is not registered", async () => {
+    const handleSuccess = vi.fn();
+
+    renderWithProviders(
+      <AuthFormCard
+        initialEmail="unregistered@fiap.com.br"
+        onSuccess={handleSuccess}
+      />
+    );
+
+    const passwordInput = screen.getByLabelText(/Sua senha/i);
+    const submitBtn = screen.getByRole("button", { name: /Entrar na minha conta/i });
+
+    fireEvent.change(passwordInput, { target: { value: "senha123456" } });
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(handleSuccess).not.toHaveBeenCalled();
+      expect(screen.getByText(/E-mail não cadastrado/i)).toBeInTheDocument();
+    });
+  });
+
+  it("should submit auth successfully when valid registered credentials are provided", async () => {
+    localStorage.setItem(
+      "seniorease_users",
+      JSON.stringify({
+        "estudante@fiap.com.br": {
+          name: "Estudante FIAP",
+          email: "estudante@fiap.com.br",
+          password: "senha123456",
+        },
+      })
+    );
+
     const handleSuccess = vi.fn();
 
     renderWithProviders(
@@ -47,8 +86,11 @@ describe("AuthFormCard Component", () => {
     fireEvent.change(passwordInput, { target: { value: "senha123456" } });
     fireEvent.click(submitBtn);
 
-    expect(handleSuccess).toHaveBeenCalledWith({
-      email: "estudante@fiap.com.br",
+    await waitFor(() => {
+      expect(handleSuccess).toHaveBeenCalledWith({
+        name: "Estudante FIAP",
+        email: "estudante@fiap.com.br",
+      });
     });
   });
 });

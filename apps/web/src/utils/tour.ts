@@ -124,7 +124,7 @@ export const startDashboardTour = (onComplete?: (() => void) | unknown) => {
           align: "center"
         }
       }
-    ]
+    ].filter((step) => typeof document === "undefined" || !!document.querySelector(step.element))
   });
 
   driverObj.drive();
@@ -183,7 +183,7 @@ export const startTasksTour = (onComplete?: (() => void) | unknown) => {
           align: "center"
         }
       }
-    ]
+    ].filter((step) => typeof document === "undefined" || !!document.querySelector(step.element))
   });
 
   driverObj.drive();
@@ -242,7 +242,7 @@ export const startProfileTour = (onComplete?: (() => void) | unknown) => {
           align: "start"
         }
       }
-    ]
+    ].filter((step) => typeof document === "undefined" || !!document.querySelector(step.element))
   });
 
   driverObj.drive();

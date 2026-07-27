@@ -12,6 +12,11 @@ import {
   type ActivityRepository, 
   LocalStorageActivityRepository 
 } from "../../data/LocalStorageActivityRepository";
+import { 
+  type AuthRepository, 
+  LocalStorageAuthRepository 
+} from "../../data/LocalStorageAuthRepository";
+import { AuthUseCases } from "../../modules/auth/index";
 import { VoiceService } from "../../services/voiceService";
 import * as speechService from "../../services/speech";
 
@@ -20,9 +25,11 @@ export interface IDIContainer {
   settingsRepository: SettingsRepository;
   userProfileRepository: UserProfileRepository;
   activityRepository: ActivityRepository;
+  authRepository: AuthRepository;
 
   manageTasksUseCase: ManageTasks;
   manageSettingsUseCase: ManageSettings;
+  authUseCases: AuthUseCases;
 
   voiceService: VoiceService;
   speechService: typeof speechService;
@@ -35,9 +42,11 @@ class DIContainer implements IDIContainer {
   public settingsRepository: SettingsRepository;
   public userProfileRepository: UserProfileRepository;
   public activityRepository: ActivityRepository;
+  public authRepository: AuthRepository;
 
   public manageTasksUseCase: ManageTasks;
   public manageSettingsUseCase: ManageSettings;
+  public authUseCases: AuthUseCases;
 
   public voiceService: VoiceService;
   public speechService: typeof speechService;
@@ -47,9 +56,11 @@ class DIContainer implements IDIContainer {
     this.settingsRepository = new LocalStorageSettingsRepository();
     this.userProfileRepository = new LocalStorageUserProfileRepository();
     this.activityRepository = new LocalStorageActivityRepository();
+    this.authRepository = new LocalStorageAuthRepository();
 
     this.manageTasksUseCase = new ManageTasks(this.taskRepository);
     this.manageSettingsUseCase = new ManageSettings(this.settingsRepository);
+    this.authUseCases = new AuthUseCases(this.authRepository);
 
     this.voiceService = new VoiceService();
     this.speechService = speechService;
@@ -70,6 +81,9 @@ class DIContainer implements IDIContainer {
     }
     if (overrides.settingsRepository) {
       this.manageSettingsUseCase = new ManageSettings(this.settingsRepository);
+    }
+    if (overrides.authRepository) {
+      this.authUseCases = new AuthUseCases(this.authRepository);
     }
   }
 }

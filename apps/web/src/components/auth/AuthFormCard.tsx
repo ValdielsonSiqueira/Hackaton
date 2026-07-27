@@ -6,6 +6,7 @@ import { ArrowRight, UserPlus, UserCheck } from "lucide-react";
 import { loginSchema, registerSchema } from "../../schemas/forms";
 import { AccessibilityTip } from "./AccessibilityTip";
 import { useHelp } from "../../context/HelpContext";
+import { container } from "../../shared/index";
 
 interface AuthFormCardProps {
   initialName?: string;
@@ -14,21 +15,21 @@ interface AuthFormCardProps {
 }
 
 export const AuthFormCard: React.FC<AuthFormCardProps> = ({
-  initialName = "João da Silva",
-  initialEmail = "joao@exemplo.com",
+  initialName = "",
+  initialEmail = "",
   onSuccess,
 }) => {
   const { openHelpModal } = useHelp();
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [name, setName] = useState(initialName);
   const [email, setEmail] = useState(initialEmail);
-  const [password, setPassword] = useState("12345678");
+  const [password, setPassword] = useState("");
 
   const [nameErrorMsg, setNameErrorMsg] = useState<string | null>(null);
   const [emailErrorMsg, setEmailErrorMsg] = useState<string | null>(null);
   const [passwordErrorMsg, setPasswordErrorMsg] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setNameErrorMsg(null);
     setEmailErrorMsg(null);
@@ -43,7 +44,9 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
         if (fieldErrors.password?.[0]) setPasswordErrorMsg(fieldErrors.password[0]);
         return;
       }
-      onSuccess({ name: result.data.name, email: result.data.email });
+
+      const user = await container.authUseCases.register(result.data.name, result.data.email, password);
+      onSuccess({ name: user.name, email: user.email });
     } else {
       const result = loginSchema.safeParse({ email, password });
       if (!result.success) {
@@ -52,7 +55,18 @@ export const AuthFormCard: React.FC<AuthFormCardProps> = ({
         if (fieldErrors.password?.[0]) setPasswordErrorMsg(fieldErrors.password[0]);
         return;
       }
-      onSuccess({ email: result.data.email });
+
+      const authResult = await container.authUseCases.login(result.data.email, result.data.password);
+      if (!authResult.success) {
+        if (authResult.errorCode === "USER_NOT_FOUND") {
+          setEmailErrorMsg("E-mail não cadastrado. Por favor, clique em 'Criar minha conta' para se cadastrar.");
+        } else if (authResult.errorCode === "WRONG_PASSWORD") {
+          setPasswordErrorMsg("Senha incorreta.");
+        }
+        return;
+      }
+
+      onSuccess({ name: authResult.user.name, email: authResult.user.email });
     }
   };
 
