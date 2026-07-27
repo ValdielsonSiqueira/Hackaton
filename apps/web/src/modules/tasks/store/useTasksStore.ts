@@ -1,21 +1,16 @@
 import { create } from "zustand";
-import type { Task, UserSettings } from "@seniorease/core";
-import { defaultSettings } from "@seniorease/core";
-import type { UserProfile } from "../data/LocalStorageUserProfileRepository";
-import type { TaskItem } from "../context/AppContext";
-import { container } from "../shared/index";
+import type { Task } from "@seniorease/core";
+import type { TaskItem } from "../../../context/AppContext";
+import { container } from "../../../shared/index";
 
-interface AppState {
-  settings: UserSettings;
+interface TasksState {
   tasks: Task[];
-  userProfile: UserProfile;
   activityTasks: TaskItem[];
   loading: boolean;
 
-  initializeStore: () => Promise<void>;
-  updateSettings: (newSettings: UserSettings) => Promise<void>;
-  updateUserProfile: (partial: Partial<UserProfile>) => Promise<void>;
-  
+  loadTasks: () => Promise<Task[]>;
+  loadActivityTasks: () => Promise<TaskItem[]>;
+
   setActivityTasks: (tasks: TaskItem[]) => Promise<void>;
   addActivityTask: (task: TaskItem) => Promise<void>;
   updateActivityTask: (task: TaskItem) => Promise<void>;
@@ -30,73 +25,31 @@ interface AppState {
   deleteTask: (taskId: string) => Promise<void>;
 }
 
-export const useAppStore = create<AppState>((set, get) => ({
-  settings: defaultSettings,
+export const useTasksStore = create<TasksState>((set, get) => ({
   tasks: [],
-  userProfile: { name: "", email: "", caregiverContact: "", isAuthenticated: false },
   activityTasks: [],
   loading: true,
 
-  initializeStore: async () => {
+  loadTasks: async () => {
     try {
-      const [loadedSettings, loadedTasks, loadedProfile, loadedActivities] = await Promise.all([
-        container.manageSettingsUseCase.loadSettings(),
-        container.manageTasksUseCase.listTasks(),
-        container.userProfileRepository.getUserProfile(),
-        container.activityRepository.getActivities(),
-      ]);
-
-      set({
-        settings: loadedSettings,
-        tasks: loadedTasks,
-        userProfile: loadedProfile,
-        activityTasks: loadedActivities,
-        loading: false,
-      });
-
-      get().updateSettings(loadedSettings);
+      const loaded = await container.manageTasksUseCase.listTasks();
+      set({ tasks: loaded, loading: false });
+      return loaded;
     } catch (err) {
       set({ loading: false });
+      return get().tasks;
     }
   },
 
-  updateSettings: async (newSettings: UserSettings) => {
-    await container.manageSettingsUseCase.updateSettings(newSettings);
-    set({ settings: newSettings });
-
-    if (typeof document !== "undefined") {
-      const root = document.documentElement;
-
-      const scale = newSettings.fontScale || (newSettings.fontSizeScale === "large" ? 1.5 : newSettings.fontSizeScale === "medium" ? 1.25 : 1.0);
-      root.style.setProperty("--font-scale", scale.toString());
-      root.style.setProperty("--text-scale", scale.toString());
-
-      let spaceScale = 1.0;
-      if (newSettings.spacingScale === "large") spaceScale = 1.25;
-      root.style.setProperty("--spacing-scale", spaceScale.toString());
-
-      if (newSettings.contrastMode === "high") {
-        root.classList.add("high-contrast");
-        root.classList.remove("dark-contrast");
-      } else if (newSettings.contrastMode === "dark") {
-        root.classList.add("dark-contrast");
-        root.classList.remove("high-contrast");
-      } else {
-        root.classList.remove("high-contrast", "dark-contrast");
-      }
-
-      if (newSettings.navigationMode === "simplified") {
-        root.classList.add("simplified-mode");
-      } else {
-        root.classList.remove("simplified-mode");
-      }
+  loadActivityTasks: async () => {
+    try {
+      const loaded = await container.activityRepository.getActivities();
+      set({ activityTasks: loaded, loading: false });
+      return loaded;
+    } catch (err) {
+      set({ loading: false });
+      return get().activityTasks;
     }
-  },
-
-  updateUserProfile: async (partial: Partial<UserProfile>) => {
-    const updated = { ...get().userProfile, ...partial };
-    await container.userProfileRepository.saveUserProfile(updated);
-    set({ userProfile: updated });
   },
 
   setActivityTasks: async (newActivities: TaskItem[]) => {
