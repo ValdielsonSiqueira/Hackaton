@@ -1,7 +1,15 @@
-import { driver } from "driver.js";
+import { driver, type DriveStep } from "driver.js";
 import "driver.js/dist/driver.css";
 
 const TOUR_STORAGE_KEY = "seniorease_tour_completed";
+
+const filterExistingSteps = (steps: DriveStep[]): DriveStep[] => {
+  return steps.filter((step) => {
+    if (typeof document === "undefined") return true;
+    if (typeof step.element === "string") return !!document.querySelector(step.element);
+    return true;
+  });
+};
 
 export const isTourCompleted = (): boolean => {
   return localStorage.getItem(TOUR_STORAGE_KEY) === "true";
@@ -42,7 +50,7 @@ export const startDashboardTour = (onComplete?: (() => void) | unknown) => {
         onComplete();
       }
     },
-    steps: [
+    steps: filterExistingSteps([
       {
         element: "#senior-ease-logo",
         popover: {
@@ -124,7 +132,7 @@ export const startDashboardTour = (onComplete?: (() => void) | unknown) => {
           align: "center"
         }
       }
-    ].filter((step) => typeof document === "undefined" || !!document.querySelector(step.element))
+    ])
   });
 
   driverObj.drive();
@@ -155,7 +163,7 @@ export const startTasksTour = (onComplete?: (() => void) | unknown) => {
         onComplete();
       }
     },
-    steps: [
+    steps: filterExistingSteps([
       {
         element: "#btn-new-task",
         popover: {
@@ -183,7 +191,7 @@ export const startTasksTour = (onComplete?: (() => void) | unknown) => {
           align: "center"
         }
       }
-    ].filter((step) => typeof document === "undefined" || !!document.querySelector(step.element))
+    ])
   });
 
   driverObj.drive();
@@ -214,7 +222,7 @@ export const startProfileTour = (onComplete?: (() => void) | unknown) => {
         onComplete();
       }
     },
-    steps: [
+    steps: filterExistingSteps([
       {
         element: "#user-profile-card",
         popover: {
@@ -242,7 +250,7 @@ export const startProfileTour = (onComplete?: (() => void) | unknown) => {
           align: "start"
         }
       }
-    ].filter((step) => typeof document === "undefined" || !!document.querySelector(step.element))
+    ])
   });
 
   driverObj.drive();
