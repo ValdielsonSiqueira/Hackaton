@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export interface RegisteredUser {
   name: string;
   email: string;
@@ -9,21 +11,21 @@ export interface AuthRepository {
   getUserByEmail(email: string): Promise<RegisteredUser | null>;
 }
 
-export class LocalStorageAuthRepository implements AuthRepository {
+export class AsyncStorageAuthRepository implements AuthRepository {
   private STORAGE_KEY = "seniorease_users";
 
   async saveUser(user: RegisteredUser): Promise<void> {
     try {
-      const raw = localStorage.getItem(this.STORAGE_KEY);
+      const raw = await AsyncStorage.getItem(this.STORAGE_KEY);
       const users = raw ? JSON.parse(raw) : {};
       users[user.email.toLowerCase()] = user;
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
+      await AsyncStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
     } catch (err) {}
   }
 
   async getUserByEmail(email: string): Promise<RegisteredUser | null> {
     try {
-      const raw = localStorage.getItem(this.STORAGE_KEY);
+      const raw = await AsyncStorage.getItem(this.STORAGE_KEY);
       const users = raw ? JSON.parse(raw) : {};
       const lowerEmail = email.toLowerCase();
 
