@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -50,6 +50,17 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
 
   const [taskNameErrorMsg, setTaskNameErrorMsg] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        titleInputRef.current?.focus();
+      }, 50);
+    }
+  }, [isOpen]);
 
   const handleStartDictation = () => {
     if (!voiceService.isSupported()) {
@@ -135,7 +146,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   };
 
   return (
-    <Card className="bg-[var(--canvas)] border border-[var(--hairline)] border-l-4 border-l-[var(--primary)] p-6 sm:p-8 mb-6 rounded-xl shadow-sm" id="new-task-form" role="region" aria-labelledby="form-heading">
+    <Card ref={formRef} className="bg-[var(--canvas)] border border-[var(--hairline)] border-l-4 border-l-[var(--primary)] p-6 sm:p-8 mb-6 rounded-xl shadow-sm" id="new-task-form" role="region" aria-labelledby="form-heading">
       <div className="flex items-center justify-between mb-4">
         <h3 id="form-heading" className="text-2xl font-normal text-[#161616]">
           {editingTask ? "Editar Atividade e Passos" : "Cadastrar Nova Atividade"}
@@ -153,6 +164,8 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
           </label>
           <div className="flex gap-2 items-center">
             <Input
+              ref={titleInputRef}
+              autoFocus
               type="text"
               id="new-task-name"
               value={newTaskName}

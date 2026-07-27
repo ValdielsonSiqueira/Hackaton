@@ -73,6 +73,11 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
       setStepInputs([""]);
     }
     setTitleError(null);
+    if (visible) {
+      setTimeout(() => {
+        titleInputRef.current?.focus();
+      }, 100);
+    }
   }, [editingTask, visible]);
 
   const handleStartDictation = () => {
