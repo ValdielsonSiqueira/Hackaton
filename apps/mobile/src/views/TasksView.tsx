@@ -8,7 +8,7 @@ import {
   LayoutChangeEvent 
 } from "react-native";
 import type { MobileThemeColors } from "../theme/mobileTheme";
-import type { MobileTaskItem } from "../context/AppContext";
+import type { MobileTaskItem, TaskStep } from "../context/AppContext";
 import { SpotlightCutoutTour, SpotlightStep } from "../components/SpotlightCutoutTour";
 import { CreateTaskModalMobile } from "../components/CreateTaskModalMobile";
 import { DeleteTaskModalMobile } from "../components/DeleteTaskModalMobile";
@@ -349,7 +349,7 @@ export const TasksView: React.FC<TasksViewProps> = ({
                       </Text>
                     </View>
 
-                    {t.steps.map((st) => (
+                    {t.steps.map((st: TaskStep) => (
                       <View key={st.id} style={[styles.stepCardItem, { backgroundColor: colors.card, borderColor: colors.border }]}>
                         <View style={styles.stepCardTopBar}>
                           <TouchableOpacity

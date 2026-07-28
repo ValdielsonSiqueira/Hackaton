@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { 
   StyleSheet, 
   Text, 
@@ -526,6 +527,23 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
             Salvar Todas as Minhas Preferências
           </Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.resetDataBtn, { borderColor: colors.border }]}
+          onPress={async () => {
+            await AsyncStorage.clear();
+            triggerToast("🧹 Dados e Tour zerados! Redirecionando...");
+            setTimeout(() => {
+              updateUserProfile({ isAuthenticated: false });
+            }, 600);
+          }}
+          accessibilityLabel="Resetar dados de teste e tour"
+        >
+          <RotateCcw size={16} color={colors.textMuted} />
+          <Text style={[styles.resetDataBtnText, { color: colors.textMuted, fontSize: Math.round(13 * fontScale) }]}>
+            Resetar Dados de Teste (Limpar Armazenamento & Tour)
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {/* Spotlight Tour for Profile Page */}
@@ -800,5 +818,20 @@ const styles = StyleSheet.create({
     marginTop: 4,
     flexShrink: 1,
     flexWrap: "wrap",
+  },
+  resetDataBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    marginTop: 16,
+  },
+  resetDataBtnText: {
+    fontWeight: "500",
   },
 });

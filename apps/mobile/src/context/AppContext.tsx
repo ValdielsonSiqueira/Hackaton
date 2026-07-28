@@ -1,36 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Task, UserSettings } from "@seniorease/core";
-import { defaultSettings, ManageTasks, ManageSettings } from "@seniorease/core";
-import { 
-  AsyncStorageTaskRepository, 
-  AsyncStorageSettingsRepository 
-} from "../data/AsyncStorageRepositories";
+import { defaultSettings } from "@seniorease/core";
 import { getMobileTheme, type MobileThemeColors } from "../theme/mobileTheme";
-import * as Speech from "expo-speech";
+import { container } from "../shared/index";
+import type { UserProfile } from "../data/AsyncStorageUserProfileRepository";
+import type { MobileTaskItem, TaskStep } from "../data/AsyncStorageActivityRepository";
 
-export interface UserProfile {
-  name: string;
-  email: string;
-  caregiverContact: string;
-  isAuthenticated: boolean;
-}
-
-export interface TaskStep {
-  id: number;
-  text: string;
-  done: boolean;
-}
-
-export interface MobileTaskItem {
-  id: string;
-  title: string;
-  category: string;
-  due: string;
-  done: boolean;
-  priority: "high" | "medium" | "low";
-  steps?: TaskStep[];
-}
+export type { UserProfile, MobileTaskItem, TaskStep };
 
 interface AppContextProps {
   settings: UserSettings;
@@ -43,7 +19,6 @@ interface AppContextProps {
     fontScale: number;
   };
 
-  // Actions
   updateSettings: (newSettings: UserSettings) => Promise<void>;
   updateUserProfile: (partial: Partial<UserProfile>) => Promise<void>;
   addActivityTask: (task: MobileTaskItem) => Promise<void>;
@@ -53,7 +28,6 @@ interface AppContextProps {
   speakText: (text: string) => void;
   stopSpeech: () => void;
 
-  // Academic state
   completedLessons: string[];
   completeLesson: (lessonId: string) => void;
   currentLessonId: string;
@@ -62,77 +36,78 @@ interface AppContextProps {
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
 
-const taskRepo = new AsyncStorageTaskRepository();
-const settingsRepo = new AsyncStorageSettingsRepository();
-const taskUseCase = new ManageTasks(taskRepo);
-const settingsUseCase = new ManageSettings(settingsRepo);
-
-const PROFILE_KEY = "seniorease_user_profile";
-const ACTIVITIES_KEY = "seniorease_activities";
+const initialDefaultActivities: MobileTaskItem[] = [
+  {
+    id: "act-1",
+    title: "Ler capítulo 1 de UX Design e Acessibilidade",
+    category: "LEITURA",
+    due: "HOJE 18:00",
+    done: false,
+    priority: "high",
+    steps: [
+      { id: 1, text: "Abrir o livro na página 12", done: true },
+      { id: 2, text: "Ler a introdução sobre contraste", done: false },
+    ],
+  },
+  {
+    id: "act-2",
+    title: "Entregar Desafio Final FIAP",
+    category: "ACADÊMICO",
+    due: "AMANHÃ 14:00",
+    done: false,
+    priority: "high",
+    steps: [
+      { id: 1, text: "Revisar testes unitários e E2E", done: true },
+      { id: 2, text: "Subir alterações no GitHub", done: false },
+    ],
+  },
+];
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<UserSettings>(defaultSettings);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    name: "Estudante",
-    email: "estudante@fiap.com.br",
+    name: "",
+    email: "",
     caregiverContact: "(11) 98888-7777",
-    isAuthenticated: true,
+    isAuthenticated: false,
   });
-  const [activityTasks, setActivityTasks] = useState<MobileTaskItem[]>([
-    {
-      id: "act-1",
-      title: "Ler capítulo 1 de UX Design e Acessibilidade",
-      category: "LEITURA",
-      due: "HOJE 18:00",
-      done: false,
-      priority: "high",
-      steps: [
-        { id: 1, text: "Abrir o livro na página 12", done: true },
-        { id: 2, text: "Ler a introdução sobre contraste", done: false },
-      ],
-    },
-    {
-      id: "act-2",
-      title: "Entregar Desafio Final FIAP",
-      category: "ACADÊMICO",
-      due: "AMANHÃ 14:00",
-      done: false,
-      priority: "high",
-      steps: [
-        { id: 1, text: "Revisar testes unitários e E2E", done: true },
-        { id: 2, text: "Subir alterações no GitHub", done: false },
-      ],
-    },
-  ]);
+  const [activityTasks, setActivityTasks] = useState<MobileTaskItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Academic states
   const [completedLessons, setCompletedLessons] = useState<string[]>(["1", "2", "3"]);
   const [currentLessonId, setCurrentLessonId] = useState<string>("4");
 
   useEffect(() => {
     async function loadInitialData() {
       try {
-        const [loadedSettings, loadedTasks, rawProfile, rawActivities] = await Promise.all([
-          settingsUseCase.loadSettings(),
-          taskUseCase.listTasks(),
-          AsyncStorage.getItem(PROFILE_KEY),
-          AsyncStorage.getItem(ACTIVITIES_KEY),
+        const [loadedSettings, loadedTasks, storedProfile, storedActivities] = await Promise.all([
+          container.manageSettingsUseCase.loadSettings(),
+          container.manageTasksUseCase.listTasks(),
+          container.userProfileRepository.getProfile(),
+          container.activityRepository.getActivities(),
         ]);
 
         setSettings(loadedSettings);
         setTasks(loadedTasks);
 
-        if (rawProfile) {
-          setUserProfile(JSON.parse(rawProfile));
+        if (storedProfile) {
+          setUserProfile(storedProfile);
+        } else {
+          setUserProfile({
+            name: "",
+            email: "",
+            caregiverContact: "(11) 98888-7777",
+            isAuthenticated: false,
+          });
         }
 
-        if (rawActivities) {
-          setActivityTasks(JSON.parse(rawActivities));
+        if (storedActivities && storedActivities.length > 0) {
+          setActivityTasks(storedActivities);
+        } else {
+          setActivityTasks([]);
         }
       } catch (err) {
-        console.error("Failed to load initial data in mobile", err);
       } finally {
         setLoading(false);
       }
@@ -141,58 +116,51 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
 
   const updateSettings = async (newSettings: UserSettings) => {
-    await settingsUseCase.updateSettings(newSettings);
+    await container.manageSettingsUseCase.updateSettings(newSettings);
     setSettings(newSettings);
   };
 
   const updateUserProfile = async (partial: Partial<UserProfile>) => {
     const updated = { ...userProfile, ...partial };
     setUserProfile(updated);
-    await AsyncStorage.setItem(PROFILE_KEY, JSON.stringify(updated));
+    await container.userProfileRepository.saveProfile(updated);
   };
 
   const addActivityTask = async (task: MobileTaskItem) => {
     const updated = [task, ...activityTasks];
     setActivityTasks(updated);
-    await AsyncStorage.setItem(ACTIVITIES_KEY, JSON.stringify(updated));
+    await container.activityRepository.saveActivities(updated);
   };
 
   const toggleActivityTask = async (id: string) => {
     const updated = activityTasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t));
     setActivityTasks(updated);
-    await AsyncStorage.setItem(ACTIVITIES_KEY, JSON.stringify(updated));
+    await container.activityRepository.saveActivities(updated);
   };
 
   const toggleActivityStep = async (taskId: string, stepId: number) => {
     const updated = activityTasks.map((task) => {
       if (task.id !== taskId) return task;
-      const steps = (task.steps || []).map((s) => (s.id === stepId ? { ...s, done: !s.done } : s));
-      const allDone = steps.length > 0 && steps.every((s) => s.done);
+      const steps = (task.steps || []).map((s: TaskStep) => (s.id === stepId ? { ...s, done: !s.done } : s));
+      const allDone = steps.length > 0 && steps.every((s: TaskStep) => s.done);
       return { ...task, steps, done: allDone };
     });
     setActivityTasks(updated);
-    await AsyncStorage.setItem(ACTIVITIES_KEY, JSON.stringify(updated));
+    await container.activityRepository.saveActivities(updated);
   };
 
   const deleteActivityTask = async (id: string) => {
     const updated = activityTasks.filter((t) => t.id !== id);
     setActivityTasks(updated);
-    await AsyncStorage.setItem(ACTIVITIES_KEY, JSON.stringify(updated));
+    await container.activityRepository.saveActivities(updated);
   };
 
   const speakText = (text: string) => {
-    try {
-      Speech.stop();
-      Speech.speak(text, { language: "pt-BR", rate: 0.85 });
-    } catch (e) {
-      console.warn("Speech synthesis error", e);
-    }
+    container.voiceService.speak(text);
   };
 
   const stopSpeech = () => {
-    try {
-      Speech.stop();
-    } catch (e) {}
+    container.voiceService.stop();
   };
 
   const completeLesson = (lessonId: string) => {

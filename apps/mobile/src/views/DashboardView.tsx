@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { 
   StyleSheet, 
   Text, 
@@ -12,6 +12,7 @@ import type { MobileThemeColors } from "../theme/mobileTheme";
 import type { MobileTaskItem } from "../context/AppContext";
 import type { UserSettings } from "@seniorease/core";
 import { SpotlightCutoutTour, SpotlightStep } from "../components/SpotlightCutoutTour";
+import { MobileTourModal, isMobileTourCompleted } from "../components/MobileTourModal";
 import { 
   Volume2, 
   Compass, 
@@ -80,6 +81,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 }) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const [showTour, setShowTour] = useState(false);
+
+  useEffect(() => {
+    async function checkTour() {
+      const completed = await isMobileTourCompleted();
+      if (!completed) {
+        setShowTour(true);
+      }
+    }
+    checkTour();
+  }, []);
 
   // Local switch states for Proteções & Leitura
   const [confirmActions, setConfirmActions] = useState(true);
@@ -745,14 +756,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </View>
       </View>
 
-      {/* Spotlight Tour Component */}
-      <SpotlightCutoutTour
+      <MobileTourModal
         visible={showTour}
         theme={theme}
-        steps={tourSteps}
         onClose={() => setShowTour(false)}
         speakText={speakText}
-        onStepChange={handleStepChange}
       />
     </ScrollView>
   );

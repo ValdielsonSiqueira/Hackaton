@@ -62,7 +62,7 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
       setDue(editingTask.due);
       setStepInputs(
         editingTask.steps && editingTask.steps.length > 0
-          ? editingTask.steps.map((s) => s.text)
+          ? editingTask.steps.map((s: TaskStep) => s.text)
           : [""]
       );
     } else {
@@ -153,7 +153,7 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
     const formattedSteps: TaskStep[] = stepInputs
       .filter((s) => s.trim().length > 0)
       .map((text, idx) => {
-        const existingDone = editingTask?.steps?.find((s) => s.text === text.trim())?.done || false;
+        const existingDone = editingTask?.steps?.find((s: TaskStep) => s.text === text.trim())?.done || false;
         return {
           id: idx + 1,
           text: text.trim(),

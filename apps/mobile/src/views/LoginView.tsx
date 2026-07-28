@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import type { MobileThemeColors } from "../theme/mobileTheme";
 import { UserPlus, ArrowRight, Settings } from "lucide-react-native";
+import { container } from "../shared/index";
 
 interface LoginViewProps {
   theme: { colors: MobileThemeColors; fontScale: number };
@@ -38,7 +39,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
   const heroMutedColor = isHighContrast ? colors.textMuted : "#C6C6C6";
   const highlightBlueColor = isHighContrast ? colors.primary : "#0F62FE";
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setEmailError(null);
     setPasswordError(null);
 
@@ -52,7 +53,25 @@ export const LoginView: React.FC<LoginViewProps> = ({
       return;
     }
 
-    onLoginSuccess(email, isRegisterMode ? name : undefined);
+    if (isRegisterMode) {
+      if (!name.trim()) {
+        setEmailError("Por favor, digite seu nome completo");
+        return;
+      }
+      const user = await container.authUseCases.register(name.trim(), email.trim(), password);
+      onLoginSuccess(user.email, user.name);
+    } else {
+      const result = await container.authUseCases.login(email.trim(), password);
+      if (!result.success) {
+        if (result.errorCode === "USER_NOT_FOUND") {
+          setEmailError("E-mail não cadastrado. Por favor, clique em 'Criar minha conta' para se cadastrar.");
+        } else if (result.errorCode === "WRONG_PASSWORD") {
+          setPasswordError("Senha incorreta.");
+        }
+        return;
+      }
+      onLoginSuccess(result.user.email, result.user.name);
+    }
   };
 
   return (

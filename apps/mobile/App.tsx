@@ -28,7 +28,6 @@ import { AccessibilityToolbarMobile } from "./src/components/AccessibilityToolba
 
 // Import Safety & Guided Tour Components
 import { SignOutModalMobile } from "./src/components/SignOutModalMobile";
-import { GuidedTourMobile } from "./src/components/GuidedTourMobile";
 
 import { 
   Sparkles, 
@@ -60,7 +59,6 @@ function MainAppContent() {
   const [activeTab, setActiveTab] = useState<"dashboard" | "tasks" | "profile" | "help">("dashboard");
   const [helpModalVisible, setHelpModalVisible] = useState(false);
   const [showSignOutModal, setShowSignOutModal] = useState(false);
-  const [showGuidedTour, setShowGuidedTour] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const { colors, fontScale } = theme;
@@ -77,19 +75,13 @@ function MainAppContent() {
   };
 
   const handleLoginSuccess = async (email: string, name?: string) => {
+    setActiveTab("dashboard");
     await updateUserProfile({
       email,
       name: name || userProfile.name || "Estudante FIAP",
       isAuthenticated: true,
     });
     triggerToast("✨ Bem-vindo ao SeniorEase!");
-
-    // Mandatory tour ONLY on first login ever
-    const tourDone = await AsyncStorage.getItem("seniorease_tour_completed");
-    if (tourDone !== "true") {
-      setShowGuidedTour(true);
-      await AsyncStorage.setItem("seniorease_tour_completed", "true");
-    }
   };
 
   const handleConfirmSignOut = async () => {
@@ -243,14 +235,6 @@ function MainAppContent() {
         theme={theme}
         onClose={() => setShowSignOutModal(false)}
         onConfirmSignOut={handleConfirmSignOut}
-      />
-
-      {/* Step-by-Step Guided Onboarding Tour */}
-      <GuidedTourMobile
-        visible={showGuidedTour}
-        theme={theme}
-        onFinishTour={() => setShowGuidedTour(false)}
-        speakText={speakText}
       />
 
       {/* Toast Feedback */}
