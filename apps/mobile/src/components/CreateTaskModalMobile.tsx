@@ -11,6 +11,7 @@ import {
 import type { MobileThemeColors } from "../theme/mobileTheme";
 import type { MobileTaskItem, TaskStep } from "../context/AppContext";
 import { Mic, Sparkles, Trash2, Calendar, ChevronDown } from "lucide-react-native";
+import { DateTimePickerMobile } from "./DateTimePickerMobile";
 
 interface CreateTaskModalMobileProps {
   editingTask: MobileTaskItem | null;
@@ -337,54 +338,17 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
               </View>
             </View>
 
-            {/* Field 4: Horário e Lembrete (Replicating Web DateTimePicker 1:1) */}
             <View style={styles.fieldGroup}>
               <Text style={[styles.label, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
                 4. Horário e Lembrete
               </Text>
               
-              {/* Active Due Display Box */}
-              <View style={[styles.dueActiveBox, { backgroundColor: colors.card, borderColor: primaryAccentColor }]}>
-                <Calendar size={18} color={primaryAccentColor} />
-                <Text style={[styles.dueActiveText, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
-                  {due}
-                </Text>
-                <View style={[styles.calendarBadgeWeb, { backgroundColor: isHighContrast ? "#222200" : "#E5EDFF" }]}>
-                  <Text style={[styles.calendarBadgeTextWeb, { color: primaryAccentColor }]}>
-                    CALENDÁRIO ▼
-                  </Text>
-                </View>
-              </View>
-
-              {/* Due Preset Buttons */}
-              <View style={styles.duePresetsRow}>
-                {DUE_PRESETS.map((preset) => (
-                  <TouchableOpacity
-                    key={preset}
-                    style={[
-                      styles.duePresetBtn,
-                      {
-                        backgroundColor: due === preset ? primaryAccentColor : colors.surfaceSubtle,
-                        borderColor: due === preset ? primaryAccentColor : colors.border,
-                        borderWidth: colors.borderWidth,
-                      },
-                    ]}
-                    onPress={() => setDue(preset)}
-                  >
-                    <Text
-                      style={[
-                        styles.duePresetBtnText,
-                        { 
-                          color: due === preset ? colors.primaryContrast : colors.text, 
-                          fontSize: Math.round(15 * fontScale), 
-                        },
-                      ]}
-                    >
-                      {preset}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+              <DateTimePickerMobile
+                value={due}
+                onChange={setDue}
+                theme={theme}
+                triggerToast={triggerToast}
+              />
             </View>
 
             {/* Field 5: Passos Guiados Dinâmicos (Mobile Optimized Layout) */}
@@ -708,5 +672,51 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     flexShrink: 1,
+  },
+  customPickerCard: {
+    padding: 14,
+    borderRadius: 10,
+    borderWidth: 1.5,
+    marginTop: 12,
+    gap: 8,
+  },
+  customPickerHeading: {
+    fontWeight: "700",
+  },
+  pickerRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginVertical: 4,
+  },
+  pickerChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+    borderWidth: 1,
+  },
+  pickerSubLabel: {
+    fontSize: 12,
+    marginTop: 4,
+  },
+  customInput: {
+    height: 44,
+    borderRadius: 6,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    fontSize: 14,
+    marginTop: 2,
+  },
+  applyCustomBtn: {
+    minHeight: 46,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 16,
+    marginTop: 10,
+  },
+  applyCustomBtnText: {
+    fontWeight: "700",
+    fontSize: 14,
   },
 });
