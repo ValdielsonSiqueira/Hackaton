@@ -131,11 +131,6 @@ function MainAppContent() {
           <Text style={[styles.logoText, { color: colors.text, fontSize: Math.round(20 * fontScale) }]}>
             Senior<Text style={{ color: colors.primary }}>Ease</Text>
           </Text>
-          {isSimplified && (
-            <View style={[styles.simplifiedBadge, { backgroundColor: colors.primary }]}>
-              <Text style={styles.simplifiedBadgeText}>Modo Simplificado</Text>
-            </View>
-          )}
         </View>
 
         <View style={styles.headerRightActions}>
@@ -199,6 +194,7 @@ function MainAppContent() {
             updateUserProfile={updateUserProfile}
             triggerToast={triggerToast}
             speakText={speakText}
+            onNavigateTab={setActiveTab}
             bottomInset={bottomInset}
           />
         )}
