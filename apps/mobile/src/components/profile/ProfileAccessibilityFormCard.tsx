@@ -48,22 +48,22 @@ export const ProfileAccessibilityFormCard: React.FC<ProfileAccessibilityFormCard
 
   return (
     <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: colors.borderWidth }]} id="profile-accessibility-form-card">
-      <View style={styles.a11yHeaderRow}>
-        <View style={{ flex: 1 }}>
+      <View style={styles.a11yHeaderCol}>
+        <View style={{ width: "100%" }}>
           <View style={styles.labelRowWithIcon}>
             <Sliders size={18} color={primaryAccentColor} />
-            <Text style={[styles.cardTitle, { color: colors.text, fontSize: Math.round(17 * fontScale) }]}>
+            <Text style={[styles.cardTitle, { color: colors.text, fontSize: Math.round(18 * fontScale) }]}>
               Preferências de Acessibilidade Salvas
             </Text>
           </View>
-          <Text style={[styles.cardSubTitle, { color: colors.textMuted, fontSize: Math.round(12 * fontScale) }]}>
+          <Text style={[styles.cardSubTitle, { color: colors.textMuted, fontSize: Math.round(13 * fontScale) }]}>
             Ajuste como o SeniorEase se comporta para você
           </Text>
         </View>
 
         <TouchableOpacity style={styles.resetBtnRed} onPress={handleResetAll}>
-          <RotateCcw size={18} color="#DA1E28" />
-          <Text style={[styles.resetBtnRedText, { fontSize: Math.round(15 * fontScale) }]}>
+          <RotateCcw size={16} color="#DA1E28" />
+          <Text style={[styles.resetBtnRedText, { fontSize: Math.round(14 * fontScale) }]}>
             Resetar Acessibilidade
           </Text>
         </TouchableOpacity>
@@ -292,35 +292,41 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     gap: 12,
   },
-  a11yHeaderRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 8,
+  a11yHeaderCol: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: 10,
+    marginBottom: 4,
   },
   labelRowWithIcon: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
+    width: "100%",
   },
   cardTitle: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
-  cardSubTitle: {},
+  cardSubTitle: {
+    marginTop: 2,
+  },
   resetBtnRed: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     borderRadius: 6,
     borderWidth: 1,
     borderColor: "#DA1E28",
     backgroundColor: "#FFF0F0",
+    alignSelf: "flex-start",
   },
   resetBtnRedText: {
     color: "#DA1E28",
     fontWeight: "bold",
+    flexShrink: 1,
   },
   subCardBox: {
     padding: 14,
@@ -334,8 +340,11 @@ const styles = StyleSheet.create({
   },
   subCardHeaderTitle: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
-  subCardHeaderSub: {},
+  subCardHeaderSub: {
+    flexShrink: 1,
+  },
   innerBox: {
     padding: 12,
     borderRadius: 8,
@@ -349,18 +358,25 @@ const styles = StyleSheet.create({
   },
   scaleBadgeText: {
     fontWeight: "bold",
+    textAlign: "center",
   },
   actionBtnSolid: {
-    minHeight: 44,
+    minHeight: 46,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
   },
   actionBtnSolidText: {
     fontWeight: "bold",
+    textAlign: "center",
+    flexShrink: 1,
   },
   actionBtnOutline: {
-    minHeight: 44,
+    minHeight: 46,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     borderRadius: 8,
     borderWidth: 1.5,
     alignItems: "center",
@@ -368,18 +384,22 @@ const styles = StyleSheet.create({
   },
   actionBtnOutlineText: {
     fontWeight: "bold",
+    textAlign: "center",
+    flexShrink: 1,
   },
   contrastBtnWeb: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    minHeight: 44,
+    minHeight: 46,
     paddingHorizontal: 12,
+    paddingVertical: 10,
     borderRadius: 8,
     borderWidth: 1,
   },
   contrastBtnWebText: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
   switchCardRow: {
     flexDirection: "row",
@@ -390,18 +410,26 @@ const styles = StyleSheet.create({
   },
   switchCardTitle: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
-  switchCardSub: {},
+  switchCardSub: {
+    flexShrink: 1,
+    lineHeight: 18,
+  },
   submitBtnPrimary: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
     minHeight: 52,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     borderRadius: 8,
   },
   submitBtnPrimaryText: {
     fontWeight: "bold",
+    flexShrink: 1,
+    textAlign: "center",
   },
   resetDataBtn: {
     flexDirection: "row",
@@ -409,11 +437,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 6,
     paddingVertical: 12,
+    paddingHorizontal: 14,
     borderRadius: 8,
     borderWidth: 1,
     marginTop: 4,
   },
   resetDataBtnText: {
     fontWeight: "600",
+    flexShrink: 1,
+    textAlign: "center",
   },
 });

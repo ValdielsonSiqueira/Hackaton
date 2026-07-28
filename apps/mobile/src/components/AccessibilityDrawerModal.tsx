@@ -28,7 +28,7 @@ export const AccessibilityDrawerModal: React.FC<AccessibilityDrawerModalProps> =
 
   const changeFontScale = async (delta: number) => {
     const currentScale = settings.fontScale || (settings.fontSizeScale === "large" ? 1.4 : settings.fontSizeScale === "medium" ? 1.2 : 1.0);
-    const newScale = Math.min(Math.max(currentScale + delta, 0.9), 1.8);
+    const newScale = Math.min(Math.max(currentScale + delta, 0.9), 1.5);
     let fontSizeScale: "standard" | "medium" | "large" = "medium";
     if (newScale >= 1.3) fontSizeScale = "large";
     else if (newScale < 1.05) fontSizeScale = "standard";

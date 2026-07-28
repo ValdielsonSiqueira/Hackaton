@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     padding: 18,
     borderRadius: 12,
     gap: 14,
-
   },
   priorityTopRow: {
     flexDirection: "row",
@@ -116,7 +115,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   prioritySubText: {
-    lineHeight: 18,
+    lineHeight: 20,
   },
   actionBtnPrimary: {
     flexDirection: "row",
@@ -124,9 +123,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     minHeight: 52,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     borderRadius: 8,
   },
   actionBtnText: {
     fontWeight: "bold",
+    flexShrink: 1,
+    textAlign: "center",
   },
 });

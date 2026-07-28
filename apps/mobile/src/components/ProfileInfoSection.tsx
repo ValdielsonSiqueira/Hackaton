@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
   fieldGroup: {
     gap: 6,
@@ -133,6 +134,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
   input: {
     minHeight: 48,
@@ -143,6 +145,7 @@ const styles = StyleSheet.create({
   },
   subHint: {
     marginTop: 2,
+    flexShrink: 1,
   },
   submitBtnPrimary: {
     flexDirection: "row",
@@ -150,10 +153,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     minHeight: 52,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     borderRadius: 8,
     marginTop: 6,
   },
   submitBtnPrimaryText: {
     fontWeight: "bold",
+    flexShrink: 1,
+    textAlign: "center",
   },
 });

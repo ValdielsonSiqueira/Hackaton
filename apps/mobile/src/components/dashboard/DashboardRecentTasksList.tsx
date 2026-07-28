@@ -44,7 +44,7 @@ export const DashboardRecentTasksList: React.FC<DashboardRecentTasksListProps> =
 
   return (
     <View style={[styles.recentOuterBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, borderWidth: colors.borderWidth }]} id="dashboard-recent-tasks">
-      <View style={styles.recentHeaderRow}>
+      <View style={styles.recentHeaderCol}>
         <Text style={[styles.recentHeaderTitle, { color: colors.text, fontSize: Math.round(18 * fontScale) }]}>
           Minhas Atividades Recentes ({activityTasks.length})
         </Text>
@@ -152,13 +152,15 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     gap: 12,
   },
-  recentHeaderRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+  recentHeaderCol: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: 10,
   },
   recentHeaderTitle: {
     fontWeight: "bold",
+    flexShrink: 1,
+    width: "100%",
   },
   addVerTodasBtn: {
     flexDirection: "row",
@@ -168,9 +170,11 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 8,
     borderWidth: 1,
+    alignSelf: "flex-start",
   },
   addVerTodasBtnText: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
   recentInnerCard: {
     borderRadius: 12,
@@ -218,11 +222,13 @@ const styles = StyleSheet.create({
   },
   recentTaskTitle: {
     fontWeight: "bold",
+    lineHeight: 22,
   },
   recentTaskMetaRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
+    flexWrap: "wrap",
   },
   recentTaskCatTag: {
     fontWeight: "bold",
@@ -233,12 +239,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    minHeight: 46,
+    minHeight: 48,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     borderRadius: 8,
     borderWidth: 1,
     marginTop: 4,
   },
   recentTaskToggleText: {
     fontWeight: "bold",
+    flexShrink: 1,
+    textAlign: "center",
   },
 });

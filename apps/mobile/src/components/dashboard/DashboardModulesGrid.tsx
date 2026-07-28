@@ -138,18 +138,21 @@ const styles = StyleSheet.create({
   },
   moduleCard: {
     width: "48%",
-    padding: 16,
+    padding: 14,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
+    minHeight: 130,
   },
   moduleTitle: {
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 4,
+    flexShrink: 1,
   },
   moduleDesc: {
     textAlign: "center",
-    lineHeight: 16,
+    lineHeight: 18,
+    flexShrink: 1,
   },
 });

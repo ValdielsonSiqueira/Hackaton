@@ -24,7 +24,7 @@ export const DashboardAccessibilityCard: React.FC<DashboardAccessibilityCardProp
 
   const { colors, fontScale } = theme;
   const contrastMode = settings.contrastMode || "standard";
-  const isHighContrast = contrastMode === "high";
+  const isHighContrast = colors.mode === "high";
   const primaryAccentColor = isHighContrast ? colors.primary : "#0F62FE";
 
   return (
@@ -33,10 +33,10 @@ export const DashboardAccessibilityCard: React.FC<DashboardAccessibilityCardProp
       onLayout={onLayout}
       id="dashboard-accessibility-card"
     >
-      <View style={styles.cardTopRowMobile}>
+      <View style={styles.cardTopColMobile}>
         <View style={styles.cardTopTitleGroup}>
           <Settings size={20} color={primaryAccentColor} style={{ marginTop: 2 }} />
-          <Text style={[styles.cardTopTitleText, { color: colors.text, fontSize: Math.round(16 * fontScale) }]}>
+          <Text style={[styles.cardTopTitleText, { color: colors.text, fontSize: Math.round(18 * fontScale) }]}>
             Acessibilidade
           </Text>
         </View>
@@ -47,8 +47,8 @@ export const DashboardAccessibilityCard: React.FC<DashboardAccessibilityCardProp
           }}
           style={styles.resetBtnOutline}
         >
-          <RotateCcw size={18} color="#DA1E28" />
-          <Text style={[styles.resetBtnOutlineText, { fontSize: Math.round(15 * fontScale) }]}>
+          <RotateCcw size={16} color="#DA1E28" />
+          <Text style={[styles.resetBtnOutlineText, { fontSize: Math.round(14 * fontScale) }]}>
             Resetar Ajustes
           </Text>
         </TouchableOpacity>
@@ -226,33 +226,37 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     gap: 14,
   },
-  cardTopRowMobile: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+  cardTopColMobile: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: 10,
   },
   cardTopTitleGroup: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
+    width: "100%",
   },
   cardTopTitleText: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
   resetBtnOutline: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     borderRadius: 6,
     borderWidth: 1,
     borderColor: "#DA1E28",
     backgroundColor: "#FFF0F0",
+    alignSelf: "flex-start",
   },
   resetBtnOutlineText: {
     color: "#DA1E28",
     fontWeight: "bold",
+    flexShrink: 1,
   },
   subCardsGrid: {
     gap: 14,
@@ -269,6 +273,7 @@ const styles = StyleSheet.create({
   },
   subCardHeaderTitle: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
   subCardHeaderSub: {
     marginBottom: 4,
@@ -286,18 +291,25 @@ const styles = StyleSheet.create({
   },
   scaleBadgeText: {
     fontWeight: "bold",
+    textAlign: "center",
   },
   actionBtnSolid: {
     minHeight: 46,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
   },
   actionBtnSolidText: {
     fontWeight: "bold",
+    textAlign: "center",
+    flexShrink: 1,
   },
   actionBtnOutline: {
     minHeight: 46,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     borderRadius: 8,
     borderWidth: 1.5,
     alignItems: "center",
@@ -305,6 +317,8 @@ const styles = StyleSheet.create({
   },
   actionBtnOutlineText: {
     fontWeight: "bold",
+    textAlign: "center",
+    flexShrink: 1,
   },
   contrastBtn: {
     flexDirection: "row",
@@ -312,20 +326,24 @@ const styles = StyleSheet.create({
     gap: 8,
     minHeight: 46,
     paddingHorizontal: 12,
+    paddingVertical: 10,
     borderRadius: 8,
     borderWidth: 1,
   },
   contrastBtnText: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
   switchRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 4,
+    gap: 8,
   },
   switchLabel: {
     fontWeight: "600",
+    flexShrink: 1,
   },
   dividerDashed: {
     height: 1,

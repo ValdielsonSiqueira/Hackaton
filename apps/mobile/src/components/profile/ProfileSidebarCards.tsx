@@ -79,12 +79,13 @@ const styles = StyleSheet.create({
   },
   sidebarBadgeText: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
   sidebarHeading: {
     fontWeight: "bold",
   },
   sidebarDesc: {
-    lineHeight: 18,
+    lineHeight: 20,
   },
   sidebarBtnsCol: {
     gap: 10,
@@ -95,10 +96,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     minHeight: 48,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     borderRadius: 8,
   },
   submitBtnPrimaryText: {
     fontWeight: "bold",
+    flexShrink: 1,
+    textAlign: "center",
   },
   cancelBtnOutline: {
     flexDirection: "row",
@@ -106,10 +111,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     minHeight: 48,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     borderRadius: 8,
     borderWidth: 1,
   },
   cancelBtnOutlineText: {
     fontWeight: "bold",
+    flexShrink: 1,
+    textAlign: "center",
   },
 });

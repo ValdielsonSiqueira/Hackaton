@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   bannerSub: {
-    lineHeight: 20,
+    lineHeight: 22,
     marginBottom: 14,
   },
   bannerActionsRow: {
@@ -132,12 +132,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     paddingHorizontal: 14,
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderRadius: 8,
     borderWidth: 1,
+    flexShrink: 1,
   },
   bannerBtnText: {
     fontWeight: "bold",
+    flexShrink: 1,
   },
   illustrationBox: {
     padding: 8,
