@@ -10,8 +10,10 @@ import {
 } from "react-native";
 import type { MobileThemeColors } from "../theme/mobileTheme";
 import type { MobileTaskItem, TaskStep } from "../context/AppContext";
-import { Mic, Sparkles, Trash2, Calendar, ChevronDown } from "lucide-react-native";
+import { Mic } from "lucide-react-native";
 import { DateTimePickerMobile } from "./DateTimePickerMobile";
+import { MobileTaskPrioritySelector } from "./MobileTaskPrioritySelector";
+import { MobileTaskStepsSection } from "./MobileTaskStepsSection";
 
 interface CreateTaskModalMobileProps {
   editingTask: MobileTaskItem | null;
@@ -31,7 +33,6 @@ interface CreateTaskModalMobileProps {
 }
 
 const CATEGORIES = ["Acadêmico", "Aula online", "Leitura", "Participação", "Exercício"];
-const DUE_PRESETS = ["HOJE 18:00", "HOJE 20:00", "AMANHÃ 09:00", "AMANHÃ 14:00"];
 
 export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
   editingTask,
@@ -82,7 +83,6 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
   }, [editingTask, visible]);
 
   const handleStartDictation = () => {
-    // 1. Em ambientes Web/Navegador: utiliza a API SpeechRecognition nativa de real-time
     const WebSpeechRecognition = typeof window !== "undefined" && ((window as any).webkitSpeechRecognition || (window as any).SpeechRecognition);
     if (WebSpeechRecognition) {
       try {
@@ -118,11 +118,9 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
         recognition.start();
         return;
       } catch (err) {
-        console.warn("Falha ao inicializar SpeechRecognition no navegador:", err);
       }
     }
 
-    // 2. No Celular / Expo Go: Foca automaticamente o campo para acionar o teclado nativo com microfone neural integrado
     titleInputRef.current?.focus();
     triggerToast("🎙️ Toque no ícone de microfone 🎤 no seu teclado na tela para ditar por voz!");
     speakText("Para ditar por voz no celular, toque no microfone do seu teclado aberto na tela.");
@@ -177,7 +175,6 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
   return (
     <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
       <View style={styles.modalOverlay}>
-        {/* Card Container with 4px Solid Blue Left Border matching Web 1:1 */}
         <View
           style={[
             styles.modalCard,
@@ -190,7 +187,6 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
             },
           ]}
         >
-          {/* Header Row */}
           <View style={styles.headerRow}>
             <Text style={[styles.modalTitle, { color: colors.text, fontSize: Math.round(20 * fontScale) }]}>
               {editingTask ? "Editar Atividade e Passos" : "Cadastrar Nova Atividade"}
@@ -203,7 +199,6 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
           </View>
 
           <ScrollView contentContainerStyle={styles.scrollBody} showsVerticalScrollIndicator={false}>
-            {/* Field 1: Title + Voice Mic */}
             <View style={styles.fieldGroup}>
               <View style={styles.labelRow}>
                 <Text style={[styles.label, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
@@ -249,7 +244,6 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
               )}
             </View>
 
-            {/* Field 2: Category Selector */}
             <View style={styles.fieldGroup}>
               <Text style={[styles.label, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
                 2. Categoria
@@ -276,67 +270,11 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
               </ScrollView>
             </View>
 
-            {/* Field 3: Priority Selector (Replicating Web 3 Priority Buttons 1:1) */}
-            <View style={styles.fieldGroup}>
-              <Text style={[styles.label, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
-                3. Nível de Prioridade
-              </Text>
-              <View style={styles.priorityRow}>
-                {/* Baixa Button */}
-                <TouchableOpacity
-                  style={[
-                    styles.prioBtn,
-                    {
-                      backgroundColor: priority === "low" ? colors.success : colors.surfaceSubtle,
-                      borderColor: priority === "low" ? colors.success : colors.border,
-                      borderWidth: priority === "low" ? 2 : colors.borderWidth,
-                    },
-                  ]}
-                  onPress={() => setPriority("low")}
-                >
-                  <View style={[styles.dotCircle, { backgroundColor: priority === "low" ? "#FFFFFF" : colors.success }]} />
-                  <Text style={[styles.prioBtnText, { color: priority === "low" ? "#FFFFFF" : colors.text, fontSize: Math.round(16 * fontScale) }]}>
-                    Baixa
-                  </Text>
-                </TouchableOpacity>
-
-                {/* Média Button (Gold Yellow) */}
-                <TouchableOpacity
-                  style={[
-                    styles.prioBtn,
-                    {
-                      backgroundColor: priority === "medium" ? (isHighContrast ? colors.primary : "#F1C21B") : colors.surfaceSubtle,
-                      borderColor: priority === "medium" ? (isHighContrast ? colors.primary : "#F1C21B") : colors.border,
-                      borderWidth: priority === "medium" ? 2 : colors.borderWidth,
-                    },
-                  ]}
-                  onPress={() => setPriority("medium")}
-                >
-                  <View style={[styles.dotCircle, { backgroundColor: priority === "medium" ? "#161616" : "#F1C21B" }]} />
-                  <Text style={[styles.prioBtnText, { color: priority === "medium" ? "#161616" : colors.text, fontSize: Math.round(16 * fontScale) }]}>
-                    Média
-                  </Text>
-                </TouchableOpacity>
-
-                {/* Urgente Button (Red) */}
-                <TouchableOpacity
-                  style={[
-                    styles.prioBtn,
-                    {
-                      backgroundColor: priority === "high" ? colors.urgent : colors.surfaceSubtle,
-                      borderColor: priority === "high" ? colors.urgent : colors.border,
-                      borderWidth: priority === "high" ? 2 : colors.borderWidth,
-                    },
-                  ]}
-                  onPress={() => setPriority("high")}
-                >
-                  <View style={[styles.dotCircle, { backgroundColor: priority === "high" ? "#FFFFFF" : colors.urgent }]} />
-                  <Text style={[styles.prioBtnText, { color: priority === "high" ? "#FFFFFF" : colors.text, fontSize: Math.round(16 * fontScale) }]}>
-                    Urgente
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            <MobileTaskPrioritySelector
+              priority={priority}
+              onChangePriority={setPriority}
+              theme={theme}
+            />
 
             <View style={styles.fieldGroup}>
               <Text style={[styles.label, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
@@ -351,44 +289,14 @@ export const CreateTaskModalMobile: React.FC<CreateTaskModalMobileProps> = ({
               />
             </View>
 
-            {/* Field 5: Passos Guiados Dinâmicos (Mobile Optimized Layout) */}
-            <View style={[styles.fieldGroup, styles.stepsSection]}>
-              <View style={styles.stepsHeaderCol}>
-                <View style={styles.sparklesLabelRow}>
-                  <Sparkles size={16} color={primaryAccentColor} />
-                  <Text style={[styles.label, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
-                    5. Passos Guiados (Opcional)
-                  </Text>
-                </View>
-                <TouchableOpacity style={[styles.addStepBtnOutline, { borderColor: primaryAccentColor }]} onPress={handleAddStepInput}>
-                  <Text style={[styles.addStepBtnOutlineText, { color: primaryAccentColor, fontSize: Math.round(14 * fontScale) }]}>
-                    + Adicionar Passo
-                  </Text>
-                </TouchableOpacity>
-              </View>
+            <MobileTaskStepsSection
+              stepInputs={stepInputs}
+              onAddStep={handleAddStepInput}
+              onChangeStep={handleStepInputChange}
+              onRemoveStep={handleRemoveStepInput}
+              theme={theme}
+            />
 
-              {stepInputs.map((stepText, idx) => (
-                <View key={idx} style={styles.stepInputRow}>
-                  <View style={[styles.stepNumBadge, { backgroundColor: primaryAccentColor }]}>
-                    <Text style={[styles.stepNumBadgeText, { color: colors.primaryContrast }]}>{idx + 1}</Text>
-                  </View>
-                  <TextInput
-                    style={[styles.stepTextInput, { backgroundColor: colors.surfaceSubtle, color: colors.text, borderColor: colors.border }]}
-                    placeholder={`Ex: Passo ${idx + 1} — Abrir o portal...`}
-                    placeholderTextColor={colors.textMuted}
-                    value={stepText}
-                    onChangeText={(t) => handleStepInputChange(idx, t)}
-                  />
-                  {stepInputs.length > 1 && (
-                    <TouchableOpacity onPress={() => handleRemoveStepInput(idx)} style={styles.removeStepBtn}>
-                      <Trash2 size={18} color={colors.urgent} />
-                    </TouchableOpacity>
-                  )}
-                </View>
-              ))}
-            </View>
-
-            {/* Form Actions Footer */}
             <View style={styles.actionRow}>
               <TouchableOpacity style={[styles.submitBtnPrimary, { backgroundColor: primaryAccentColor }]} onPress={handleSubmit}>
                 <Text style={[styles.submitBtnPrimaryText, { color: colors.primaryContrast, fontSize: Math.round(15 * fontScale) }]}>
@@ -459,21 +367,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  labelRowBetween: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 6,
-  },
-  sparklesLabelRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
   label: {
     fontWeight: "bold",
   },
-  subLabel: {},
+  subLabel: {
+    fontSize: 11,
+  },
   inputMicRow: {
     flexDirection: "row",
     gap: 8,
@@ -514,144 +413,23 @@ const styles = StyleSheet.create({
   catChipText: {
     fontWeight: "bold",
   },
-  priorityRow: {
-    flexDirection: "column",
-    gap: 10,
-    width: "100%",
-  },
-  prioBtn: {
-    width: "100%",
-    minHeight: 58,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 12,
-    borderRadius: 8,
-    flexWrap: "wrap",
-  },
-  dotCircle: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-  },
-  prioBtnText: {
-    fontWeight: "bold",
-    textAlign: "center",
-    flexShrink: 1,
-  },
-  dueActiveBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    minHeight: 56,
-    paddingVertical: 14,
-    paddingHorizontal: 14,
-    borderRadius: 8,
-    borderWidth: 2,
-  },
-  dueActiveText: {
-    fontWeight: "bold",
-    flex: 1,
-  },
-  calendarBadgeWeb: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-  },
-  calendarBadgeTextWeb: {
-    fontSize: 11,
-    fontWeight: "bold",
-  },
-  duePresetsRow: {
+  actionRow: {
     flexDirection: "column",
     gap: 10,
     marginTop: 10,
-    width: "100%",
-  },
-  duePresetBtn: {
-    width: "100%",
-    minHeight: 54,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 8,
-    flexWrap: "wrap",
-  },
-  duePresetBtnText: {
-    fontWeight: "bold",
-    textAlign: "center",
-    flexShrink: 1,
-  },
-  stepsSection: {
-    borderTopWidth: 1,
-    borderTopColor: "#E0E0E0",
-    paddingTop: 12,
-  },
-  stepsHeaderCol: {
-    gap: 8,
-    width: "100%",
-    marginBottom: 8,
-  },
-  addStepBtnOutline: {
-    width: "100%",
-    minHeight: 56,
-    paddingVertical: 14,
-    borderWidth: 1.5,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  addStepBtnOutlineText: {
-    fontWeight: "bold",
-  },
-  stepInputRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 8,
-  },
-  stepNumBadge: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  stepNumBadgeText: {
-    fontWeight: "bold",
-    fontSize: 13,
-  },
-  stepTextInput: {
-    flex: 1,
-    minHeight: 52,
-    borderRadius: 8,
-    borderWidth: 1.5,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 15,
-  },
-  removeStepBtn: {
-    minWidth: 44,
-    minHeight: 44,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-  },
-  actionRow: {
-    gap: 12,
-    marginTop: 14,
   },
   submitBtnPrimary: {
-    minHeight: 60,
-    paddingVertical: 16,
+    minHeight: 56,
+    paddingVertical: 14,
     paddingHorizontal: 16,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    flexWrap: "wrap",
+    elevation: 2,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
   },
   submitBtnPrimaryText: {
     fontWeight: "bold",
@@ -672,51 +450,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     flexShrink: 1,
-  },
-  customPickerCard: {
-    padding: 14,
-    borderRadius: 10,
-    borderWidth: 1.5,
-    marginTop: 12,
-    gap: 8,
-  },
-  customPickerHeading: {
-    fontWeight: "700",
-  },
-  pickerRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
-    marginVertical: 4,
-  },
-  pickerChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 6,
-    borderWidth: 1,
-  },
-  pickerSubLabel: {
-    fontSize: 12,
-    marginTop: 4,
-  },
-  customInput: {
-    height: 44,
-    borderRadius: 6,
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    fontSize: 14,
-    marginTop: 2,
-  },
-  applyCustomBtn: {
-    minHeight: 46,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 16,
-    marginTop: 10,
-  },
-  applyCustomBtnText: {
-    fontWeight: "700",
-    fontSize: 14,
   },
 });

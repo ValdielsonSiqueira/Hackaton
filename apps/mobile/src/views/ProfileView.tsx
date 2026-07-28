@@ -13,6 +13,7 @@ import {
 import type { MobileThemeColors } from "../theme/mobileTheme";
 import type { UserProfile } from "../context/AppContext";
 import type { UserSettings } from "@seniorease/core";
+import { ProfileInfoSection } from "../components/ProfileInfoSection";
 import { SpotlightCutoutTour, SpotlightStep } from "../components/SpotlightCutoutTour";
 import { 
   User, 
@@ -176,75 +177,16 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
           </View>
         </View>
 
-        {/* Field 1: Seu Nome Completo */}
-        <View style={styles.fieldGroup}>
-          <View style={styles.labelRowWithIcon}>
-            <User size={16} color={primaryAccentColor} />
-            <Text style={[styles.label, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
-              Seu Nome Completo
-            </Text>
-          </View>
-          <TextInput
-            style={[styles.input, { backgroundColor: colors.surfaceSubtle, color: colors.text, borderColor: colors.border }]}
-            value={name}
-            onChangeText={setName}
-            placeholder="Seu nome completo"
-            placeholderTextColor={colors.textMuted}
-          />
-          <Text style={[styles.subHint, { color: colors.textMuted, fontSize: Math.round(11 * fontScale) }]}>
-            Como deseja ser chamado no sistema
-          </Text>
-        </View>
-
-        {/* Field 2: Seu E-mail */}
-        <View style={styles.fieldGroup}>
-          <View style={styles.labelRowWithIcon}>
-            <Mail size={16} color={primaryAccentColor} />
-            <Text style={[styles.label, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
-              Seu E-mail
-            </Text>
-          </View>
-          <TextInput
-            style={[styles.input, { backgroundColor: colors.surfaceSubtle, color: colors.text, borderColor: colors.border }]}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholder="Seu e-mail de estudante"
-            placeholderTextColor={colors.textMuted}
-          />
-          <Text style={[styles.subHint, { color: colors.textMuted, fontSize: Math.round(11 * fontScale) }]}>
-            Seu e-mail de acesso e notificações
-          </Text>
-        </View>
-
-        {/* Field 3: Cuidador / Familiar */}
-        <View style={styles.fieldGroup}>
-          <View style={styles.labelRowWithIcon}>
-            <HeartHandshake size={16} color={primaryAccentColor} />
-            <Text style={[styles.label, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
-              E-mail ou Telefone do Cuidador / Familiar (Opcional)
-            </Text>
-          </View>
-          <TextInput
-            style={[styles.input, { backgroundColor: colors.surfaceSubtle, color: colors.text, borderColor: colors.border }]}
-            value={caregiver}
-            onChangeText={setCaregiver}
-            placeholder="Ex: Maria (Filha) - (11) 99999-8888"
-            placeholderTextColor={colors.textMuted}
-          />
-          <Text style={[styles.subHint, { color: colors.textMuted, fontSize: Math.round(11 * fontScale) }]}>
-            Usado apenas para cópia de lembretes e apoio de emergência (deixe em branco se não houver).
-          </Text>
-        </View>
-
-        {/* Save Profile Button */}
-        <TouchableOpacity style={[styles.submitBtnPrimary, { backgroundColor: primaryAccentColor }]} onPress={handleSaveProfile}>
-          <Save size={18} color={colors.primaryContrast} />
-          <Text style={[styles.submitBtnPrimaryText, { color: colors.primaryContrast, fontSize: Math.round(15 * fontScale) }]}>
-            Salvar Informações Cadastrais
-          </Text>
-        </TouchableOpacity>
+        <ProfileInfoSection
+          name={name}
+          setName={setName}
+          email={email}
+          setEmail={setEmail}
+          caregiver={caregiver}
+          setCaregiver={setCaregiver}
+          onSave={handleSaveProfile}
+          theme={theme}
+        />
       </View>
 
       {/* 2. Sidebar Cards (Replicating Web ProfileSidebar.tsx 1:1) */}

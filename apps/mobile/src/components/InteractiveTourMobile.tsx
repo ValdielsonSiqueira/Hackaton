@@ -1,65 +1,55 @@
 import React, { useState, useEffect } from "react";
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  TouchableOpacity, 
-  Modal 
-} from "react-native";
+import { Modal, StyleSheet, Text, View, TouchableOpacity, ScrollView } from "react-native";
+import { X, Volume2, ArrowRight, ArrowLeft, Check, Sparkles } from "lucide-react-native";
 import type { MobileThemeColors } from "../theme/mobileTheme";
-import { 
-  Sparkles, 
-  ArrowRight, 
-  Check, 
-  Volume2, 
-  X, 
-  ChevronRight, 
-  ChevronLeft 
-} from "lucide-react-native";
+import {
+  DictationTourIllustration,
+  A11yScaleTourIllustration,
+  PriorityTaskTourIllustration,
+  CaregiverSupportTourIllustration,
+} from "./TourIllustrationSVGs";
 
-export interface TourStep {
+interface TourStepConfig {
   targetName: string;
   title: string;
   description: string;
   voiceText: string;
   tip: string;
+  illustration: (colors: MobileThemeColors) => React.ReactNode;
 }
 
-const DASHBOARD_TOUR_STEPS: TourStep[] = [
+const TOUR_STEPS: TourStepConfig[] = [
   {
-    targetName: "Banner Principal",
-    title: "1/5 Bem-vindo ao SeniorEase!",
-    description: "Sua plataforma de aprendizado adaptada para estudantes seniores com foco em usabilidade, áudio e legibilidade.",
-    voiceText: "Bem-vindo ao SeniorEase! Aqui fica o seu resumo diário.",
-    tip: "Toque em 'Ouvir resumo do dia' para escutar suas tarefas em áudio.",
+    targetName: "Visão Geral do Painel",
+    title: "👋 Bem-vindo ao SeniorEase Mobile",
+    description: "Sua rotina acadêmica e pessoal organizada de forma simples, inclusiva e acessível na palma da sua mão.",
+    voiceText: "Bem-vindo ao SeniorEase Mobile. Sua rotina acadêmica simples e inclusiva.",
+    tip: "Acesse o painel para verificar suas tarefas diárias.",
+    illustration: (c) => <DictationTourIllustration colors={c} />,
   },
   {
     targetName: "Atividade Prioritária",
-    title: "2/5 Atividade de Alta Prioridade",
-    description: "Exibe sua tarefa mais urgente do dia em destaque para ser concluída com apenas 1 toque.",
-    voiceText: "Esta é sua atividade de maior prioridade no momento.",
-    tip: "Clique em 'Marcar como Concluída' assim que finalizar.",
+    title: "🎯 Atividade de Alta Prioridade",
+    description: "Exibe sua tarefa mais urgente do dia em destaque para ser concluída com apenas um toque no cartão.",
+    voiceText: "Esta é sua atividade de maior prioridade no momento. Conclua com um toque.",
+    tip: "Toque no cartão para marcar a atividade como concluída.",
+    illustration: (c) => <PriorityTaskTourIllustration colors={c} />,
   },
   {
     targetName: "Acessibilidade Flutuante",
-    title: "3/5 Ferramentas de Acessibilidade",
-    description: "O botão lateral 'Acessível' permite ajustar fontes (A+/A-) e alternar entre Alto Contraste (WCAG AAA) ou Modo Escuro.",
-    voiceText: "Use a barra lateral de acessibilidade para personalizar o tamanho do texto e as cores.",
-    tip: "O menu fica disponível no lado direito de qualquer tela.",
+    title: "🔍 Ferramentas de Acessibilidade",
+    description: "O botão lateral 'Acessível' permite ajustar o tamanho da fonte (A+/A-) e alternar para Alto Contraste (WCAG AAA) ou Modo Escuro.",
+    voiceText: "Use a barra lateral de acessibilidade para personalizar fontes e cores.",
+    tip: "O menu flutuante fica sempre disponível no lado da tela.",
+    illustration: (c) => <A11yScaleTourIllustration colors={c} />,
   },
   {
-    targetName: "Módulos de Acesso",
-    title: "4/5 Módulos de Navegação Rápida",
-    description: "Acesse as telas de Atividades, Perfil Acadêmico e a Central de Ajuda 0800 com atalhos diretos.",
-    voiceText: "Nesta área você acessa os módulos principais.",
-    tip: "Disque 0800 gratuitamente se precisar de apoio humano.",
-  },
-  {
-    targetName: "Histórico de Atividades",
-    title: "5/5 Síntese de Voz nas Atividades",
-    description: "Acompanhe todas as suas tarefas com badges de status (✓ Feito / ⏳ Pendente) e botão de áudio individual.",
-    voiceText: "Toque no ícone de alto-falante para ouvir o nome de cada atividade.",
-    tip: "Toque no alto-falante para escutar qualquer atividade.",
+    targetName: "Suporte & Cuidador",
+    title: "🤝 Apoio & Cuidador Cadastrado",
+    description: "Cadastre informações do seu cuidador para suporte rápido em caso de dúvidas ou apoio de emergência.",
+    voiceText: "Cadastre dados do seu cuidador para apoio em caso de dúvidas.",
+    tip: "Caso precise de apoio humano, consulte os contatos cadastrados.",
+    illustration: (c) => <CaregiverSupportTourIllustration colors={c} />,
   },
 ];
 
@@ -67,7 +57,7 @@ interface InteractiveTourMobileProps {
   visible: boolean;
   theme: { colors: MobileThemeColors; fontScale: number };
   onClose: () => void;
-  speakText: (text: string) => void;
+  speakText?: (text: string) => void;
 }
 
 export const InteractiveTourMobile: React.FC<InteractiveTourMobileProps> = ({
@@ -82,19 +72,16 @@ export const InteractiveTourMobile: React.FC<InteractiveTourMobileProps> = ({
   useEffect(() => {
     if (visible) {
       setCurrentStepIndex(0);
-      speakText(DASHBOARD_TOUR_STEPS[0].voiceText);
     }
   }, [visible]);
 
   if (!visible) return null;
 
-  const currentStep = DASHBOARD_TOUR_STEPS[currentStepIndex];
+  const currentStep = TOUR_STEPS[currentStepIndex];
 
   const handleNext = () => {
-    if (currentStepIndex < DASHBOARD_TOUR_STEPS.length - 1) {
-      const nextIdx = currentStepIndex + 1;
-      setCurrentStepIndex(nextIdx);
-      speakText(DASHBOARD_TOUR_STEPS[nextIdx].voiceText);
+    if (currentStepIndex < TOUR_STEPS.length - 1) {
+      setCurrentStepIndex(currentStepIndex + 1);
     } else {
       onClose();
     }
@@ -102,91 +89,96 @@ export const InteractiveTourMobile: React.FC<InteractiveTourMobileProps> = ({
 
   const handlePrev = () => {
     if (currentStepIndex > 0) {
-      const prevIdx = currentStepIndex - 1;
-      setCurrentStepIndex(prevIdx);
-      speakText(DASHBOARD_TOUR_STEPS[prevIdx].voiceText);
+      setCurrentStepIndex(currentStepIndex - 1);
+    }
+  };
+
+  const handleSpeakCurrentStep = () => {
+    if (speakText && currentStep) {
+      speakText(`${currentStep.title}. ${currentStep.description}`);
     }
   };
 
   return (
-    <Modal animationType="fade" transparent={true} visible={visible} onRequestClose={onClose}>
-      <View style={styles.modalOverlay}>
-        <View style={[styles.modalCard, { backgroundColor: colors.card, borderColor: colors.primary, borderWidth: colors.borderWidth }]}>
-          {/* Header */}
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+      <View style={styles.overlay}>
+        <View
+          style={[
+            styles.modalContainer,
+            { backgroundColor: colors.background, borderColor: colors.border },
+          ]}
+        >
           <View style={styles.headerRow}>
-            <View style={[styles.tourBadge, { backgroundColor: colors.primary }]}>
-              <Sparkles size={14} color={colors.primaryContrast} />
-              <Text style={[styles.tourBadgeText, { color: colors.primaryContrast }]}>TOUR GUIADO (DRIVER MOBILE)</Text>
-            </View>
-            <TouchableOpacity onPress={onClose} style={{ padding: 4 }}>
-              <X size={20} color={colors.textMuted} />
+            <Text style={[styles.progressText, { color: colors.primary }]}>
+              Passo {currentStepIndex + 1} de {TOUR_STEPS.length}
+            </Text>
+            <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel="Fechar tour">
+              <X size={24} color={colors.text} />
             </TouchableOpacity>
           </View>
 
-          {/* Highlight Target Indicator */}
-          <View style={[styles.targetBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}>
-            <Text style={[styles.targetNameText, { color: colors.primary }]}>
-              📍 Destaque: {currentStep.targetName}
+          <ScrollView contentContainerStyle={styles.bodyScroll} showsVerticalScrollIndicator={false}>
+            <Text style={[styles.title, { color: colors.text, fontSize: Math.round(20 * fontScale) }]}>
+              {currentStep.title}
             </Text>
-          </View>
 
-          {/* Content */}
-          <Text style={[styles.stepTitle, { color: colors.text, fontSize: Math.round(18 * fontScale) }]}>
-            {currentStep.title}
-          </Text>
+            {currentStep.illustration(colors)}
 
-          <Text style={[styles.stepDesc, { color: colors.textMuted, fontSize: Math.round(14 * fontScale) }]}>
-            {currentStep.description}
-          </Text>
-
-          {/* Voice Speech Trigger */}
-          <TouchableOpacity
-            style={[styles.audioBtn, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}
-            onPress={() => speakText(currentStep.voiceText)}
-          >
-            <Volume2 size={18} color={colors.primary} />
-            <Text style={[styles.audioBtnText, { color: colors.text, fontSize: Math.round(13 * fontScale) }]}>
-              Ouvir explicação em áudio
+            <Text
+              style={[
+                styles.description,
+                { color: colors.textMuted, fontSize: Math.round(15 * fontScale) },
+              ]}
+            >
+              {currentStep.description}
             </Text>
-          </TouchableOpacity>
 
-          {/* Tip Box */}
-          <View style={[styles.tipBox, { backgroundColor: colors.surfaceSubtle, borderLeftColor: colors.primary }]}>
-            <Text style={[styles.tipText, { color: colors.text, fontSize: Math.round(12 * fontScale) }]}>
-              💡 <Text style={{ fontWeight: "bold" }}>Dica:</Text> {currentStep.tip}
-            </Text>
-          </View>
-
-          {/* Progress Dots */}
-          <View style={styles.dotsRow}>
-            {DASHBOARD_TOUR_STEPS.map((_, idx) => (
-              <View
-                key={idx}
-                style={[
-                  styles.dot,
-                  { backgroundColor: idx === currentStepIndex ? colors.primary : colors.surfaceSubtle },
-                ]}
-              />
-            ))}
-          </View>
-
-          {/* Actions */}
-          <View style={styles.actionRow}>
-            {currentStepIndex > 0 ? (
-              <TouchableOpacity style={[styles.prevBtn, { borderColor: colors.border }]} onPress={handlePrev}>
-                <ChevronLeft size={18} color={colors.text} />
-                <Text style={[styles.prevBtnText, { color: colors.text }]}>Anterior</Text>
+            {speakText && (
+              <TouchableOpacity
+                style={[styles.audioBtn, { backgroundColor: colors.surfaceSubtle }]}
+                onPress={handleSpeakCurrentStep}
+                accessibilityLabel="Ouvir instrução do tour"
+              >
+                <Volume2 size={20} color={colors.primary} />
+                <Text style={[styles.audioBtnText, { color: colors.primary, fontSize: Math.round(14 * fontScale) }]}>
+                  Ouvir Passo em Voz Alta
+                </Text>
               </TouchableOpacity>
-            ) : <View style={{ flex: 1 }} />}
+            )}
 
-            <TouchableOpacity style={[styles.nextBtn, { backgroundColor: colors.primary }]} onPress={handleNext}>
-              <Text style={[styles.nextBtnText, { color: colors.primaryContrast, fontSize: Math.round(15 * fontScale) }]}>
-                {currentStepIndex === DASHBOARD_TOUR_STEPS.length - 1 ? "Concluir" : "Próximo"}
+            <View style={[styles.tipCard, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}>
+              <Text style={[styles.tipText, { color: colors.text, fontSize: Math.round(13 * fontScale) }]}>
+                💡 <Text style={{ fontWeight: "bold" }}>Dica:</Text> {currentStep.tip}
               </Text>
-              {currentStepIndex === DASHBOARD_TOUR_STEPS.length - 1 ? (
+            </View>
+          </ScrollView>
+
+          <View style={styles.footerRow}>
+            {currentStepIndex > 0 ? (
+              <TouchableOpacity
+                style={[styles.navBtn, { backgroundColor: colors.surfaceSubtle }]}
+                onPress={handlePrev}
+              >
+                <ArrowLeft size={18} color={colors.text} />
+                <Text style={[styles.navBtnText, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
+                  Anterior
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.placeholderBtn} />
+            )}
+
+            <TouchableOpacity
+              style={[styles.navBtn, styles.primaryNavBtn, { backgroundColor: colors.primary }]}
+              onPress={handleNext}
+            >
+              <Text style={[styles.primaryNavBtnText, { color: colors.primaryContrast, fontSize: Math.round(14 * fontScale) }]}>
+                {currentStepIndex === TOUR_STEPS.length - 1 ? "Concluir" : "Próximo"}
+              </Text>
+              {currentStepIndex === TOUR_STEPS.length - 1 ? (
                 <Check size={18} color={colors.primaryContrast} />
               ) : (
-                <ChevronRight size={18} color={colors.primaryContrast} />
+                <ArrowRight size={18} color={colors.primaryContrast} />
               )}
             </TouchableOpacity>
           </View>
@@ -197,105 +189,98 @@ export const InteractiveTourMobile: React.FC<InteractiveTourMobileProps> = ({
 };
 
 const styles = StyleSheet.create({
-  modalOverlay: {
+  overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.65)",
+    backgroundColor: "rgba(0,0,0,0.6)",
+    alignItems: "center",
     justifyContent: "center",
     padding: 16,
   },
-  modalCard: {
+  modalContainer: {
+    width: "100%",
+    maxHeight: "85%",
+    borderRadius: 16,
+    borderWidth: 1.5,
     padding: 20,
-    borderRadius: 0,
-    gap: 12,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 8,
   },
   headerRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginBottom: 12,
   },
-  tourBadge: {
-    flexDirection: "row",
+  progressText: {
+    fontWeight: "bold",
+    fontSize: 14,
+  },
+  closeBtn: {
+    padding: 4,
+  },
+  bodyScroll: {
     alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 0,
+    gap: 14,
+    paddingBottom: 10,
   },
-  tourBadgeText: {
-    fontSize: 10,
+  title: {
     fontWeight: "bold",
+    textAlign: "center",
   },
-  targetBox: {
-    padding: 8,
-    borderWidth: 1,
-    borderRadius: 0,
-  },
-  targetNameText: {
-    fontWeight: "bold",
-    fontSize: 13,
-  },
-  stepTitle: {
-    fontWeight: "bold",
-  },
-  stepDesc: {
-    lineHeight: 20,
+  description: {
+    textAlign: "center",
+    lineHeight: 22,
   },
   audioBtn: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 0,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginVertical: 4,
   },
   audioBtnText: {
     fontWeight: "bold",
   },
-  tipBox: {
-    padding: 10,
-    borderLeftWidth: 4,
-    borderRadius: 0,
+  tipCard: {
+    width: "100%",
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
   },
-  tipText: {},
-  dotsRow: {
+  tipText: {
+    lineHeight: 18,
+  },
+  footerRow: {
     flexDirection: "row",
-    justifyContent: "center",
-    gap: 8,
-    marginVertical: 4,
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 14,
+    gap: 12,
   },
-  dot: {
-    width: 20,
-    height: 6,
-    borderRadius: 0,
-  },
-  actionRow: {
-    flexDirection: "row",
-    gap: 10,
-    marginTop: 6,
-  },
-  prevBtn: {
+  placeholderBtn: {
     flex: 1,
-    minHeight: 50,
+  },
+  navBtn: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 6,
-    borderWidth: 1,
-    borderRadius: 0,
+    minHeight: 48,
+    borderRadius: 8,
   },
-  prevBtnText: {
+  navBtnText: {
     fontWeight: "bold",
   },
-  nextBtn: {
-    flex: 1.5,
-    minHeight: 50,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 6,
-    borderRadius: 0,
+  primaryNavBtn: {
+    elevation: 2,
   },
-  nextBtnText: {
+  primaryNavBtnText: {
     fontWeight: "bold",
   },
 });

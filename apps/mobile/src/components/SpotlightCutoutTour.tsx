@@ -12,14 +12,13 @@ import {
   Sparkles, 
   Volume2, 
   X, 
-  ChevronRight, 
-  ChevronLeft, 
+  ArrowRight, 
+  ArrowLeft, 
   Check,
   BookOpen,
   Flame,
   CheckCircle2,
   Eye,
-  Sliders,
   BookCheck,
   User,
   PhoneCall,
@@ -29,7 +28,6 @@ import {
   Target,
   Trash2,
   ShieldCheck,
-  RotateCcw,
   Circle,
   Plus
 } from "lucide-react-native";
@@ -53,22 +51,18 @@ interface SpotlightCutoutTourProps {
   onStepChange?: (stepIndex: number, scrollY: number) => void;
 }
 
-/**
- * Helper component that generates rich SVG/Vector UI Illustrations for each tour step,
- * visually mirroring the exact areas of the app mentioned in the tour!
- */
 const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThemeColors; fontScale: number } }> = ({ stepId, theme }) => {
-  const { colors, fontScale } = theme;
+  const { colors } = theme;
   const isHighContrast = colors.mode === "high";
   const accentColor = isHighContrast ? colors.primary : "#0F62FE";
 
   switch (stepId) {
-    case "step-1": // Banner de Boas-Vindas
+    case "step-1":
       return (
         <View style={[styles.illBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}>
           <View style={styles.illRow}>
             <View style={[styles.illCircle, { backgroundColor: accentColor }]}>
-              <BookOpen size={26} color="#FFFFFF" />
+              <BookOpen size={24} color="#FFFFFF" />
             </View>
             <View style={{ flex: 1, gap: 4 }}>
               <Text style={{ fontSize: 13, fontWeight: "bold", color: colors.text }}>Banner Diário Acadêmico</Text>
@@ -81,11 +75,11 @@ const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThe
         </View>
       );
 
-    case "step-2": // Atividade de Alta Prioridade
+    case "step-2":
       return (
-        <View style={[styles.illBox, { backgroundColor: colors.card, borderColor: colors.border, borderLeftWidth: 6, borderLeftColor: "#DA1E28" }]}>
+        <View style={[styles.illBox, { backgroundColor: colors.card, borderColor: colors.border, borderLeftWidth: 5, borderLeftColor: "#DA1E28" }]}>
           <View style={styles.illRow}>
-            <View style={{ flex: 1, gap: 6 }}>
+            <View style={{ flex: 1, gap: 4 }}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
                 <Flame size={16} color="#DA1E28" />
                 <Text style={{ fontSize: 11, fontWeight: "900", color: "#DA1E28", textTransform: "uppercase" }}>Prioridade Alta / Urgente</Text>
@@ -93,13 +87,13 @@ const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThe
               <Text style={{ fontSize: 13, fontWeight: "bold", color: colors.text }}>Entregar Relatório de UX</Text>
             </View>
             <View style={[styles.illActionCircle, { backgroundColor: "#198038" }]}>
-              <CheckCircle2 size={24} color="#FFFFFF" />
+              <CheckCircle2 size={22} color="#FFFFFF" />
             </View>
           </View>
         </View>
       );
 
-    case "step-3": // Painel de Acessibilidade
+    case "step-3":
       return (
         <View style={[styles.illBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}>
           <View style={{ gap: 8 }}>
@@ -119,27 +113,27 @@ const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThe
         </View>
       );
 
-    case "step-4": // Módulos da Plataforma
+    case "step-4":
       return (
         <View style={[styles.illBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}>
           <View style={{ flexDirection: "row", gap: 8, justifyContent: "space-between" }}>
             <View style={[styles.illTile, { backgroundColor: colors.card, borderColor: colors.border }]}>
-              <BookCheck size={22} color={accentColor} />
+              <BookCheck size={20} color={accentColor} />
               <Text style={{ fontSize: 11, fontWeight: "bold", color: colors.text }}>Atividades</Text>
             </View>
             <View style={[styles.illTile, { backgroundColor: colors.card, borderColor: colors.border }]}>
-              <User size={22} color="#8A3FFC" />
+              <User size={20} color="#8A3FFC" />
               <Text style={{ fontSize: 11, fontWeight: "bold", color: colors.text }}>Perfil</Text>
             </View>
             <View style={[styles.illTile, { backgroundColor: colors.card, borderColor: colors.border }]}>
-              <PhoneCall size={22} color="#198038" />
+              <PhoneCall size={20} color="#198038" />
               <Text style={{ fontSize: 11, fontWeight: "bold", color: colors.text }}>0800 Suporte</Text>
             </View>
           </View>
         </View>
       );
 
-    case "step-5": // Lista de Atividades Recentes
+    case "step-5":
       return (
         <View style={[styles.illBox, { backgroundColor: colors.card, borderColor: colors.border, gap: 8 }]}>
           <View style={[styles.illTaskRow, { borderColor: colors.border, backgroundColor: "#F6FFF8" }]}>
@@ -155,7 +149,7 @@ const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThe
         </View>
       );
 
-    case "tasks-step-1": // Nova Atividade no TasksView
+    case "tasks-step-1":
       return (
         <View style={[styles.illBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}>
           <View style={styles.illRow}>
@@ -164,22 +158,22 @@ const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThe
               <Text style={{ color: "#FFF", fontWeight: "bold", fontSize: 14 }}>Nova Atividade</Text>
             </View>
             <View style={[styles.illActionCircle, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: 1 }]}>
-              <Mic size={20} color={accentColor} />
+              <Mic size={18} color={accentColor} />
             </View>
             <View style={[styles.illActionCircle, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: 1 }]}>
-              <Calendar size={20} color={accentColor} />
+              <Calendar size={18} color={accentColor} />
             </View>
           </View>
         </View>
       );
 
-    case "tasks-step-2": // Barra de Progresso
+    case "tasks-step-2":
       return (
         <View style={[styles.illBox, { backgroundColor: colors.card, borderColor: colors.border, gap: 10 }]}>
           <View style={styles.illRow}>
-            <Target size={24} color="#F1C21B" />
+            <Target size={22} color="#F1C21B" />
             <Text style={{ fontSize: 13, fontWeight: "bold", color: colors.text, flex: 1 }}>Progresso Diário</Text>
-            <Text style={{ fontSize: 14, fontWeight: "900", color: "#198038" }}>75% Concluído</Text>
+            <Text style={{ fontSize: 13, fontWeight: "900", color: "#198038" }}>75% Concluído</Text>
           </View>
           <View style={[styles.progressTrack, { backgroundColor: colors.surfaceSubtle }]}>
             <View style={[styles.progressFill, { width: "75%", backgroundColor: "#198038" }]} />
@@ -187,7 +181,7 @@ const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThe
         </View>
       );
 
-    case "tasks-step-3": // Filtros e Lista Detalhada
+    case "tasks-step-3":
       return (
         <View style={[styles.illBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, gap: 8 }]}>
           <View style={{ flexDirection: "row", gap: 6 }}>
@@ -209,12 +203,12 @@ const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThe
         </View>
       );
 
-    case "profile-step-1": // Informações Cadastrais
+    case "profile-step-1":
       return (
         <View style={[styles.illBox, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <View style={styles.illRow}>
             <View style={[styles.avatarMock, { backgroundColor: accentColor }]}>
-              <User size={26} color="#FFF" />
+              <User size={24} color="#FFF" />
             </View>
             <View style={{ flex: 1, gap: 3 }}>
               <Text style={{ fontSize: 14, fontWeight: "bold", color: colors.text }}>Estudante SeniorEase</Text>
@@ -228,11 +222,11 @@ const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThe
         </View>
       );
 
-    case "profile-step-2": // Armazenamento Persistente
+    case "profile-step-2":
       return (
         <View style={[styles.illBox, { backgroundColor: "#E6F4EA", borderColor: "#34A853", borderWidth: 1, alignItems: "center", paddingVertical: 14 }]}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-            <ShieldCheck size={36} color="#198038" />
+            <ShieldCheck size={32} color="#198038" />
             <View style={{ gap: 2 }}>
               <Text style={{ fontSize: 13, fontWeight: "bold", color: "#0D5323" }}>Segurança e Memória Local</Text>
               <Text style={{ fontSize: 11, color: "#198038" }}>Preferências salvas no dispositivo</Text>
@@ -241,31 +235,8 @@ const TourIllustrationBox: React.FC<{ stepId: string; theme: { colors: MobileThe
         </View>
       );
 
-    case "profile-step-3": // Preferências de Acessibilidade no Perfil
-      return (
-        <View style={[styles.illBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, gap: 8 }]}>
-          <View style={styles.illRow}>
-            <Sliders size={20} color={accentColor} />
-            <Text style={{ fontSize: 12, fontWeight: "bold", color: colors.text, flex: 1 }}>Alto Contraste (AAA)</Text>
-            <View style={[styles.toggleOnMock, { backgroundColor: "#198038" }]}>
-              <View style={styles.toggleKnobMock} />
-            </View>
-          </View>
-          <View style={[styles.illRow, { paddingTop: 4, borderTopWidth: 1, borderTopColor: colors.border }]}>
-            <RotateCcw size={16} color={colors.textMuted} />
-            <Text style={{ fontSize: 11, color: colors.textMuted, fontWeight: "600" }}>Botão para resetar preferências padrão</Text>
-          </View>
-        </View>
-      );
-
-    default: // Generic Fallback Illustration
-      return (
-        <View style={[styles.illBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border, alignItems: "center", paddingVertical: 16 }]}>
-          <View style={[styles.illCircle, { backgroundColor: accentColor }]}>
-            <Sparkles size={28} color="#FFFFFF" />
-          </View>
-        </View>
-      );
+    default:
+      return null;
   }
 };
 
@@ -283,7 +254,6 @@ export const SpotlightCutoutTour: React.FC<SpotlightCutoutTourProps> = ({
   useEffect(() => {
     if (visible && steps.length > 0) {
       setCurrentStepIndex(0);
-      speakText(steps[0].voiceText);
       if (onStepChange) {
         onStepChange(0, steps[0].scrollY);
       }
@@ -296,7 +266,6 @@ export const SpotlightCutoutTour: React.FC<SpotlightCutoutTourProps> = ({
 
   const goToStep = (index: number) => {
     setCurrentStepIndex(index);
-    speakText(steps[index].voiceText);
     if (onStepChange) {
       onStepChange(index, steps[index].scrollY);
     }
@@ -316,97 +285,92 @@ export const SpotlightCutoutTour: React.FC<SpotlightCutoutTourProps> = ({
     }
   };
 
+  const handleSpeakCurrentStep = () => {
+    if (step) {
+      speakText(step.voiceText || `${step.title}. ${step.description}`);
+    }
+  };
+
   return (
     <Modal animationType="fade" transparent={true} visible={visible} onRequestClose={onClose}>
       <View style={styles.modalOverlay}>
-        <View style={[styles.popoverCard, { backgroundColor: colors.card, borderColor: colors.primary, borderWidth: colors.borderWidth }]}>
-          {/* Header Tag - Fixed at top of card */}
+        <View style={[styles.popoverCard, { backgroundColor: colors.background, borderColor: colors.border }]}>
           <View style={styles.popoverHeader}>
-            <View style={[styles.tagBadge, { backgroundColor: colors.primary }]}>
-              <Sparkles size={14} color="#FFFFFF" />
-              <Text style={styles.tagBadgeText}>CONHEÇA A PLATAFORMA</Text>
-            </View>
-            <TouchableOpacity onPress={onClose} style={{ padding: 4 }}>
-              <X size={20} color={colors.textMuted} />
+            <Text style={[styles.progressText, { color: colors.primary }]}>
+              Passo {currentStepIndex + 1} de {steps.length}
+            </Text>
+            <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel="Fechar tour">
+              <X size={24} color={colors.text} />
             </TouchableOpacity>
           </View>
 
-          {/* Scrollable Middle Body (Protects layout against 150% font scale!) */}
           <ScrollView 
             style={styles.scrollContent} 
             contentContainerStyle={styles.scrollContainer}
             showsVerticalScrollIndicator={false}
           >
-            {/* Section Indicator */}
             <View style={[styles.targetLabelBox, { backgroundColor: colors.surfaceSubtle }]}>
-              <Text style={[styles.targetLabelText, { color: colors.primary }]}>
+              <Text style={[styles.targetLabelText, { color: colors.primary, fontSize: Math.round(13 * fontScale) }]}>
                 📍 Apontando para: {step.targetName}
               </Text>
             </View>
 
-            {/* NEW: SVG/Vector UI Feature Illustration! */}
-            <TourIllustrationBox stepId={step.id} theme={theme} />
-
-            <Text style={[styles.stepTitle, { color: colors.text, fontSize: Math.round(18 * fontScale) }]}>
+            <Text style={[styles.stepTitle, { color: colors.text, fontSize: Math.round(20 * fontScale) }]}>
               {step.title}
             </Text>
 
-            <Text style={[styles.stepDesc, { color: colors.textMuted, fontSize: Math.round(14 * fontScale) }]}>
+            <TourIllustrationBox stepId={step.id} theme={theme} />
+
+            <Text style={[styles.stepDesc, { color: colors.textMuted, fontSize: Math.round(15 * fontScale) }]}>
               {step.description}
             </Text>
 
-            {/* Audio Speech Button */}
             <TouchableOpacity
-              style={[styles.voiceBtn, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}
-              onPress={() => speakText(step.voiceText)}
+              style={[styles.audioBtn, { backgroundColor: colors.surfaceSubtle }]}
+              onPress={handleSpeakCurrentStep}
+              accessibilityLabel="Ouvir instrução do tour"
             >
-              <Volume2 size={18} color={colors.primary} />
-              <Text style={[styles.voiceBtnText, { color: colors.text, fontSize: Math.round(13 * fontScale) }]}>
-                Ouvir explicação por voz
+              <Volume2 size={20} color={colors.primary} />
+              <Text style={[styles.audioBtnText, { color: colors.primary, fontSize: Math.round(14 * fontScale) }]}>
+                Ouvir Passo em Voz Alta
               </Text>
             </TouchableOpacity>
 
-            {/* Tip Box */}
-            <View style={[styles.tipBox, { backgroundColor: colors.surfaceSubtle, borderLeftColor: colors.primary }]}>
-              <Text style={[styles.tipText, { color: colors.text, fontSize: Math.round(12 * fontScale) }]}>
+            <View style={[styles.tipBox, { backgroundColor: colors.surfaceSubtle, borderColor: colors.border }]}>
+              <Text style={[styles.tipText, { color: colors.text, fontSize: Math.round(13 * fontScale) }]}>
                 💡 <Text style={{ fontWeight: "bold" }}>Dica:</Text> {step.tip}
               </Text>
             </View>
           </ScrollView>
 
-          {/* Fixed Footer: Dots Progress & Controls */}
-          <View style={styles.footerBlock}>
-            <View style={styles.dotsRow}>
-              {steps.map((_, idx) => (
-                <View
-                  key={idx}
-                  style={[
-                    styles.dot,
-                    { backgroundColor: idx === currentStepIndex ? colors.primary : colors.surfaceSubtle },
-                  ]}
-                />
-              ))}
-            </View>
-
-            <View style={styles.controlsRow}>
-              {currentStepIndex > 0 ? (
-                <TouchableOpacity style={[styles.prevBtn, { borderColor: colors.border }]} onPress={handlePrev}>
-                  <ChevronLeft size={18} color={colors.text} />
-                  <Text style={[styles.prevBtnText, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>Anterior</Text>
-                </TouchableOpacity>
-              ) : <View style={{ flex: 1 }} />}
-
-              <TouchableOpacity style={[styles.nextBtn, { backgroundColor: colors.primary }]} onPress={handleNext}>
-                <Text style={[styles.nextBtnText, { color: colors.primaryContrast, fontSize: Math.round(15 * fontScale) }]}>
-                  {currentStepIndex === steps.length - 1 ? "Concluir" : "Próximo"}
+          <View style={styles.footerRow}>
+            {currentStepIndex > 0 ? (
+              <TouchableOpacity
+                style={[styles.navBtn, { backgroundColor: colors.surfaceSubtle }]}
+                onPress={handlePrev}
+              >
+                <ArrowLeft size={18} color={colors.text} />
+                <Text style={[styles.navBtnText, { color: colors.text, fontSize: Math.round(14 * fontScale) }]}>
+                  Anterior
                 </Text>
-                {currentStepIndex === steps.length - 1 ? (
-                  <Check size={18} color={colors.primaryContrast} />
-                ) : (
-                  <ChevronRight size={18} color={colors.primaryContrast} />
-                )}
               </TouchableOpacity>
-            </View>
+            ) : (
+              <View style={styles.placeholderBtn} />
+            )}
+
+            <TouchableOpacity
+              style={[styles.navBtn, styles.primaryNavBtn, { backgroundColor: colors.primary }]}
+              onPress={handleNext}
+            >
+              <Text style={[styles.primaryNavBtnText, { color: colors.primaryContrast, fontSize: Math.round(14 * fontScale) }]}>
+                {currentStepIndex === steps.length - 1 ? "Concluir" : "Próximo"}
+              </Text>
+              {currentStepIndex === steps.length - 1 ? (
+                <Check size={18} color={colors.primaryContrast} />
+              ) : (
+                <ArrowRight size={18} color={colors.primaryContrast} />
+              )}
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -417,129 +381,115 @@ export const SpotlightCutoutTour: React.FC<SpotlightCutoutTourProps> = ({
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.70)",
+    backgroundColor: "rgba(0,0,0,0.6)",
     justifyContent: "center",
+    alignItems: "center",
     padding: 16,
   },
   popoverCard: {
-    padding: 18,
-    borderRadius: 0,
-    elevation: 14,
+    width: "100%",
     maxHeight: "85%",
-    flexDirection: "column",
+    borderRadius: 16,
+    borderWidth: 1.5,
+    padding: 20,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 8,
   },
   popoverHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 12,
   },
-  tagBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 0,
-  },
-  tagBadgeText: {
-    color: "#FFFFFF",
-    fontSize: 10,
+  progressText: {
     fontWeight: "bold",
+    fontSize: 14,
+  },
+  closeBtn: {
+    padding: 4,
   },
   scrollContent: {
     flexShrink: 1,
   },
   scrollContainer: {
-    gap: 12,
-    paddingBottom: 4,
+    gap: 14,
+    paddingBottom: 10,
   },
   targetLabelBox: {
-    padding: 8,
-    borderRadius: 0,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignSelf: "flex-start",
   },
   targetLabelText: {
     fontWeight: "bold",
-    fontSize: 13,
   },
   stepTitle: {
     fontWeight: "bold",
+    textAlign: "left",
   },
   stepDesc: {
-    lineHeight: 21,
+    lineHeight: 22,
   },
-  voiceBtn: {
+  audioBtn: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderRadius: 0,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginVertical: 4,
   },
-  voiceBtnText: {
+  audioBtnText: {
     fontWeight: "bold",
   },
   tipBox: {
-    padding: 10,
-    borderLeftWidth: 4,
-    borderRadius: 0,
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
   },
   tipText: {
     lineHeight: 18,
   },
-  footerBlock: {
-    marginTop: 10,
-    paddingTop: 8,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: "rgba(150,150,150,0.2)",
-  },
-  dotsRow: {
+  footerRow: {
     flexDirection: "row",
-    justifyContent: "center",
-    gap: 8,
-    marginVertical: 4,
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 14,
+    gap: 12,
   },
-  dot: {
-    width: 20,
-    height: 6,
-    borderRadius: 0,
-  },
-  controlsRow: {
-    flexDirection: "row",
-    gap: 10,
-    marginTop: 6,
-  },
-  prevBtn: {
+  placeholderBtn: {
     flex: 1,
-    minHeight: 52,
+  },
+  navBtn: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 6,
-    borderWidth: 1,
-    borderRadius: 0,
+    minHeight: 48,
+    borderRadius: 8,
   },
-  prevBtnText: {
+  navBtnText: {
     fontWeight: "bold",
   },
-  nextBtn: {
-    flex: 1.5,
-    minHeight: 52,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 6,
-    borderRadius: 0,
+  primaryNavBtn: {
+    elevation: 2,
   },
-  nextBtnText: {
+  primaryNavBtnText: {
     fontWeight: "bold",
   },
-  // Illustration styles
+
+  // Illustration Box Styles
   illBox: {
-    padding: 12,
+    padding: 14,
+    borderRadius: 12,
     borderWidth: 1,
-    borderRadius: 0,
-    marginVertical: 4,
+    width: "100%",
   },
   illRow: {
     flexDirection: "row",
@@ -547,16 +497,16 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   illCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
   },
   illCircleSmall: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -567,69 +517,57 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  avatarMock: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   illPill: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    borderRadius: 14,
   },
   illButton: {
-    paddingVertical: 8,
     paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 0,
   },
   illTile: {
     flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 6,
+    padding: 10,
+    borderRadius: 8,
     borderWidth: 1,
     alignItems: "center",
-    justifyContent: "center",
-    gap: 6,
+    gap: 4,
   },
   illTaskRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    padding: 8,
+    padding: 10,
+    borderRadius: 8,
     borderWidth: 1,
   },
   progressTrack: {
-    height: 12,
-    borderRadius: 6,
+    height: 8,
+    borderRadius: 4,
+    width: "100%",
     overflow: "hidden",
   },
   progressFill: {
     height: "100%",
+    borderRadius: 4,
   },
   chipMock: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarMock: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  toggleOnMock: {
-    width: 40,
-    height: 22,
-    borderRadius: 11,
-    justifyContent: "center",
-    paddingHorizontal: 2,
-    alignItems: "flex-end",
-  },
-  toggleKnobMock: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 14,
   },
 });
