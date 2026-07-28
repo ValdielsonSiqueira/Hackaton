@@ -11,19 +11,15 @@ import {
 import type { MobileThemeColors } from "../theme/mobileTheme";
 import type { MobileTaskItem } from "../context/AppContext";
 import type { UserSettings } from "@seniorease/core";
-import { SpotlightCutoutTour, SpotlightStep } from "../components/SpotlightCutoutTour";
+import { SpotlightStep } from "../components/SpotlightCutoutTour";
 import { MobileTourModal, isMobileTourCompleted } from "../components/MobileTourModal";
+import { DashboardWelcomeBanner } from "../components/dashboard/DashboardWelcomeBanner";
+import { DashboardPriorityTaskCard } from "../components/dashboard/DashboardPriorityTaskCard";
+import { DashboardStatsRow } from "../components/dashboard/DashboardStatsRow";
 import { 
   Volume2, 
-  Compass, 
-  BookOpen, 
-  Target, 
-  Sparkles, 
+  BookOpen,  
   ArrowRight, 
-  CheckCircle2, 
-  Circle, 
-  Clock, 
-  Flame, 
   Settings, 
   RotateCcw, 
   ZoomIn, 
@@ -174,13 +170,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     return <FileCheck size={20} color={colors.text} />;
   };
 
-  const handleStepChange = (_stepIndex: number, scrollY: number) => {
-    scrollViewRef.current?.scrollTo({
-      y: Math.max(0, scrollY - 10),
-      animated: true,
-    });
-  };
-
   const handleSpeakSummary = () => {
     let text = `Olá, ${studentFirstName || "Estudante"}! `;
     const totalTasks = activityTasks.length;
@@ -203,159 +192,37 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       contentContainerStyle={[styles.container, { paddingBottom: 90 + bottomInset }]}
       showsVerticalScrollIndicator={false}
     >
-      {/* 1. Welcome Banner */}
-      <View
-        style={[
-          styles.bannerCard,
-          { 
-            backgroundColor: bannerBg, 
-            borderColor: isHighContrast ? colors.border : "#333333", 
-            borderWidth: isHighContrast ? 2 : 1 
-          },
-        ]}
+      <DashboardWelcomeBanner
+        studentFirstName={studentFirstName}
+        greetingText={greeting.text}
+        greetingIcon={greeting.icon}
+        pendingCount={pendingCount}
+        isSimplified={isSimplified}
+        onSpeakSummary={handleSpeakSummary}
+        onOpenTour={() => setShowTour(true)}
         onLayout={(e: LayoutChangeEvent) => setBannerY(e.nativeEvent.layout.y)}
-      >
-        <View style={{ flex: 1 }}>
-          {isSimplified && (
-            <View style={[styles.simplifiedBadge, { backgroundColor: primaryAccentColor }]}>
-              <Text style={[styles.simplifiedBadgeText, { color: colors.primaryContrast }]}>
-                ✨ MODO SIMPLIFICADO ATIVO
-              </Text>
-            </View>
-          )}
+        theme={theme}
+      />
 
-          <Text style={[styles.bannerGreeting, { color: isHighContrast ? colors.text : "#FFFFFF", fontSize: Math.round(22 * fontScale) }]}>
-            {greeting.text}, {studentFirstName}! {greeting.icon}
-          </Text>
-
-          <Text style={[styles.bannerSub, { color: isHighContrast ? colors.textMuted : "#C6C6C6", fontSize: Math.round(14 * fontScale) }]}>
-            {pendingCount > 0
-              ? `Você tem ${pendingCount} ${pendingCount === 1 ? "atividade pendente" : "atividades pendentes"} hoje. Veja o que está planejado.`
-              : "Você está em dia com todas as suas tarefas hoje!"}
-          </Text>
-
-          <View style={styles.bannerActionsRow}>
-            <TouchableOpacity
-              style={[styles.bannerBtn, { backgroundColor: bannerButtonBg, borderColor: isHighContrast ? colors.border : "#383838" }]}
-              onPress={handleSpeakSummary}
-            >
-              <Volume2 size={Math.round(20 * fontScale)} color={primaryAccentColor} />
-              <Text style={[styles.bannerBtnText, { color: isHighContrast ? colors.text : "#FFFFFF", fontSize: Math.round(15 * fontScale) }]}>
-                Ouvir resumo por voz
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.bannerBtn, { backgroundColor: bannerButtonBg, borderColor: isHighContrast ? colors.border : "#383838" }]}
-              onPress={() => setShowTour(true)}
-            >
-              <Compass size={Math.round(20 * fontScale)} color={primaryAccentColor} />
-              <Text style={[styles.bannerBtnText, { color: isHighContrast ? colors.text : "#FFFFFF", fontSize: Math.round(15 * fontScale) }]}>
-                Ver Tour Guiado
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* BookOpen Icon on Right */}
-        <View style={styles.illustrationBox}>
-          <BookOpen size={48} color={primaryAccentColor} />
-        </View>
-      </View>
-
-      {/* 2. Priority Task Card */}
-      <View
-        style={[
-          styles.priorityCard,
-          { 
-            backgroundColor: colors.surfaceSubtle, 
-            borderColor: colors.border, 
-            borderWidth: colors.borderWidth,
-            borderLeftWidth: 4,
-            borderLeftColor: primaryAccentColor,
-          },
-        ]}
+      <DashboardPriorityTaskCard
+        nextTask={nextTask}
+        onExecuteNextTask={() => {
+          if (nextTask) {
+            toggleActivityTask(nextTask.id);
+            triggerToast(`🎉 Atividade concluída!`);
+          }
+        }}
+        onNavigateTab={onNavigateTab}
         onLayout={(e: LayoutChangeEvent) => setPriorityY(e.nativeEvent.layout.y)}
-      >
-        <View style={styles.priorityTopRow}>
-          {/* Target Icon Square */}
-          <View style={[styles.targetIconBox, { backgroundColor: primaryAccentColor }]}>
-            <Target size={24} color={colors.primaryContrast} />
-          </View>
+        theme={theme}
+      />
 
-          <View style={{ flex: 1 }}>
-            <View style={styles.priorityTagRow}>
-              <Sparkles size={12} color={primaryAccentColor} />
-              <Text style={[styles.priorityTagText, { color: primaryAccentColor }]}>
-                PRÓXIMA ATIVIDADE PRIORITÁRIA
-              </Text>
-            </View>
-
-            <Text style={[styles.priorityTitle, { color: colors.text, fontSize: Math.round(18 * fontScale) }]}>
-              {nextTask ? nextTask.title : "Nenhuma atividade pendente"}
-            </Text>
-
-            <Text style={[styles.prioritySubText, { color: colors.textMuted, fontSize: Math.round(13 * fontScale) }]}>
-              {nextTask
-                ? `Vence ${nextTask.due} — Atividade prioritária.`
-                : "Parabéns! Todas as suas tarefas foram concluídas."}
-            </Text>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          style={[styles.actionBtnPrimary, { backgroundColor: primaryAccentColor }]}
-          onPress={() => {
-            if (nextTask) {
-              toggleActivityTask(nextTask.id);
-              triggerToast(`🎉 Atividade concluída!`);
-            } else {
-              onNavigateTab("tasks");
-            }
-          }}
-        >
-          <Text style={[styles.actionBtnText, { color: colors.primaryContrast, fontSize: Math.round(15 * fontScale) }]}>
-            {nextTask ? "Executar Atividade Agora" : "Ver Todas as Atividades"}
-          </Text>
-          <ArrowRight size={18} color={colors.primaryContrast} />
-        </TouchableOpacity>
-      </View>
-
-      {/* 3. Stats Row */}
-      <View style={styles.statsRow}>
-        {/* Stat Card 1: Concluídas hoje */}
-        <View style={[styles.statBox, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: colors.borderWidth }]}>
-          <CheckCircle2 size={Math.round(26 * fontScale)} color={colors.success} style={{ marginBottom: 8 }} />
-          <Text style={[styles.statNumber, { color: colors.success, fontSize: Math.round(36 * fontScale) }]}>
-            {completedCount}
-          </Text>
-          <Text style={[styles.statLabel, { color: colors.textMuted, fontSize: Math.round(13 * fontScale) }]}>
-            Concluídas hoje
-          </Text>
-        </View>
-
-        {/* Stat Card 2: Pendentes */}
-        <View style={[styles.statBox, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: colors.borderWidth }]}>
-          <Clock size={Math.round(26 * fontScale)} color={colors.text} style={{ marginBottom: 8 }} />
-          <Text style={[styles.statNumber, { color: colors.text, fontSize: Math.round(36 * fontScale) }]}>
-            {pendingCount}
-          </Text>
-          <Text style={[styles.statLabel, { color: colors.textMuted, fontSize: Math.round(13 * fontScale) }]}>
-            Pendentes
-          </Text>
-        </View>
-
-        {/* Stat Card 3: Dias seguidos */}
-        <View style={[styles.statBox, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: colors.borderWidth }]}>
-          <Flame size={Math.round(26 * fontScale)} color={primaryAccentColor} style={{ marginBottom: 8 }} />
-          <Text style={[styles.statNumber, { color: primaryAccentColor, fontSize: Math.round(36 * fontScale) }]}>
-            7
-          </Text>
-          <Text style={[styles.statLabel, { color: colors.textMuted, fontSize: Math.round(13 * fontScale) }]}>
-            Dias seguidos
-          </Text>
-        </View>
-      </View>
+      <DashboardStatsRow
+        completedCount={completedCount}
+        pendingCount={pendingCount}
+        streakDays={7}
+        theme={theme}
+      />
 
       {/* 4. Quick Accessibility Preferences */}
       {!isSimplified && (
