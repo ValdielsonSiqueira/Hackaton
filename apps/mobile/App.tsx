@@ -47,9 +47,10 @@ function MainAppContent() {
     updateSettings, 
     userProfile, 
     updateUserProfile, 
-    activityTasks, 
-    addActivityTask, 
-    toggleActivityTask, 
+    activityTasks,
+    addActivityTask,
+    updateActivityTask,
+    toggleActivityTask,
     toggleActivityStep, 
     deleteActivityTask, 
     theme, 
@@ -179,6 +180,7 @@ function MainAppContent() {
             theme={theme}
             activityTasks={activityTasks}
             addActivityTask={addActivityTask}
+            updateActivityTask={updateActivityTask}
             toggleActivityTask={toggleActivityTask}
             toggleActivityStep={toggleActivityStep}
             deleteActivityTask={deleteActivityTask}

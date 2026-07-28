@@ -28,6 +28,7 @@ interface TasksViewProps {
   theme: { colors: MobileThemeColors; fontScale: number };
   activityTasks: MobileTaskItem[];
   addActivityTask: (task: MobileTaskItem) => Promise<void>;
+  updateActivityTask: (task: MobileTaskItem) => Promise<void>;
   toggleActivityTask: (id: string) => Promise<void>;
   toggleActivityStep: (taskId: string, stepId: number) => Promise<void>;
   deleteActivityTask: (id: string) => Promise<void>;
@@ -40,6 +41,7 @@ export const TasksView: React.FC<TasksViewProps> = ({
   theme,
   activityTasks,
   addActivityTask,
+  updateActivityTask,
   toggleActivityTask,
   toggleActivityStep,
   deleteActivityTask,
@@ -402,17 +404,30 @@ export const TasksView: React.FC<TasksViewProps> = ({
         editingTask={editingTask}
         onClose={() => setCreateModalVisible(false)}
         onSaveTask={async (taskData) => {
-          const newTask: MobileTaskItem = {
-            id: taskData.id || `act-${Date.now()}`,
-            title: taskData.title,
-            category: taskData.category,
-            due: taskData.due,
-            done: false,
-            priority: taskData.priority,
-            steps: taskData.steps,
-          };
-          await addActivityTask(newTask);
-          triggerToast(editingTask ? "✨ Atividade atualizada com sucesso!" : "✨ Atividade criada com sucesso!");
+          if (editingTask) {
+            const updatedTask: MobileTaskItem = {
+              ...editingTask,
+              title: taskData.title,
+              category: taskData.category,
+              due: taskData.due,
+              priority: taskData.priority,
+              steps: taskData.steps,
+            };
+            await updateActivityTask(updatedTask);
+            triggerToast("✨ Atividade atualizada com sucesso!");
+          } else {
+            const newTask: MobileTaskItem = {
+              id: `act-${Date.now()}`,
+              title: taskData.title,
+              category: taskData.category,
+              due: taskData.due,
+              done: false,
+              priority: taskData.priority,
+              steps: taskData.steps,
+            };
+            await addActivityTask(newTask);
+            triggerToast("✨ Atividade criada com sucesso!");
+          }
         }}
         triggerToast={triggerToast}
         speakText={speakText}

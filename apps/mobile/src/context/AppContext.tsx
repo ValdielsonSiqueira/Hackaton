@@ -22,6 +22,7 @@ interface AppContextProps {
   updateSettings: (newSettings: UserSettings) => Promise<void>;
   updateUserProfile: (partial: Partial<UserProfile>) => Promise<void>;
   addActivityTask: (task: MobileTaskItem) => Promise<void>;
+  updateActivityTask: (task: MobileTaskItem) => Promise<void>;
   toggleActivityTask: (id: string) => Promise<void>;
   toggleActivityStep: (taskId: string, stepId: number) => Promise<void>;
   deleteActivityTask: (id: string) => Promise<void>;
@@ -132,6 +133,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     await container.activityRepository.saveActivities(updated);
   };
 
+  const updateActivityTask = async (task: MobileTaskItem) => {
+    const updated = activityTasks.map((t) => (t.id === task.id ? task : t));
+    setActivityTasks(updated);
+    await container.activityRepository.saveActivities(updated);
+  };
+
   const toggleActivityTask = async (id: string) => {
     const updated = activityTasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t));
     setActivityTasks(updated);
@@ -183,6 +190,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updateSettings,
         updateUserProfile,
         addActivityTask,
+        updateActivityTask,
         toggleActivityTask,
         toggleActivityStep,
         deleteActivityTask,
